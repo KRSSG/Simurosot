@@ -1,0 +1,486 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="verify-v1" content="02MiiaFNVzS5/u0eQhsy3/knioFHsia1X3DXRpHkE6I="><meta name="google-site-verification" content="DGSSJMKDomaDaDTIRJ8jDkv0YMx9Cz7OESbXHjjr6Jw"><title>dlib C++ Library
+   - Algorithms</title><script language="JavaScript">
+
+// ---------------------------------------------
+// --- Name:    Easy DHTML Treeview           --
+// --- Author:  D.D. de Kerf                  --
+// --- Version: 0.2          Date: 13-6-2001  --
+// ---------------------------------------------
+function Toggle(node)
+{
+   // Unfold the branch if it isn't visible
+   var next_node = node.nextSibling;
+   if (next_node.style.display == 'none')
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "minus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'block';
+   }
+   // Collapse the branch if it IS visible
+   else
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "plus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'none';
+   }
+
+}
+function BigToggle(node)
+{
+   // Unfold the branch if it isn't visible
+   var next_node = node.nextSibling;
+   if (next_node.style.display == 'none')
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "bigminus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'block';
+   }
+   // Collapse the branch if it IS visible
+   else
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "bigplus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'none';
+   }
+
+}
+</script><style type="text/css">
+   body {margin:0px;}
+   pre {margin:0px;}
+
+   ul.tree  li { list-style: none;  margin-left:10px;} 
+   ul.tree  { margin:0px; padding:0px; margin-left:5px; font-size:0.95em; }
+   ul.tree  li ul { margin-left:10px; padding:0px; }
+
+   div#component {
+      background-color:white; 
+      border: 2px solid rgb(102,102,102); 
+      text-align:left;
+      margin-top: 1.5em;
+      padding: 0.7em;
+   }
+
+   div#question {
+      background-color:white; 
+      border: 2px solid rgb(102,102,102); 
+      text-align:left;
+      margin-top: 1.5em;
+      margin-bottom: 90%;
+      padding: 0.7em;
+   }
+
+   div#function {
+      background-color:white; 
+      border: 2px solid rgb(102,102,255); 
+      text-align:left;
+      margin-top: 0.3em;
+      padding: 0.3em;
+   }
+
+   div#class {
+      background-color:white; 
+      border: 2px solid rgb(255,102,102); 
+      text-align:left;
+      margin-top: 0.3em;
+      padding: 0.3em;
+   }
+
+   div#extension {
+      background-color:#FDFDFD; 
+      border: 1px solid rgb(102,102,102); 
+      text-align:left;
+      margin-top: 1.0em;
+      padding: 0.7em;
+   }
+
+   div#logb {
+      text-align:left;
+      padding: 0.0em;
+      float: left;
+      background-color:#c0c0c0; 
+      border: double ; 
+      margin: 0.5em;
+   }
+
+
+   .code_box
+   {
+      color: black;
+      margin: 1em 0.25in;
+      padding: 0.5em;
+      background: rgb(240,240,240);
+      border-top: black dotted 1px;
+      border-left: black dotted 1px;
+      border-right: black solid 2px;
+      border-bottom: black solid 2px;
+   }
+
+
+
+   .bdotted {border-bottom: 1px dotted}
+   .bdashed {border-bottom: 1px dashed}
+   .bsolid {border-bottom: 1px solid}
+   .bdouble {border-bottom: 1px double}
+   .bgroove {border-bottom: 1px groove}
+   .bridge {border-bottom: 1px ridge}
+   .binset {border-bottom: 1px inset}
+   .boutset {border-bottom: 1px outset}
+
+   div#row1 {
+      background-color:#dfdfdf; 
+   }
+   div#row2 {
+      background-color:#f2f2f2; 
+   }
+
+   div#typedefs {
+      margin-left: 1.5em;
+      margin-top: 0.2em;
+      border: 1px dotted;
+      width: 52em;
+   }
+
+   div#tdn {
+      width: 10em;
+   }
+
+   .fullhr {
+      clear: both;
+   }
+
+   body {
+      text-align: center;
+   }
+
+   div#entire_page {
+      width:62.5em;  
+      text-align: left;
+      margin-top: 0.4em;
+      margin-left: auto;
+      margin-right: auto;
+   }
+</style></head><body bgcolor="#EDF3EE"><a name="top"></a><div id="entire_page"><table bgcolor="white" height="100%" bordercolor="#EDF3EE" CELLSPACING="0" CELLPADDING="10"><tr height="100%"><td BGCOLOR="#F5F5F5" style="padding:7px; border: 1px solid rgb(102,102,102);" VALIGN="TOP" height="100%"><br><table WIDTH="145" height="100%"><tr><td VALIGN="TOP"><b>The Library</b><ul class="tree"><li><a href="algorithms.html">Algorithms</a></li><li><a href="api.html">API Wrappers</a></li><li><a href="bayes.html">Bayesian Nets</a></li><li><a href="compression.html">Compression</a></li><li><a href="containers.html">Containers</a></li><li><a href="imaging.html">Image Processing</a></li><li><a href="ml.html">Machine Learning</a></li><li><a href="metaprogramming.html">Metaprogramming</a></li><li><a href="other.html">Miscellaneous</a></li><li><a href="network.html">Networking</a></li><li><a href="optimization.html">Optimization</a></li><li><a href="parsing.html">Parsing</a></li></ul><br><b>Help/Info</b><ul class="tree"><li><a onclick="Toggle(this)" style="cursor: pointer;margin-left:-9px"><img src="plus.gif"><font color="green"><u>Examples</u></font></a><ul style="display:none;"><li><a href="assignment_learning_ex.cpp.html">Assignment_Learning</a></li><li><a href="file_to_code_ex.cpp.html">Base64_Encoder</a></li><li><a href="bayes_net_ex.cpp.html">Bayesian_Network</a></li><li><a href="bayes_net_from_disk_ex.cpp.html">Bayesian_Network_From_Disk</a></li><li><a href="bayes_net_gui_ex.cpp.html">Bayesian_Network_GUI</a></li><li><a href="bridge_ex.cpp.html">Bridge</a></li><li><a href="compress_stream_ex.cpp.html#_top">Cmd_Line_Parser</a></li><li><a href="compress_stream_ex.cpp.html">Compress_Stream</a></li><li><a href="config_reader_ex.cpp.html">Config_File_Reader</a></li><li><a href="custom_trainer_ex.cpp.html">Custom_Trainers</a></li><li><a href="dir_nav_ex.cpp.html">Directory_Navigation</a></li><li><a href="empirical_kernel_map_ex.cpp.html">Empirical_Kernel_Map</a></li><li><a href="graph_labeling_ex.cpp.html">Graph_Labeling</a></li><li><a href="gui_api_ex.cpp.html">GUI</a></li><li><a href="server_http_ex.cpp.html">HTTP_Server</a></li><li><a href="image_ex.cpp.html">Image</a></li><li><a href="kcentroid_ex.cpp.html">Kernel_Centroid</a></li><li><a href="kkmeans_ex.cpp.html">Kernel_K-Means_Clustering</a></li><li><a href="krr_regression_ex.cpp.html">Kernel_Ridge_Regression</a></li><li><a href="krls_filter_ex.cpp.html">Kernel_RLS_Filtering</a></li><li><a href="krls_ex.cpp.html">Kernel_RLS_Regression</a></li><li><a href="krr_classification_ex.cpp.html">KRR_Classification</a></li><li><a href="linear_manifold_regularizer_ex.cpp.html">Linear_Manifold_Regularizer</a></li><li><a href="logger_ex.cpp.html">Logger</a></li><li><a href="logger_ex_2.cpp.html">Logger_Advanced</a></li><li><a href="matrix_ex.cpp.html">Matrix</a></li><li><a href="matrix_expressions_ex.cpp.html">Matrix_Expressions</a></li><li><a href="member_function_pointer_ex.cpp.html">Member_Function_Pointer</a></li><li><a href="model_selection_ex.cpp.html">Model_Selection</a></li><li><a href="multiclass_classification_ex.cpp.html">Multiclass_Classification</a></li><li><a href="multithreaded_object_ex.cpp.html">Multithreaded_Object</a></li><li><a href="mlp_ex.cpp.html">Neural_Network</a></li><li><a href="least_squares_ex.cpp.html">Non-Linear Least Squares</a></li><li><a href="object_detector_ex.cpp.html">Object_Detector</a></li><li><a href="object_detector_advanced_ex.cpp.html">Object_Detector_Advanced</a></li><li><a href="svm_pegasos_ex.cpp.html">Online_SVM</a></li><li><a href="optimization_ex.cpp.html">Optimization</a></li><li><a href="pipe_ex.cpp.html">Pipe</a></li><li><a href="pipe_ex_2.cpp.html">Pipe_2</a></li><li><a href="quantum_computing_ex.cpp.html">Quantum_Computing</a></li><li><a href="queue_ex.cpp.html">Queue</a></li><li><a href="rank_features_ex.cpp.html">Rank_Features</a></li><li><a href="rvm_ex.cpp.html">Relevance_Vector_Classification</a></li><li><a href="rvm_regression_ex.cpp.html">Relevance_Vector_Regression</a></li><li><a href="sequence_labeler_ex.cpp.html">Sequence_Labeling</a></li><li><a href="sockets_ex.cpp.html">Sockets</a></li><li><a href="sockets_ex_2.cpp.html">Sockets_2</a></li><li><a href="sockstreambuf_ex.cpp.html">Sockstreambuf</a></li><li><a href="svm_sparse_ex.cpp.html">Sparse_Vectors</a></li><li><a href="std_allocator_ex.cpp.html">Std_C++_Allocator</a></li><li><a href="svm_ex.cpp.html">Support_Vector_Machine</a></li><li><a href="svr_ex.cpp.html">Support_Vector_Regression</a></li><li><a href="surf_ex.cpp.html">SURF</a></li><li><a href="threaded_object_ex.cpp.html">Threaded_Object</a></li><li><a href="threads_ex.cpp.html">Threads</a></li><li><a href="thread_function_ex.cpp.html">Thread_Function</a></li><li><a href="thread_pool_ex.cpp.html">Thread_Pool</a></li><li><a href="timer_ex.cpp.html">Timer</a></li><li><a href="train_object_detector.cpp.html">Train_Object_Detector</a></li><li><a href="using_custom_kernels_ex.cpp.html">Using_Custom_Kernels</a></li><li><a href="xml_parser_ex.cpp.html">XML_Parser</a></li></ul></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html">Home</a></li><li><a href="compile.html">How to compile</a></li><li><a href="howto_contribute.html">How to contribute</a></li><li><a href="term_index.html">Index</a></li><li><a href="intro.html">Introduction</a></li><li><a href="license.html">License</a></li><li><a href="books.html">Suggested Books</a></li></ul><br><b>Current Release</b><ul class="tree"><li><a href="change_log.html">Change Log</a></li><li><a href="release_notes.html">Release Notes</a></li><li>Version: 17.48</li></ul><br></td><td width="1"></td></tr><tr><td valign="bottom"><br><br><br><br><br><br><br><br><br>
+      Last Modified:<br>Apr 30, 2012<br><br></td></tr></table></td><td VALIGN="TOP" width="100%" style="border: 1px solid rgb(102,102,102);"><center><h1>Algorithms</h1></center><br><br><p>
+            This page documents library components that are all basically just implementations of 
+            mathematical functions or algorithms that don't fit in any of the other pages
+            of the dlib documentation.  So this includes things like checksums, cryptographic hashes, 
+            sorting, etc.
+         </p></td><td BGCOLOR="#F5F5F5" style="padding:7px; border: 1px solid rgb(102,102,102);" VALIGN="TOP" height="100%"><br><table WIDTH="150" height="100%"><tr><td VALIGN="TOP"><b>Tools</b><ul class="tree"><li><a href="#bigint">bigint</a></li><li><a href="#disjoint_subsets">disjoint_subsets</a></li><li><a onclick="Toggle(this)" style="cursor: pointer;margin-left:-9px"><img src="plus.gif"><font color="green"><u>Geometry</u></font></a><ul style="display:none;"><li><a href="#border_enumerator">border_enumerator</a></li><li><a href="#center">center</a></li><li><a href="#centered_rect">centered_rect</a></li><li><a href="#dcenter">dcenter</a></li><li><a href="#distance_to_rect_edge">distance_to_rect_edge</a></li><li><a href="#get_rect">get_rect</a></li><li><a href="#grow_rect">grow_rect</a></li><li><a href="#move_rect">move_rect</a></li><li><a href="#nearest_point">nearest_point</a></li><li><a href="#point">point</a></li><li><a href="#point_rotator">point_rotator</a></li><li><a href="#point_transform">point_transform</a></li><li><a href="#point_transform_affine">point_transform_affine</a></li><li><a href="#rectangle">rectangle</a></li><li><a href="#resize_rect">resize_rect</a></li><li><a href="#resize_rect_height">resize_rect_height</a></li><li><a href="#resize_rect_width">resize_rect_width</a></li><li><a href="#rotate_point">rotate_point</a></li><li><a href="#rotation_matrix">rotation_matrix</a></li><li><a href="#shrink_rect">shrink_rect</a></li><li><a href="#translate_rect">translate_rect</a></li><li><a href="#vector">vector</a></li></ul></li><li><a onclick="Toggle(this)" style="cursor: pointer;margin-left:-9px"><img src="plus.gif"><font color="green"><u>Graph Utilities</u></font></a><ul style="display:none;"><li><a href="#copy_graph">copy_graph</a></li><li><a href="#copy_graph_structure">copy_graph_structure</a></li><li><a href="#create_join_tree">create_join_tree</a></li><li><a href="#create_moral_graph">create_moral_graph</a></li><li><a href="#edge">edge</a></li><li><a href="#find_connected_nodes">find_connected_nodes</a></li><li><a href="#graph_contains_directed_cycle">graph_contains_directed_cycle</a></li><li><a href="#graph_contains_length_one_cycle">graph_contains_length_one_cycle</a></li><li><a href="#graph_contains_undirected_cycle">graph_contains_undirected_cycle</a></li><li><a href="#graph_has_symmetric_edges">graph_has_symmetric_edges</a></li><li><a href="#graph_is_connected">graph_is_connected</a></li><li><a href="#is_clique">is_clique</a></li><li><a href="#is_join_tree">is_join_tree</a></li><li><a href="#is_maximal_clique">is_maximal_clique</a></li><li><a href="#triangulate_graph_and_find_cliques">triangulate_graph_and_find_cliques</a></li></ul></li><li><a href="#hsort_array">hsort_array</a></li><li><a href="#isort_array">isort_array</a></li><li><a href="#put_in_range">put_in_range</a></li><li><a href="#qsort_array">qsort_array</a></li><li><a onclick="Toggle(this)" style="cursor: pointer;margin-left:-9px"><img src="plus.gif"><font color="green"><u>Quantum Computing</u></font></a><ul style="display:none;"><li><a href="#gate">gate</a></li><li><a href="#quantum_register">quantum_register</a></li></ul></li><li><a onclick="Toggle(this)" style="cursor: pointer;margin-left:-9px"><img src="plus.gif"><font color="green"><u>Set Utilities</u></font></a><ul style="display:none;"><li><a href="#set_difference">set_difference</a></li><li><a href="#set_intersection">set_intersection</a></li><li><a href="#set_intersection_size">set_intersection_size</a></li><li><a href="#set_union">set_union</a></li></ul></li><li><a href="#square_root">square_root</a></li></ul><br><b>Statistics</b><ul class="tree"><li><a href="#correlation">correlation</a></li><li><a href="#covariance">covariance</a></li><li><a href="#mean_sign_agreement">mean_sign_agreement</a></li><li><a href="#mean_squared_error">mean_squared_error</a></li><li><a href="#median">median</a></li><li><a href="#rand">rand</a></li><li><a href="#randomly_sample_image_features">randomly_sample_image_features</a></li><li><a href="#randomly_subsample">randomly_subsample</a></li><li><a href="#random_subset_selector">random_subset_selector</a></li><li><a href="#running_covariance">running_covariance</a></li><li><a href="#running_scalar_covariance">running_scalar_covariance</a></li><li><a href="#running_stats">running_stats</a></li><li><a href="#r_squared">r_squared</a></li></ul><br><b>Hashing</b><ul class="tree"><li><a href="#crc32">crc32</a></li><li><a href="#create_random_projection_hash">create_random_projection_hash</a></li><li><a href="#hash">hash</a></li><li><a href="#md5">md5</a></li><li><a href="#murmur_hash3">murmur_hash3</a></li><li><a href="#murmur_hash3_128bit">murmur_hash3_128bit</a></li><li><a href="#projection_hash">projection_hash</a></li></ul><br><b>Filtering</b><ul class="tree"><li><a href="#kalman_filter">kalman_filter</a></li><li><a href="#rls_filter">rls_filter</a></li></ul><br></td><td width="1"></td></tr><tr><td valign="bottom"></td></tr></table></td></tr></table><a name="bigint"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">bigint</h1><BR><BR>
+            This object represents an arbitrary precision unsigned integer.  It's pretty simple.  
+            It's interface is just like a normal int, you don't have to tell it how much memory
+            to use or anything unusual.  It just goes :)       
+         <BR><BR><b><a href="dlib/bigint/bigint_kernel_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/bigint.h<BR><BR><B>Implementations:</B><blockquote><a href="dlib/bigint/bigint_kernel_1.h.html">bigint_kernel_1</a>:
+                  <br> 
+                  This implementation is done using an array of unsigned shorts.  It is also reference counted.  
+                  For further details see the above link.  Also note that kernel_2 should be 
+      faster in almost every case so you should really just use that version of the bigint object.
+               <div id="typedefs"><table CELLSPACING="0" CELLPADDING="0" bgcolor="white"><tr><td bgcolor="#E3E3E3" valign="top"><div id="tdn">kernel_1a</div></td><td width="100%" bgcolor="#E3E3E3">is a typedef for bigint_kernel_1</td></tr><tr><td valign="top"><div id="tdn">kernel_1a_c</div></td><td width="100%"> 
+                  is a typedef for kernel_1a that checks its preconditions.             
+                  </td></tr></table></div></blockquote><blockquote><a href="dlib/bigint/bigint_kernel_2.h.html">bigint_kernel_2</a>:
+                  <br> 
+                  This implementation is basically the same as kernel_1 except it uses the 
+                  Fast Fourier Transform to perform multiplications much faster.  
+               <div id="typedefs"><table CELLSPACING="0" CELLPADDING="0" bgcolor="white"><tr><td bgcolor="#E3E3E3" valign="top"><div id="tdn">kernel_2a</div></td><td width="100%" bgcolor="#E3E3E3">is a typedef for bigint_kernel_2</td></tr><tr><td valign="top"><div id="tdn">kernel_2a_c</div></td><td width="100%"> 
+                  is a typedef for kernel_2a that checks its preconditions.             
+                  </td></tr></table></div></blockquote><center></center></div></a><a name="border_enumerator"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">border_enumerator</h1><BR><BR>
+            This object is an <a href="containers.html#enumerable">enumerator</a> 
+            over the border <a href="#point">points</a> of a 
+            <a href="#rectangle">rectangle</a>.
+         <BR><BR><b><a href="dlib/geometry/border_enumerator_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="center"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">center</h1><BR><BR>        
+            Returns the center point of a <a href="#rectangle">rectangle</a>.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#center"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="centered_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">centered_rect</h1><BR><BR>        
+            There are various overloads of this function but the basic idea is
+            that it returns a <a href="#rectangle">rectangle</a> with a given 
+            width and height and centered about a given point.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#centered_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="copy_graph"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">copy_graph</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> or 
+            <a href="containers.html#directed_graph">directed_graph</a> and
+            makes a copy of it.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#copy_graph"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="copy_graph_structure"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">copy_graph_structure</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> or 
+            <a href="containers.html#directed_graph">directed_graph</a> and copies  
+            its structure to another graph or directed_graph object.  The only 
+            restriction is that you can't copy the structure of a graph into a
+            directed_graph.  The three other possible combinations are allowed
+            however.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#copy_graph_structure"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="correlation"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">correlation</h1><BR><BR>
+               This is a function for computing the correlation between 
+               matching elements of two std::vectors.
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#correlation"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="covariance"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">covariance</h1><BR><BR>
+               This is a function for computing the covariance between 
+               matching elements of two std::vectors.
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#covariance"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="crc32"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">crc32</h1><BR><BR>
+            This object represents the CRC-32 algorithm for calculating checksums.   
+         <BR><BR><b><a href="dlib/crc32/crc32_kernel_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/crc32.h<br><br><center></center></div></a><a name="create_join_tree"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">create_join_tree</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> object and
+            creates a join tree for that graph.  Or in other words, this function finds a 
+            tree decomposition of the given graph.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#create_join_tree"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="create_moral_graph"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">create_moral_graph</h1><BR><BR>        
+            This function takes a <a href="containers.html#directed_graph">directed_graph</a>
+            and returns the moralized version of the graph in the form of a 
+            <a href="containers.html#graph">graph</a> object.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#create_moral_graph"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="create_random_projection_hash"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">create_random_projection_hash</h1><BR><BR>
+            Creates a random projection based locality sensitive 
+            <a href="#projection_hash">hashing function</a>.
+         <BR><BR><b><a href="dlib/lsh/create_random_projection_hash_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/lsh.h<br><br><center></center></div></a><a name="dcenter"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">dcenter</h1><BR><BR>        
+            Returns the center point of a <a href="#rectangle">rectangle</a>.  This
+            is a version of <a href="#center">center()</a> which returns a double version 
+            of the point rather than one which uses integers to represent the 
+            result.  Therefore, it is slightly more accurate.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#dcenter"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="disjoint_subsets"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">disjoint_subsets</h1><BR><BR>
+                This object represents a set of integers which is partitioned into
+                a number of disjoint subsets.  It supports the two fundamental operations
+                of finding which subset a particular integer belongs to as well as 
+                merging subsets. 
+         <BR><BR><b><a href="dlib/disjoint_subsets/disjoint_subsets_abstract.h.html#disjoint_subsets"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/disjoint_subsets.h<br><br><center></center></div></a><a name="distance_to_rect_edge"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">distance_to_rect_edge</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and a 
+            <a href="#point">point</a> and returns the Manhattan distance between
+            the rectangle's edge and the point.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#distance_to_rect_edge"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="edge"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">edge</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> or 
+            <a href="containers.html#directed_graph">directed_graph</a> object and a 
+            pair of indices.  It returns a reference to the edge object between the two nodes
+            with the given indices. 
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#edge"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="find_connected_nodes"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">find_connected_nodes</h1><BR><BR>        
+            This function takes a node from a <a href="containers.html#graph">graph</a>
+            or <a href="containers.html#directed_graph">directed_graph</a> object and a 
+            <a href="containers.html#set">set</a> of unsigned longs.  It finds all the
+            nodes in the given graph that are connected to the given node by an 
+            undirected path and returns them in the set (also note that the
+            original query node is also returned in this set).
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#find_connected_nodes"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="gate"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">gate</h1><BR><BR>        
+            This object represents a quantum gate that operates on a 
+            <a href="#quantum_register">quantum_register</a>.   
+         <BR><BR><b><a href="dlib/quantum_computing/quantum_computing_abstract.h.html#gate"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/quantum_computing.h<BR><b>Example Programs: </b><a href="quantum_computing_ex.cpp.html">1</a><br><br><center></center></div></a><a name="get_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">get_rect</h1><BR><BR>        
+            This is a simple template function that returns a rectangle 
+            representing the size of a 2D container (e.g. <a href="containers.html#matrix">matrix</a> or
+            <a href="containers.html#array2d">array2d</a>). 
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#get_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="graph_contains_directed_cycle"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">graph_contains_directed_cycle</h1><BR><BR>        
+            This function checks a <a href="containers.html#directed_graph">directed_graph</a> for directed cycles.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#graph_contains_directed_cycle"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="graph_contains_length_one_cycle"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">graph_contains_length_one_cycle</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a>
+            or <a href="containers.html#directed_graph">directed_graph</a> object and
+            returns true if and only if the graph contains a node that has an edge that
+            links back to itself.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#graph_contains_length_one_cycle"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="graph_contains_undirected_cycle"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">graph_contains_undirected_cycle</h1><BR><BR>        
+            This function checks a <a href="containers.html#directed_graph">directed_graph</a> for undirected cycles.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#graph_contains_undirected_cycle"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="graph_has_symmetric_edges"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">graph_has_symmetric_edges</h1><BR><BR>        
+            This function checks if a <a href="containers.html#directed_graph">directed_graph</a> 
+            has a pair of nodes with just one edge between them.  If so then it
+            does not have symmetric edges.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#graph_has_symmetric_edges"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="graph_is_connected"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">graph_is_connected</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> or
+            <a href="containers.html#directed_graph">directed_graph</a> object and
+            determines if the graph is connected.  That is, it returns true if and only if
+            there is an undirected path between any two nodes in the given graph.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#graph_is_connected"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="grow_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">grow_rect</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> object, 
+            grows its borders by a given amount, and returns the result.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#grow_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="hash"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">hash</h1><BR><BR>
+            This is a set of convenience functions for invoking <a href="#murmur_hash3">murmur_hash3</a>
+            on std::strings, std::vectors, std::maps, or <a href="containers.html#matrix">dlib::matrix</a> objects.
+            <p>
+               As an aside, the hash() for matrix objects is defined <a href="dlib/matrix/matrix_utilities_abstract.h.html#hash">here</a>.
+               It has the same interface as all the others.
+            </p><BR><BR><b><a href="dlib/general_hash/hash_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/hash.h<br><br><center></center></div></a><a name="hsort_array"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">hsort_array</h1><BR><BR>
+            hsort_array is an implementation of the heapsort algorithm.  It will sort anything that has an 
+            array like operator[] interface.  
+         <BR><BR><b><a href="dlib/sort.h.html#hsort_array"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/sort.h<br><br><center></center></div></a><a name="isort_array"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">isort_array</h1><BR><BR>
+            isort_array is an implementation of the insertion sort algorithm.  It will sort anything that has an 
+            array like operator[] interface.   
+         <BR><BR><b><a href="dlib/sort.h.html#isort_array"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/sort.h<br><br><center></center></div></a><a name="is_clique"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">is_clique</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> and a 
+            <a href="containers.html#set">set</a> of node index values and checks 
+            if the specified set of nodes is a clique in the graph.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#is_clique"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="is_join_tree"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">is_join_tree</h1><BR><BR>        
+            This function takes two <a href="containers.html#graph">graph</a> objects and
+            checks if the second of the two graphs is a valid join tree (aka tree decomposition)
+            of the first graph.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#is_join_tree"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="is_maximal_clique"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">is_maximal_clique</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> and a 
+            <a href="containers.html#set">set</a> of node index values and checks 
+            if the specified set of nodes is a maximal clique in the graph.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#is_maximal_clique"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="kalman_filter"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">kalman_filter</h1><BR><BR>
+                This object implements the Kalman filter, which is a tool for 
+                recursively estimating the state of a process given measurements
+                related to that process.  To use this tool you will have to 
+                be familiar with the workings of the Kalman filter.  An excellent
+                introduction can be found in the paper:
+                <blockquote>
+                    An Introduction to the Kalman Filter
+                    by Greg Welch and Gary Bishop
+                </blockquote><BR><BR><b><a href="dlib/filtering/kalman_filter_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/filtering.h<br><br><center></center></div></a><a name="md5"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">md5</h1><BR><BR>
+            This is an implementation of The MD5 Message-Digest Algorithm as described in rfc1321.   
+         <BR><BR><b><a href="dlib/md5/md5_kernel_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/md5.h<br><br><center></center></div></a><a name="mean_sign_agreement"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">mean_sign_agreement</h1><BR><BR>
+               This is a function for computing the probability that 
+               matching elements of two std::vectors have the same sign.
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#mean_sign_agreement"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="mean_squared_error"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">mean_squared_error</h1><BR><BR>
+               This is a function for computing the mean squared error between 
+               matching elements of two std::vectors.
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#mean_squared_error"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="median"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">median</h1><BR><BR>
+            This function takes three parameters and finds the median of the three.  The median is swapped into
+            the first parameter and the first parameter ends up in one of the other two, unless the first parameter was
+            the median to begin with of course. 
+         <BR><BR><b><a href="dlib/algs.h.html#median"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/algs.h<br><br><center></center></div></a><a name="move_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">move_rect</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and moves
+            it so that it's upper left corner occupies the given location.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#move_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="murmur_hash3"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">murmur_hash3</h1><BR><BR>
+            This function takes a block of memory and returns a 32bit hash.  The 
+            hashing algorithm used is Austin Appleby's excellent 
+            <a href="http://code.google.com/p/smhasher/">MurmurHash3</a>. 
+         <BR><BR><b><a href="dlib/general_hash/murmur_hash3_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/hash.h<br><br><center></center></div></a><a name="murmur_hash3_128bit"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">murmur_hash3_128bit</h1><BR><BR>
+            This function takes a block of memory and returns a 128bit hash.  The 
+            hashing algorithm used is Austin Appleby's excellent 
+            <a href="http://code.google.com/p/smhasher/">MurmurHash3</a>. 
+         <BR><BR><b><a href="dlib/general_hash/murmur_hash3_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/hash.h<br><br><center></center></div></a><a name="nearest_point"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">nearest_point</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and a 
+            <a href="#point">point</a> and returns the point in the given 
+            rectangle that is nearest to the given point.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#nearest_point"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="point"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">point</h1><BR><BR>
+               This object represents a point inside a Cartesian coordinate system.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#point"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="point_rotator"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">point_rotator</h1><BR><BR>        
+            This is an object that rotates a 2D <a href="#vector">vector</a> or 
+            <a href="#point">point</a> object about the origin.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#point_rotator"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="point_transform"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">point_transform</h1><BR><BR>        
+            This is an object that rotates a 2D <a href="#vector">vector</a> or 
+            <a href="#point">point</a> object about the origin and then adds a 
+            displacement vector.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#point_transform"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="point_transform_affine"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">point_transform_affine</h1><BR><BR>        
+            This is an object that applies an affine transformation to a <a href="#vector">vector</a> or 
+            <a href="#point">point</a>.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#point_transform_affine"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="projection_hash"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">projection_hash</h1><BR><BR>
+                This is a tool for hashing elements of a vector space into the integers.  
+                It is intended to represent locality sensitive hashing functions such as 
+                the popular <a href="#create_random_projection_hash">random projection hashing</a> method.
+         <BR><BR><b><a href="dlib/lsh/projection_hash_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/lsh.h<br><br><center></center></div></a><a name="put_in_range"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">put_in_range</h1><BR><BR>
+            This is a simple function that takes a range and a value and returns the given
+            value if it is within the range.  If it isn't in the range then it returns the  
+            end of range value that is closest.
+         <BR><BR><b><a href="dlib/algs.h.html#put_in_range"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/algs.h<br><br><center></center></div></a><a name="qsort_array"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">qsort_array</h1><BR><BR>
+            qsort_array is an implementation of the QuickSort algorithm.  It will sort anything that has an array like 
+            operator[] interface.  If the quick sort becomes unstable then it switches to a heap sort.  This 
+            way sorting is guaranteed to take at most N*log(N) time.
+         <BR><BR><b><a href="dlib/sort.h.html#qsort_array"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/sort.h<br><br><center></center></div></a><a name="quantum_register"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">quantum_register</h1><BR><BR>        
+                This object represents a set of quantum bits.  It can be used
+                with the quantum <a href="#gate">gate</a> object to simulate
+                quantum algorithms.
+         <BR><BR><b><a href="dlib/quantum_computing/quantum_computing_abstract.h.html#quantum_register"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/quantum_computing.h<BR><b>Example Programs: </b><a href="quantum_computing_ex.cpp.html">1</a><br><br><center></center></div></a><a name="rand"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">rand</h1><BR><BR>
+            This object represents a pseudorandom number generator.
+         <BR><BR><b><a href="dlib/rand/rand_kernel_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/rand.h<br><br><center></center></div></a><a name="randomly_sample_image_features"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">randomly_sample_image_features</h1><BR><BR>
+            Given a feature extractor such as the <a href="imaging.html#hog_image">hog_image</a>,
+            this routine selects a random subsample of local image feature vectors 
+            from a set of images.  
+         <BR><BR><b><a href="dlib/statistics/image_feature_sampling_abstract.h.html#randomly_sample_image_features"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="randomly_subsample"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">randomly_subsample</h1><BR><BR>
+            This is a set of convenience functions for 
+            creating <a href="#random_subset_selector">random subsets</a> of data.
+         <BR><BR><b><a href="dlib/statistics/random_subset_selector_abstract.h.html#randomly_subsample"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="random_subset_selector"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">random_subset_selector</h1><BR><BR>
+               This object is a tool to help you select a random subset of a large body of data.  
+               In particular, it is useful when the body of data is too large to fit into memory.
+         <BR><BR><b><a href="dlib/statistics/random_subset_selector_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="rectangle"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">rectangle</h1><BR><BR>
+            This object represents a rectangular region inside a Cartesian 
+            coordinate system.  It allows you to easily represent and manipulate
+            rectangles.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="resize_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">resize_rect</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and 
+            returns a new rectangle with the given size but with the same upper
+            left corner as the original rectangle.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#resize_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="resize_rect_height"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">resize_rect_height</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and 
+            returns a new rectangle with the given height but otherwise with the 
+            same edge points as the original rectangle. 
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#resize_rect_height"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="resize_rect_width"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">resize_rect_width</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and 
+            returns a new rectangle with the given width but otherwise with the 
+            same edge points as the original rectangle. 
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#resize_rect_width"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="rls_filter"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">rls_filter</h1><BR><BR>
+            This object is a tool for doing time series prediction using 
+            linear <a href="ml.html#rls">recursive least squares</a>.  In particular,
+            this object takes a sequence of points from the user and, at each
+            step, attempts to predict the value of the next point.
+         <BR><BR><b><a href="dlib/filtering/rls_filter_abstract.h.html"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/filtering.h<br><br><center></center></div></a><a name="rotate_point"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">rotate_point</h1><BR><BR>        
+            This is a function that rotates a 2D <a href="#vector">vector</a> or 
+            <a href="#point">point</a> object about a given point.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#rotate_point"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="rotation_matrix"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">rotation_matrix</h1><BR><BR>        
+            This is a method for creating 2D rotation matrices.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#rotation_matrix"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="running_covariance"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">running_covariance</h1><BR><BR>
+                This object is a simple tool for computing the mean and
+                covariance of a sequence of vectors.  
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#running_covariance"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="running_scalar_covariance"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">running_scalar_covariance</h1><BR><BR>
+                This object is a simple tool for computing the covariance of a 
+                sequence of scalar values.  
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#running_scalar_covariance"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="running_stats"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">running_stats</h1><BR><BR>
+                This object represents something that can compute the running mean and
+                variance of a stream of real numbers.  
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#running_stats"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<BR><b>Example Programs: </b><a href="kcentroid_ex.cpp.html">1</a><br><br><center></center></div></a><a name="r_squared"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">r_squared</h1><BR><BR>
+               This is a function for computing the R squared coefficient between 
+               matching elements of two std::vectors.
+         <BR><BR><b><a href="dlib/statistics/statistics_abstract.h.html#r_squared"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/statistics.h<br><br><center></center></div></a><a name="set_difference"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">set_difference</h1><BR><BR>        
+            This function takes two <a href="containers.html#set">set</a> objects and 
+            gives you their difference.
+         <BR><BR><b><a href="dlib/set_utils/set_utils_abstract.h.html#set_difference"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/set_utils.h<br><br><center></center></div></a><a name="set_intersection"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">set_intersection</h1><BR><BR>        
+            This function takes two <a href="containers.html#set">set</a> objects and 
+            gives you their intersection.
+         <BR><BR><b><a href="dlib/set_utils/set_utils_abstract.h.html#set_intersection"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/set_utils.h<br><br><center></center></div></a><a name="set_intersection_size"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">set_intersection_size</h1><BR><BR>        
+            This function takes two <a href="containers.html#set">set</a> objects and tells you
+            how many items they have in common.
+         <BR><BR><b><a href="dlib/set_utils/set_utils_abstract.h.html#set_intersection_size"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/set_utils.h<br><br><center></center></div></a><a name="set_union"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">set_union</h1><BR><BR>        
+            This function takes two <a href="containers.html#set">set</a> objects and 
+            gives you their union.
+         <BR><BR><b><a href="dlib/set_utils/set_utils_abstract.h.html#set_union"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/set_utils.h<br><br><center></center></div></a><a name="shrink_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">shrink_rect</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> object, 
+            shrinks its borders by a given amount, and returns the result.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#shrink_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="square_root"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">square_root</h1><BR><BR>        
+            square_root is a function which takes an unsigned long and returns the square root of it or
+            if the root is not an integer then it is rounded up to the next integer.
+         <BR><BR><b><a href="dlib/algs.h.html#square_root"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/algs.h<br><br><center></center></div></a><a name="translate_rect"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">translate_rect</h1><BR><BR>        
+            This function takes a <a href="#rectangle">rectangle</a> and moves
+            it by a given number of units along the x and y axis relative to
+            where it was before the move.
+         <BR><BR><b><a href="dlib/geometry/rectangle_abstract.h.html#translate_rect"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a><a name="triangulate_graph_and_find_cliques"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">triangulate_graph_and_find_cliques</h1><BR><BR>        
+            This function takes a <a href="containers.html#graph">graph</a> and
+            turns it into a chordal graph.  It also returns a 
+            <a href="containers.html#set">set</a> that contains
+            all the cliques present in the chordal graph.
+         <BR><BR><b><a href="dlib/graph_utils/graph_utils_abstract.h.html#triangulate_graph_and_find_cliques"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/graph_utils.h<br><br><center></center></div></a><a name="vector"><div id="component"><a href="#top"><font size="2"><center>[top]</center></font></a><h1 style="margin:0px;">vector</h1><BR><BR>
+            This object represents a two or three dimensional vector.
+         <BR><BR><b><a href="dlib/geometry/vector_abstract.h.html#vector"><font style="font-size:1.3em">Detailed Documentation</font></a></b><BR><B>File to include: </B>dlib/geometry.h<br><br><center></center></div></a></div></body></html>

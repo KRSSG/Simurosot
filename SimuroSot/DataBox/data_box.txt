@@ -1,0 +1,12 @@
+Skills.GotoPoint.anglePenaltyL1 0.3
+Skills.GotoPoint.anglePenaltyL2 0.3
+Skills.GotoPoint.botPointDisPenaltyL1 100
+Skills.GotoPoint.botPointDisPenaltyL2 100
+Skills.GotoPoint.omegaFactor 1
+Skills.GotoPoint.profileFactorMult 1
+Trainer.GotoPoint.serialized_pfacfile gotopoint.pfac.serialized
+Trainer.GotoPoint.serialized_ofacfile gotopoint.ofac.serialized
+Trainer.GotoPoint.profile_and_omega_factors gotopoint.profile_and_omega_factors.txt
+Trainer.GotoBall.dribble_ball_threshold 500
+Trainer.GotoBall.bot_ball_threshold 100
+

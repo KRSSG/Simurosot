@@ -1,0 +1,345 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="verify-v1" content="02MiiaFNVzS5/u0eQhsy3/knioFHsia1X3DXRpHkE6I="><meta name="google-site-verification" content="DGSSJMKDomaDaDTIRJ8jDkv0YMx9Cz7OESbXHjjr6Jw"><title>dlib C++ Library
+   - Change Log</title><script language="JavaScript">
+
+// ---------------------------------------------
+// --- Name:    Easy DHTML Treeview           --
+// --- Author:  D.D. de Kerf                  --
+// --- Version: 0.2          Date: 13-6-2001  --
+// ---------------------------------------------
+function Toggle(node)
+{
+   // Unfold the branch if it isn't visible
+   var next_node = node.nextSibling;
+   if (next_node.style.display == 'none')
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "minus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'block';
+   }
+   // Collapse the branch if it IS visible
+   else
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "plus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'none';
+   }
+
+}
+function BigToggle(node)
+{
+   // Unfold the branch if it isn't visible
+   var next_node = node.nextSibling;
+   if (next_node.style.display == 'none')
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "bigminus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'block';
+   }
+   // Collapse the branch if it IS visible
+   else
+   {
+      // Change the image (if there is an image)
+      if (node.childNodes.length > 0)
+      {
+         if (node.childNodes.length > 0)
+         { 
+            if (node.childNodes.item(0).nodeName == "IMG")
+            {
+               node.childNodes.item(0).src = "bigplus.gif";
+            }
+         }
+      }
+
+      next_node.style.display = 'none';
+   }
+
+}
+</script><style type="text/css">
+   body {margin:0px;}
+   pre {margin:0px;}
+
+   ul.tree  li { list-style: none;  margin-left:10px;} 
+   ul.tree  { margin:0px; padding:0px; margin-left:5px; font-size:0.95em; }
+   ul.tree  li ul { margin-left:10px; padding:0px; }
+
+   div#component {
+      background-color:white; 
+      border: 2px solid rgb(102,102,102); 
+      text-align:left;
+      margin-top: 1.5em;
+      padding: 0.7em;
+   }
+
+   div#question {
+      background-color:white; 
+      border: 2px solid rgb(102,102,102); 
+      text-align:left;
+      margin-top: 1.5em;
+      margin-bottom: 90%;
+      padding: 0.7em;
+   }
+
+   div#function {
+      background-color:white; 
+      border: 2px solid rgb(102,102,255); 
+      text-align:left;
+      margin-top: 0.3em;
+      padding: 0.3em;
+   }
+
+   div#class {
+      background-color:white; 
+      border: 2px solid rgb(255,102,102); 
+      text-align:left;
+      margin-top: 0.3em;
+      padding: 0.3em;
+   }
+
+   div#extension {
+      background-color:#FDFDFD; 
+      border: 1px solid rgb(102,102,102); 
+      text-align:left;
+      margin-top: 1.0em;
+      padding: 0.7em;
+   }
+
+   div#logb {
+      text-align:left;
+      padding: 0.0em;
+      float: left;
+      background-color:#c0c0c0; 
+      border: double ; 
+      margin: 0.5em;
+   }
+
+
+   .code_box
+   {
+      color: black;
+      margin: 1em 0.25in;
+      padding: 0.5em;
+      background: rgb(240,240,240);
+      border-top: black dotted 1px;
+      border-left: black dotted 1px;
+      border-right: black solid 2px;
+      border-bottom: black solid 2px;
+   }
+
+
+
+   .bdotted {border-bottom: 1px dotted}
+   .bdashed {border-bottom: 1px dashed}
+   .bsolid {border-bottom: 1px solid}
+   .bdouble {border-bottom: 1px double}
+   .bgroove {border-bottom: 1px groove}
+   .bridge {border-bottom: 1px ridge}
+   .binset {border-bottom: 1px inset}
+   .boutset {border-bottom: 1px outset}
+
+   div#row1 {
+      background-color:#dfdfdf; 
+   }
+   div#row2 {
+      background-color:#f2f2f2; 
+   }
+
+   div#typedefs {
+      margin-left: 1.5em;
+      margin-top: 0.2em;
+      border: 1px dotted;
+      width: 52em;
+   }
+
+   div#tdn {
+      width: 10em;
+   }
+
+   .fullhr {
+      clear: both;
+   }
+
+   body {
+      text-align: center;
+   }
+
+   div#entire_page {
+      width:62.5em;  
+      text-align: left;
+      margin-top: 0.4em;
+      margin-left: auto;
+      margin-right: auto;
+   }
+</style></head><body bgcolor="#EDF3EE"><a name="top"></a><div id="entire_page"><table bgcolor="white" height="100%" bordercolor="#EDF3EE" CELLSPACING="0" CELLPADDING="10"><tr height="100%"><td BGCOLOR="#F5F5F5" style="padding:7px; border: 1px solid rgb(102,102,102);" VALIGN="TOP" height="100%"><br><table WIDTH="145" height="100%"><tr><td VALIGN="TOP"><b>The Library</b><ul class="tree"><li><a href="algorithms.html">Algorithms</a></li><li><a href="api.html">API Wrappers</a></li><li><a href="bayes.html">Bayesian Nets</a></li><li><a href="compression.html">Compression</a></li><li><a href="containers.html">Containers</a></li><li><a href="imaging.html">Image Processing</a></li><li><a href="ml.html">Machine Learning</a></li><li><a href="metaprogramming.html">Metaprogramming</a></li><li><a href="other.html">Miscellaneous</a></li><li><a href="network.html">Networking</a></li><li><a href="optimization.html">Optimization</a></li><li><a href="parsing.html">Parsing</a></li></ul><br><b>Help/Info</b><ul class="tree"><li><a onclick="Toggle(this)" style="cursor: pointer;margin-left:-9px"><img src="plus.gif"><font color="green"><u>Examples</u></font></a><ul style="display:none;"><li><a href="assignment_learning_ex.cpp.html">Assignment_Learning</a></li><li><a href="file_to_code_ex.cpp.html">Base64_Encoder</a></li><li><a href="bayes_net_ex.cpp.html">Bayesian_Network</a></li><li><a href="bayes_net_from_disk_ex.cpp.html">Bayesian_Network_From_Disk</a></li><li><a href="bayes_net_gui_ex.cpp.html">Bayesian_Network_GUI</a></li><li><a href="bridge_ex.cpp.html">Bridge</a></li><li><a href="compress_stream_ex.cpp.html#_top">Cmd_Line_Parser</a></li><li><a href="compress_stream_ex.cpp.html">Compress_Stream</a></li><li><a href="config_reader_ex.cpp.html">Config_File_Reader</a></li><li><a href="custom_trainer_ex.cpp.html">Custom_Trainers</a></li><li><a href="dir_nav_ex.cpp.html">Directory_Navigation</a></li><li><a href="empirical_kernel_map_ex.cpp.html">Empirical_Kernel_Map</a></li><li><a href="graph_labeling_ex.cpp.html">Graph_Labeling</a></li><li><a href="gui_api_ex.cpp.html">GUI</a></li><li><a href="server_http_ex.cpp.html">HTTP_Server</a></li><li><a href="image_ex.cpp.html">Image</a></li><li><a href="kcentroid_ex.cpp.html">Kernel_Centroid</a></li><li><a href="kkmeans_ex.cpp.html">Kernel_K-Means_Clustering</a></li><li><a href="krr_regression_ex.cpp.html">Kernel_Ridge_Regression</a></li><li><a href="krls_filter_ex.cpp.html">Kernel_RLS_Filtering</a></li><li><a href="krls_ex.cpp.html">Kernel_RLS_Regression</a></li><li><a href="krr_classification_ex.cpp.html">KRR_Classification</a></li><li><a href="linear_manifold_regularizer_ex.cpp.html">Linear_Manifold_Regularizer</a></li><li><a href="logger_ex.cpp.html">Logger</a></li><li><a href="logger_ex_2.cpp.html">Logger_Advanced</a></li><li><a href="matrix_ex.cpp.html">Matrix</a></li><li><a href="matrix_expressions_ex.cpp.html">Matrix_Expressions</a></li><li><a href="member_function_pointer_ex.cpp.html">Member_Function_Pointer</a></li><li><a href="model_selection_ex.cpp.html">Model_Selection</a></li><li><a href="multiclass_classification_ex.cpp.html">Multiclass_Classification</a></li><li><a href="multithreaded_object_ex.cpp.html">Multithreaded_Object</a></li><li><a href="mlp_ex.cpp.html">Neural_Network</a></li><li><a href="least_squares_ex.cpp.html">Non-Linear Least Squares</a></li><li><a href="object_detector_ex.cpp.html">Object_Detector</a></li><li><a href="object_detector_advanced_ex.cpp.html">Object_Detector_Advanced</a></li><li><a href="svm_pegasos_ex.cpp.html">Online_SVM</a></li><li><a href="optimization_ex.cpp.html">Optimization</a></li><li><a href="pipe_ex.cpp.html">Pipe</a></li><li><a href="pipe_ex_2.cpp.html">Pipe_2</a></li><li><a href="quantum_computing_ex.cpp.html">Quantum_Computing</a></li><li><a href="queue_ex.cpp.html">Queue</a></li><li><a href="rank_features_ex.cpp.html">Rank_Features</a></li><li><a href="rvm_ex.cpp.html">Relevance_Vector_Classification</a></li><li><a href="rvm_regression_ex.cpp.html">Relevance_Vector_Regression</a></li><li><a href="sequence_labeler_ex.cpp.html">Sequence_Labeling</a></li><li><a href="sockets_ex.cpp.html">Sockets</a></li><li><a href="sockets_ex_2.cpp.html">Sockets_2</a></li><li><a href="sockstreambuf_ex.cpp.html">Sockstreambuf</a></li><li><a href="svm_sparse_ex.cpp.html">Sparse_Vectors</a></li><li><a href="std_allocator_ex.cpp.html">Std_C++_Allocator</a></li><li><a href="svm_ex.cpp.html">Support_Vector_Machine</a></li><li><a href="svr_ex.cpp.html">Support_Vector_Regression</a></li><li><a href="surf_ex.cpp.html">SURF</a></li><li><a href="threaded_object_ex.cpp.html">Threaded_Object</a></li><li><a href="threads_ex.cpp.html">Threads</a></li><li><a href="thread_function_ex.cpp.html">Thread_Function</a></li><li><a href="thread_pool_ex.cpp.html">Thread_Pool</a></li><li><a href="timer_ex.cpp.html">Timer</a></li><li><a href="train_object_detector.cpp.html">Train_Object_Detector</a></li><li><a href="using_custom_kernels_ex.cpp.html">Using_Custom_Kernels</a></li><li><a href="xml_parser_ex.cpp.html">XML_Parser</a></li></ul></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html">Home</a></li><li><a href="compile.html">How to compile</a></li><li><a href="howto_contribute.html">How to contribute</a></li><li><a href="term_index.html">Index</a></li><li><a href="intro.html">Introduction</a></li><li><a href="license.html">License</a></li><li><a href="books.html">Suggested Books</a></li></ul><br><b>Current Release</b><ul class="tree"><li><a href="change_log.html">Change Log</a></li><li><a href="release_notes.html">Release Notes</a></li><li>Version: 17.48</li></ul><br></td><td width="1"></td></tr><tr><td valign="bottom"><br><br><br><br><br><br><br><br><br>
+      Last Modified:<br>Oct 18, 2012<br><br></td></tr></table></td><td VALIGN="TOP" width="100%" style="border: 1px solid rgb(102,102,102);"><center><h1>Change Log</h1></center><u>Revision</u>: b90ab60d8a18<br><u>Date</u>: Aug 26, 2012
+         (19:29:48 UTC)
+      <br><pre>fixed grammar</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/statistics/sammon_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 371d022bde21<br><u>Date</u>: Aug 26, 2012
+         (18:25:50 UTC)
+      <br><pre>Switched loss counting variables from integers to doubles so they
+can count real valued loss values correctly.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/cross_validate_graph_labeling_trainer.h</div></div><hr class="fullhr"><u>Revision</u>: 16469b180cdb<br><u>Date</u>: Aug 26, 2012
+         (17:41:56 UTC)
+      <br><pre>made code a little clearer</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/statistics/sammon.h</div><div id="row1">dlib/statistics/sammon_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 6128fc391e25<br><u>Date</u>: Aug 26, 2012
+         (17:36:55 UTC)
+      <br><pre>Added Sammon's algorithm.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/statistics.h</div><div id="row1">dlib/test/CMakeLists.txt</div><div id="row2">dlib/test/makefile</div></div><div id="logb"><div class="bsolid"><b><font color="blue">Added</font></b></div><div id="row2">dlib/statistics/sammon.h</div><div id="row1">dlib/statistics/sammon_abstract.h</div><div id="row2">dlib/test/sammon.cpp</div></div><hr class="fullhr"><u>Revision</u>: c21c6ff0d56a<br><u>Date</u>: Aug 26, 2012
+         (16:13:26 UTC)
+      <br><pre>Added dpca_matrix_of_size() to discriminant_pca.  It allows the user
+to easily get a transformation matrix of a particular size.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/statistics/dpca.h</div><div id="row1">dlib/statistics/dpca_abstract.h</div><div id="row2">dlib/test/discriminant_pca.cpp</div></div><hr class="fullhr"><u>Revision</u>: 8a50f0c34291<br><u>Date</u>: Aug 26, 2012
+         (14:15:25 UTC)
+      <br><pre>Added more versioning information into the serialization methods for
+these objects.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/object_detector.h</div><div id="row1">dlib/image_processing/scan_image_pyramid.h</div></div><hr class="fullhr"><u>Revision</u>: d9bc31bba2a3<br><u>Date</u>: Aug 26, 2012
+         (12:55:44 UTC)
+      <br><pre>clarified spec</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/timer/timer_kernel_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 979cfd30850b<br><u>Date</u>: Aug 26, 2012
+         (11:07:28 UTC)
+      <br><pre>updated docs and specs</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image_pyramid_abstract.h</div><div id="row1">docs/docs/imaging.xml</div><div id="row2">examples/object_detector_ex.cpp</div></div><hr class="fullhr"><u>Revision</u>: 76aa5a244511<br><u>Date</u>: Aug 26, 2012
+         (10:38:55 UTC)
+      <br><pre>fixed typo in spec</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/full_object_detection_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: b66ff5ec9278<br><u>Date</u>: Aug 26, 2012
+         (10:08:48 UTC)
+      <br><pre>Added another overloaded operator() to the object_detector so that it is
+easy to get full_object_detections out of it.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/object_detector.h</div><div id="row1">dlib/image_processing/object_detector_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: b4ac3f914c06<br><u>Date</u>: Aug 26, 2012
+         (09:45:57 UTC)
+      <br><pre>Cleaned up the full_object_detection's interface and improved some comments
+here and there.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/full_object_detection.h</div><div id="row1">dlib/image_processing/full_object_detection_abstract.h</div><div id="row2">dlib/image_processing/scan_image_pyramid.h</div><div id="row1">dlib/image_processing/scan_image_pyramid_abstract.h</div><div id="row2">dlib/svm/cross_validate_object_detection_trainer.h</div><div id="row1">dlib/svm/cross_validate_object_detection_trainer_abstract.h</div><div id="row2">dlib/svm/structural_object_detection_trainer.h</div><div id="row1">dlib/svm/structural_object_detection_trainer_abstract.h</div><div id="row2">dlib/svm/structural_svm_object_detection_problem.h</div><div id="row1">dlib/svm/structural_svm_object_detection_problem_abstract.h</div><div id="row2">dlib/test/object_detector.cpp</div></div><hr class="fullhr"><u>Revision</u>: 7ddd4ba3a853<br><u>Date</u>: Aug 24, 2012
+         (19:09:58 UTC)
+      <br><pre>updated object detector tests to do some movable part stuff.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/test/object_detector.cpp</div></div><hr class="fullhr"><u>Revision</u>: bd247261c438<br><u>Date</u>: Aug 24, 2012
+         (18:35:58 UTC)
+      <br><pre>Fully qualified the references to dlib::set so they compile now that
+std::set is #included by the serialize header file.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/test/bayes_nets.cpp</div><div id="row1">dlib/test/directed_graph.cpp</div><div id="row2">dlib/test/graph.cpp</div><div id="row1">dlib/test/set.cpp</div></div><hr class="fullhr"><u>Revision</u>: 098a082f0a2b<br><u>Date</u>: Aug 24, 2012
+         (18:13:19 UTC)
+      <br><pre>Minor interface cleanup</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/object_detector.h</div><div id="row1">dlib/image_processing/object_detector_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 7a9cab60c575<br><u>Date</u>: Aug 24, 2012
+         (18:07:52 UTC)
+      <br><pre>Added missing requirements</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_object_detection_trainer.h</div><div id="row1">dlib/svm/structural_object_detection_trainer_abstract.h</div><div id="row2">dlib/svm/structural_svm_object_detection_problem.h</div><div id="row1">dlib/svm/structural_svm_object_detection_problem_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 99084f5e373a<br><u>Date</u>: Aug 24, 2012
+         (18:03:33 UTC)
+      <br><pre>refactored the scan_image_pyramid interface slightly.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/object_detector_abstract.h</div><div id="row1">dlib/image_processing/scan_image_pyramid.h</div><div id="row2">dlib/image_processing/scan_image_pyramid_abstract.h</div><div id="row1">dlib/svm/structural_svm_object_detection_problem.h</div><div id="row2">dlib/test/object_detector.cpp</div></div><hr class="fullhr"><u>Revision</u>: 61136b513be4<br><u>Date</u>: Aug 24, 2012
+         (18:02:36 UTC)
+      <br><pre>Added overloads of the object detection test tools that work with
+both rectangle and full_object_detection objects.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/cross_validate_object_detection_trainer.h</div><div id="row1">dlib/svm/cross_validate_object_detection_trainer_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: c326b4df8cc4<br><u>Date</u>: Aug 24, 2012
+         (16:38:50 UTC)
+      <br><pre>Implemented the movable part stuff.  It all seems to be working properly now.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image_pyramid.h</div><div id="row1">dlib/image_processing/scan_image_pyramid_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 790270220d96<br><u>Date</u>: Aug 24, 2012
+         (16:22:27 UTC)
+      <br><pre>fleshed the full_object_detection out a little more.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/full_object_detection.h</div></div><hr class="fullhr"><u>Revision</u>: f0684cb73cee<br><u>Date</u>: Aug 24, 2012
+         (16:21:42 UTC)
+      <br><pre>Added an assert to check that the image_scanner_type is generating
+legit feature vectors.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_svm_object_detection_problem.h</div></div><hr class="fullhr"><u>Revision</u>: be763105b4ff<br><u>Date</u>: Aug 12, 2012
+         (09:55:00 UTC)
+      <br><pre>Updated scan_image_pyramid serialization to include the movable rectangle
+info.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image_pyramid.h</div></div><hr class="fullhr"><u>Revision</u>: 573759107597<br><u>Date</u>: Aug 12, 2012
+         (09:41:46 UTC)
+      <br><pre>Refactored the interfaces and objects related to object detection so that
+they can support movable object part models.  Now all that needs to be
+done is to implement the TODO inside the scan_image_pyramid object and
+the movable part model support should be up and working.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/object_detector_abstract.h</div><div id="row1">dlib/image_processing/scan_image_pyramid.h</div><div id="row2">dlib/image_processing/scan_image_pyramid_abstract.h</div><div id="row1">dlib/svm/structural_object_detection_trainer.h</div><div id="row2">dlib/svm/structural_object_detection_trainer_abstract.h</div><div id="row1">dlib/svm/structural_svm_object_detection_problem.h</div><div id="row2">dlib/svm/structural_svm_object_detection_problem_abstract.h</div><div id="row1">dlib/test/object_detector.cpp</div></div><hr class="fullhr"><u>Revision</u>: 01fa310858b7<br><u>Date</u>: Aug 11, 2012
+         (-04:03:59 UTC)
+      <br><pre>fixed bug.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/full_object_detection.h</div><div id="row1">dlib/image_processing/full_object_detection_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 2a5dc1044a96<br><u>Date</u>: Aug 10, 2012
+         (19:54:45 UTC)
+      <br><pre>Removed the implicit conversion from rectangles.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/full_object_detection.h</div><div id="row1">dlib/image_processing/full_object_detection_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 18a23c31ac27<br><u>Date</u>: Aug 10, 2012
+         (17:44:38 UTC)
+      <br><pre>Added the full_object_detection object.</pre><div id="logb"><div class="bsolid"><b><font color="blue">Added</font></b></div><div id="row2">dlib/image_processing/full_object_detection.h</div><div id="row1">dlib/image_processing/full_object_detection_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 81b42c3a9dde<br><u>Date</u>: Aug 18, 2012
+         (11:28:17 UTC)
+      <br><pre>Added serialization support for std::set.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/serialize.h</div></div><hr class="fullhr"><u>Revision</u>: 2dcece94044c<br><u>Date</u>: Aug 07, 2012
+         (16:55:43 UTC)
+      <br><pre>Removed cruft from spec file.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/graph_cuts/min_cut_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: acf26ce2454a<br><u>Date</u>: Jul 29, 2012
+         (16:43:59 UTC)
+      <br><pre>Added a randomize_samples() that works on three things.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/svm.h</div><div id="row1">dlib/svm/svm_abstract.h</div><div id="row2">dlib/test/statistics.cpp</div></div><hr class="fullhr"><u>Revision</u>: 4a341e88fdce<br><u>Date</u>: Jul 29, 2012
+         (16:13:58 UTC)
+      <br><pre>Added overloads of test_graph_labeling_function() and
+cross_validate_graph_labeling_trainer() that can incorporate per node
+loss values.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/cross_validate_graph_labeling_trainer.h</div><div id="row1">dlib/svm/cross_validate_graph_labeling_trainer_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 0bdd0bb82cac<br><u>Date</u>: Jul 29, 2012
+         (15:38:14 UTC)
+      <br><pre>Improved the assert messages related to badly formed graph labeling
+problems.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/cross_validate_graph_labeling_trainer.h</div><div id="row1">dlib/svm/structural_graph_labeling_trainer.h</div><div id="row2">dlib/svm/structural_svm_graph_labeling_problem.h</div></div><hr class="fullhr"><u>Revision</u>: 9711e6967443<br><u>Date</u>: Jul 29, 2012
+         (15:09:57 UTC)
+      <br><pre>Added a per node loss interface for the structural_graph_labeling_trainer.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_graph_labeling_trainer.h</div><div id="row1">dlib/svm/structural_graph_labeling_trainer_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 30f5f8c041ff<br><u>Date</u>: Jul 29, 2012
+         (15:08:59 UTC)
+      <br><pre>Fixed grammar</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_svm_graph_labeling_problem_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: c58b21c8c010<br><u>Date</u>: Jul 29, 2012
+         (14:54:46 UTC)
+      <br><pre>Added a per node loss option to the structural_svm_graph_labeling_problem's
+interface.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_graph_labeling_trainer.h</div><div id="row1">dlib/svm/structural_svm_graph_labeling_problem.h</div><div id="row2">dlib/svm/structural_svm_graph_labeling_problem_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: ef8c16751fce<br><u>Date</u>: Jul 29, 2012
+         (14:26:48 UTC)
+      <br><pre>Refactored this code a little</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_svm_graph_labeling_problem.h</div></div><hr class="fullhr"><u>Revision</u>: 43cfbf8dfd90<br><u>Date</u>: Jul 26, 2012
+         (18:54:19 UTC)
+      <br><pre>A minor change to avoid a compiler error in clang.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/spatial_filtering.h</div></div><hr class="fullhr"><u>Revision</u>: 41b9de801946<br><u>Date</u>: Jul 25, 2012
+         (19:19:50 UTC)
+      <br><pre>Changed the default serialization for integer and byte types so that it runs about 3
+times faster.  The behavior should be exactly the same.  The change is basically just
+a switch to using the streambuf directly.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/serialize.h</div></div><hr class="fullhr"><u>Revision</u>: e060102334ca<br><u>Date</u>: Jul 15, 2012
+         (16:51:01 UTC)
+      <br><pre>Made this code a little more efficient.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image.h</div></div><hr class="fullhr"><u>Revision</u>: 3592b5629256<br><u>Date</u>: Jul 15, 2012
+         (16:50:41 UTC)
+      <br><pre>Added sum_filter_assign().</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/spatial_filtering.h</div><div id="row1">dlib/image_transforms/spatial_filtering_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: edfb74f8edca<br><u>Date</u>: Jul 15, 2012
+         (16:40:22 UTC)
+      <br><pre>Refactored code and added find_points_above_thresh()</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image.h</div><div id="row1">dlib/image_processing/scan_image_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 4ff930abc4b3<br><u>Date</u>: Jul 15, 2012
+         (16:24:03 UTC)
+      <br><pre>Added scan_image_movable_parts() unit tests.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/test/scan_image.cpp</div></div><hr class="fullhr"><u>Revision</u>: a1a9af2a0215<br><u>Date</u>: Jul 15, 2012
+         (16:16:40 UTC)
+      <br><pre>Added scan_image_movable_parts()</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image.h</div><div id="row1">dlib/image_processing/scan_image_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: f351fc91f0f8<br><u>Date</u>: Jul 15, 2012
+         (11:31:41 UTC)
+      <br><pre>Changed protocol buffer serialization to use a 32bit little endian
+integer instead of the usual dlib variable width encoding.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/serialize.h</div></div><hr class="fullhr"><u>Revision</u>: c6fa7d27ddf7<br><u>Date</u>: Jul 15, 2012
+         (10:18:43 UTC)
+      <br><pre>clarified spec</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/serialize.h</div></div><hr class="fullhr"><u>Revision</u>: db772f18b576<br><u>Date</u>: Jul 15, 2012
+         (10:02:18 UTC)
+      <br><pre>Changed code so serialization works with the lite version of protocol buffers
+as well as the normal version.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/serialize.h</div></div><hr class="fullhr"><u>Revision</u>: 88ad7072cd96<br><u>Date</u>: Jul 15, 2012
+         (09:41:55 UTC)
+      <br><pre>Added overloads of serialize()/deserialize() so that they can serialize
+Google protocol buffer objects.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/serialize.h</div></div><hr class="fullhr"><u>Revision</u>: 0a49b21e1682<br><u>Date</u>: Jul 15, 2012
+         (09:38:59 UTC)
+      <br><pre>Made the bridge trap and log std::exception exceptions rather than
+letting them fly out and terminate the application.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/bridge/bridge.h</div></div><hr class="fullhr"><u>Revision</u>: f59ccf2b0c49<br><u>Date</u>: Jul 12, 2012
+         (19:08:23 UTC)
+      <br><pre>Minor change to avoid compiler errors on some compilers.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/statistics/statistics.h</div></div><hr class="fullhr"><u>Revision</u>: 50a26c24cdfa<br><u>Date</u>: Jul 08, 2012
+         (09:22:57 UTC)
+      <br><pre>Removed requirement that the filter size given to max_filter() be odd.
+Now it can be anything.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/spatial_filtering.h</div><div id="row1">dlib/image_transforms/spatial_filtering_abstract.h</div><div id="row2">dlib/test/scan_image.cpp</div></div><hr class="fullhr"><u>Revision</u>: 4049e085ff7a<br><u>Date</u>: Jul 05, 2012
+         (13:47:04 UTC)
+      <br><pre>Updated find_max_factor_graph_potts() to correctly say you can use infinite weights
+for the factor_value_disagreement() values since the code actually supports this.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/graph_cuts/find_max_factor_graph_potts_abstract.h</div><div id="row1">dlib/test/graph_cuts.cpp</div></div><hr class="fullhr"><u>Revision</u>: 24a1540319e3<br><u>Date</u>: Jul 04, 2012
+         (10:40:04 UTC)
+      <br><pre>Made auto_threshold_image() always use 64bit integers for part of its counting
+to make it robust to very large images.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/thresholding.h</div></div><hr class="fullhr"><u>Revision</u>: a4675fd44639<br><u>Date</u>: Jun 30, 2012
+         (10:39:30 UTC)
+      <br><pre>Added the max_filter() routine.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/spatial_filtering.h</div><div id="row1">dlib/image_transforms/spatial_filtering_abstract.h</div><div id="row2">dlib/test/scan_image.cpp</div></div><hr class="fullhr"><u>Revision</u>: 5899651629d8<br><u>Date</u>: Jun 30, 2012
+         (05:46:51 UTC)
+      <br><pre>fixed typo in spec</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/spatial_filtering_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: f1972cd4e1ce<br><u>Date</u>: Jun 26, 2012
+         (17:58:11 UTC)
+      <br><pre>Refined spec a little.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/graph_cuts/find_max_factor_graph_potts_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 15d6656e2ca1<br><u>Date</u>: Jun 26, 2012
+         (17:50:58 UTC)
+      <br><pre>Added some convenience routines for making potts grid problems.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/graph_cuts/find_max_factor_graph_potts.h</div><div id="row1">dlib/graph_cuts/find_max_factor_graph_potts_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 59e4f5ba2f70<br><u>Date</u>: Jun 20, 2012
+         (06:14:38 UTC)
+      <br><pre>Fixed typo in spec</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image_pyramid_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 2a76fa84599e<br><u>Date</u>: Jun 23, 2012
+         (14:19:24 UTC)
+      <br><pre>Fixed typo in spec</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_processing/scan_image_pyramid_abstract.h</div></div><hr class="fullhr"><u>Revision</u>: 46e6cd3304f7<br><u>Date</u>: Jun 23, 2012
+         (13:44:48 UTC)
+      <br><pre>Fixed a minor typo in the code.  It shouldn't have negatively effected anything.
+But nevertheless, it's fixed.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/svm/structural_svm_object_detection_problem.h</div></div><hr class="fullhr"><u>Revision</u>: 70e0390c5a45<br><u>Date</u>: Jun 23, 2012
+         (04:51:37 UTC)
+      <br><pre>Fixed grammar in a comment.</pre><div id="logb"><div class="bsolid"><b><font color="black">Modified</font></b></div><div id="row2">dlib/image_transforms/spatial_filtering.h</div></div><hr class="fullhr"><br><center><a href="old_change_log.html">Old Change Logs</a></center><br></td></tr></table></div></body></html>

@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <ProjectGuid>{E200EFDC-69B1-A1FF-83C2-FB3DAD0E0D4E}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\QtCommercial\QtCommercial5.0.2\5.0.2\msvc2012_64\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;STRATEGY_EXPORTS;PS_CLASS=NaivePS;%(PreprocessorDefinitions);LOCAL_AVOID</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\Strategy.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\Strategy.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0c09</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\Strategy.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>.\Release\Strategy.dll</OutputFile>
+      <ImportLibrary>.\Release\Strategy.lib</ImportLibrary>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;STRATEGY_EXPORTS;PS_CLASS=NaivePS;%(PreprocessorDefinitions);LOCAL_AVOID</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Debug\Strategy.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>"../Core"</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\Strategy.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0c09</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\Strategy.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>.\Debug\Strategy.dll</OutputFile>
+      <ImportLibrary>.\Debug\Strategy.lib</ImportLibrary>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="common\include\config.cpp" />
+    <ClCompile Include="pose.cpp" />
+    <ClCompile Include="Skills\sChargeBall.cpp" />
+    <ClCompile Include="Skills\sGoToPointGoalie.cpp" />
+    <ClCompile Include="winDebugger\Client.cpp" />
+    <ClCompile Include="common\src\thread.cpp" />
+    <ClCompile Include="Core\beliefState.cpp" />
+    <ClCompile Include="Core\dataBox.cpp" />
+    <ClCompile Include="Core\paramLoaders.cpp" />
+    <ClCompile Include="HAL\comm.cpp" />
+    <ClCompile Include="HAL\debugCircle.cpp" />
+    <ClCompile Include="HAL\debugLines.cpp" />
+    <ClCompile Include="Learning\evaluator.cpp" />
+    <ClCompile Include="Learning\MLP.cpp" />
+    <ClCompile Include="Learning\testTactic.cpp" />
+    <ClCompile Include="Learning\train_gotoBall.cpp" />
+    <ClCompile Include="Learning\train_gotoPoint.cpp" />
+    <ClCompile Include="Learning\train_scrap.cpp" />
+    <ClCompile Include="Learning\train_timePredicter.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Plays\core\expPS.cpp" />
+    <ClCompile Include="Plays\core\naivePS.cpp" />
+    <ClCompile Include="Plays\core\pExec.cpp" />
+    <ClCompile Include="Plays\core\playBook.cpp" />
+    <ClCompile Include="Plays\core\ps.cpp" />
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="Skills\sDefendPoint.cpp" />
+    <ClCompile Include="Skills\sDribbleToPoint.cpp" />
+    <ClCompile Include="Skills\sGoalKeeping.cpp" />
+    <ClCompile Include="Skills\sGoToBall.cpp" />
+    <ClCompile Include="Skills\sGoToBallStraight.cpp" />
+    <ClCompile Include="Skills\sGoToPoint.cpp" />
+    <ClCompile Include="Skills\sGoToPointStraight.cpp" />
+    <ClCompile Include="Skills\skillSet.cpp" />
+    <ClCompile Include="Skills\sReceiveBall.cpp" />
+    <ClCompile Include="Skills\sSpin.cpp" />
+    <ClCompile Include="Skills\sSpinToGoal.cpp" />
+    <ClCompile Include="Skills\sStop.cpp" />
+    <ClCompile Include="Skills\sTurnToAngle.cpp" />
+    <ClCompile Include="Skills\sTurnToPoint.cpp" />
+    <ClCompile Include="Skills\sVelocity.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Strategy.cpp" />
+    <ClCompile Include="Tactics\robot.cpp" />
+    <ClCompile Include="Tactics\tactic.cpp" />
+    <ClCompile Include="Utils\comdef.cpp" />
+    <ClCompile Include="Utils\errt.cpp" />
+    <ClCompile Include="Utils\intersection.cpp" />
+    <ClCompile Include="Utils\kalman.cpp" />
+    <ClCompile Include="Utils\LocalAvoidance.cpp" />
+    <ClCompile Include="Utils\mergeSCurve.cpp" />
+    <ClCompile Include="Utils\naivePathPlanner.cpp" />
+    <ClCompile Include="Utils\sCurve.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pAttack.hpp" />
+    <ClInclude Include="Plays\playbook\pDefense1.hpp" />
+    <ClInclude Include="Plays\playbook\pDefense2.hpp" />
+    <ClInclude Include="Plays\playbook\pOffense1.hpp" />
+    <ClInclude Include="Plays\playbook\pOffense2.hpp" />
+    <ClInclude Include="Plays\playbook\pOffense3.hpp" />
+    <ClInclude Include="Plays\playbook\pPositionOppFreeKick.hpp" />
+    <ClInclude Include="Plays\playbook\pPositionOurFreeKick.hpp" />
+    <ClInclude Include="Plays\playbook\pStop.hpp" />
+    <ClInclude Include="Plays\playbook\pSuperDefense.hpp" />
+    <ClInclude Include="Plays\playbook\pSuperOffense.hpp" />
+    <ClInclude Include="pose.h" />
+    <ClInclude Include="Tactics\tAttackLingo.hpp" />
+    <ClInclude Include="Tactics\tBackup.hpp" />
+    <ClInclude Include="Tactics\tChargeToGoal.hpp" />
+    <ClInclude Include="Tactics\tMidField.hpp" />
+    <ClInclude Include="winDebugger\Client.h" />
+    <ClInclude Include="common\include\config.h" />
+    <ClInclude Include="common\include\cs.hpp" />
+    <ClInclude Include="common\include\geometry.hpp" />
+    <ClInclude Include="common\include\randGenerator.h" />
+    <ClInclude Include="common\include\rbCommDef.h" />
+    <ClInclude Include="common\include\thread.h" />
+    <ClInclude Include="common\include\timer.h" />
+    <ClInclude Include="common\include\util.h" />
+    <ClInclude Include="common\include\vld.h" />
+    <ClInclude Include="Core\beliefState.h" />
+    <ClInclude Include="Core\dataBox.h" />
+    <ClInclude Include="Core\debugtypes.h" />
+    <ClInclude Include="Core\paramLoaders.h" />
+    <ClInclude Include="Core\tester.hpp" />
+    <ClInclude Include="Core\worker.hpp" />
+    <ClInclude Include="HAL\comm.h" />
+    <ClInclude Include="HAL\debugCircle.h" />
+    <ClInclude Include="HAL\debugLines.h" />
+    <ClInclude Include="Learning\evaluator.h" />
+    <ClInclude Include="Learning\MLP.h" />
+    <ClInclude Include="Learning\trainers.hpp" />
+    <ClInclude Include="mainheaders.hpp" />
+    <ClInclude Include="Plays\core\expPS.h" />
+    <ClInclude Include="Plays\core\naivePS.h" />
+    <ClInclude Include="Plays\core\pExec.h" />
+    <ClInclude Include="Plays\core\play.hpp" />
+    <ClInclude Include="Plays\core\playBook.h" />
+    <ClInclude Include="Plays\core\ps.h" />
+    <ClInclude Include="Plays\playbook\pNone.hpp" />
+    <ClInclude Include="Plays\playbook\pOppGoalKick.hpp" />
+    <ClInclude Include="Plays\playbook\pOurGoalKick.hpp" />
+    <ClInclude Include="Plays\playbook\pPositionOppStrike.hpp" />
+    <ClInclude Include="Plays\playbook\pPositionOurStrike.hpp" />
+    <ClInclude Include="Plays\playbook\pSetPosition.hpp" />
+    <ClInclude Include="Plays\playbook\pTestPlay.hpp" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="Skills\skillSet.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="Strategy.h" />
+    <ClInclude Include="Tactics\robot.h" />
+    <ClInclude Include="Tactics\tactic.h" />
+    <ClInclude Include="Tactics\tAttack.hpp" />
+    <ClInclude Include="Tactics\tBlock.hpp" />
+    <ClInclude Include="Tactics\tCharge.hpp" />
+    <ClInclude Include="Tactics\tCoverGoal.hpp" />
+    <ClInclude Include="Tactics\tDefend.hpp" />
+    <ClInclude Include="Tactics\tDefendLine.hpp" />
+    <ClInclude Include="Tactics\tDefendPoint.hpp" />
+    <ClInclude Include="Tactics\tDragToGoal.hpp" />
+    <ClInclude Include="Tactics\tDragToGoalOpp.hpp" />
+    <ClInclude Include="Tactics\tGoalKeepingOppSide.hpp" />
+    <ClInclude Include="Tactics\tGoalKeepingOurSide.hpp" />
+    <ClInclude Include="Tactics\tinclude.h" />
+    <ClInclude Include="Tactics\tKickToGoal.hpp" />
+    <ClInclude Include="Tactics\tMarkBot.hpp" />
+    <ClInclude Include="Tactics\tPass.hpp" />
+    <ClInclude Include="Tactics\tPosition.hpp" />
+    <ClInclude Include="Tactics\tPositionForPenalty.hpp" />
+    <ClInclude Include="Tactics\tPositionForStart.hpp" />
+    <ClInclude Include="Tactics\tReceiveBall.hpp" />
+    <ClInclude Include="Tactics\tShoot.hpp" />
+    <ClInclude Include="Tactics\tSteal.hpp" />
+    <ClInclude Include="Tactics\tStop.hpp" />
+    <ClInclude Include="Tactics\tVelocity.hpp" />
+    <ClInclude Include="Utils\comdef.h" />
+    <ClInclude Include="Utils\intersection.hpp" />
+    <ClInclude Include="Utils\kalman.h" />
+    <ClInclude Include="Utils\kdTree.hpp" />
+    <ClInclude Include="Utils\pathPlanners.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
