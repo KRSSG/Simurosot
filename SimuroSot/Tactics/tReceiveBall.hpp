@@ -87,12 +87,13 @@ void execute(const Param& tParam)
 	//  if(state->ballPos.x>-HALF_FIELD_MAXX/2)
 	//	{
 			dest.x=state->ballPos.x-(2.5)*(state->ballPos.x-(HALF_FIELD_MAXX/2))/(HALF_FIELD_MAXX/2)*BOT_RADIUS; //0.5 as factor  dest.y =-SGN(state->ballPos.y)*HALF_FIELD_MAXY*0.4;//-SGN(state->ballPos.y)*1.5*BOT_RADIUS;
-			dest.y=SGN(state->ballPos.y)*0.4*HALF_FIELD_MAXY*(-1);
+			dest.y=SGN(state->ballPos.y)*0.35*HALF_FIELD_MAXY*(-1);
 			 
 			if(state->ballPos.x > (HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 2*BOT_RADIUS))
-                 {  dest.x = HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 5*BOT_RADIUS ;
-			        dest.y = -1*SGN(state->ballPos.y)*(OPP_GOAL_MAXY);
-			     }
+                 { 
+					dest.x = state->ballPos.x; ; //HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 5*BOT_RADIUS ;  //
+			        dest.y = -1*state->ballPos.y;//-1*SGN(state->ballPos.y)*(OPP_GOAL_MAXY); // 
+                 }
 	    Vector2D<int> oppGoal(HALF_FIELD_MAXX,0);
 		if(dest.x < (-HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS))  //changed acc to rules ........................
 	    {
