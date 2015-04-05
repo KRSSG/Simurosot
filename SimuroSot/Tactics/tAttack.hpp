@@ -53,6 +53,7 @@ namespace MyStrategy
     {
       return true;
     }
+
     int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
     {
       int minv = *(freeBots.begin());
@@ -172,9 +173,6 @@ Vector2D<int> pointToAttack;
  }
 
 }
-
-
-
 Vector2D<int> decidedGoalPoint(){
 int id=opponentProbableGoalkeeper();
 Vector2D<int> pointToAttack;
@@ -235,7 +233,7 @@ void revolve(float &v_l , float &v_r ,const BeliefState* state, int botID) {
 void shoot(const BeliefState* state, int botID){
 
      cout << "my case" << endl;	
-     Vector2D<int> targetGoalPoint=decidedGoalPoint();
+ Vector2D<int> targetGoalPoint=decidedGoalPoint_new();
  Vector2D<int> ballPredictedPos;
  Vector2D<float> ballTransformedVel;
  float factor = 0.00005;
@@ -261,8 +259,8 @@ void shoot(const BeliefState* state, int botID){
  float denominator = ((-1*ballSpeed*sin(ballAngle-state->homeAngle[botID])*sin(state->homeAngle[botID]))+(botSpeed*cos(state->homeAngle[botID]))) ;
  ballPredictedPos.y = state->homePos[botID].y + ((numerator/denominator)*(ballPredictedPos.x - state->homePos[botID].x))	; 
 	 //******************************* new shoot algo implemented ********************************************* 
-  //      ballPredictedPos.x = state->ballPos.x - (int)(((botBallDist*factor*state->ballVel.x))/(sqrt(state->ballVel.x*state->ballVel.x+state->ballVel.y*state->ballVel.y)));//(int)HALF_FIELD_MAXX*0.05;
-    //     ballPredictedPos.y = state->ballPos.y + ((int)((ballBotDist*factor*state->ballVel.y))/(sqrt(state->ballVel.x*state->ballVel.x+state->ballVel.y*state->ballVel.y))) ;//(int)HALF_FIELD_MAXX*0.05;
+  //    ballPredictedPos.x = state->ballPos.x - (int)(((botBallDist*factor*state->ballVel.x))/(sqrt(state->ballVel.x*state->ballVel.x+state->ballVel.y*state->ballVel.y)));//(int)HALF_FIELD_MAXX*0.05;
+ //     ballPredictedPos.y = state->ballPos.y + ((int)((ballBotDist*factor*state->ballVel.y))/(sqrt(state->ballVel.x*state->ballVel.x+state->ballVel.y*state->ballVel.y))) ;//(int)HALF_FIELD_MAXX*0.05;
 
 if(ballPredictedPos.x < -HALF_FIELD_MAXX+GOAL_DEPTH)
  ballPredictedPos.x=-HALF_FIELD_MAXX + GOAL_DEPTH;
@@ -314,6 +312,8 @@ bool isBallInDBox()
     {	
 		//shoot(); 
 		//return;
+		static Vector2D<int> prevPos(0,0) ;
+		static int counter = 0;
 		float a1=Vector2D<int>::angle(state->ballPos, state->homePos[botID]);
 		float a2=Vector2D<int>::angle(Vector2D<int> (HALF_FIELD_MAXX-GOAL_DEPTH,0),state->ballPos);
 	/*	if((a1-a2) >-PI/10 && (a1-a2)<PI/10 && state->homePos[botID].x <state->ballPos.x && SGN(state->ballPos.y)*SGN(state->ballVel.y)==-1){
@@ -349,10 +349,29 @@ bool isBallInDBox()
 		//iState = SPINNING_CCW;
 		sprintf(debug,"Current State %d\n",iState);
 		////Client::debugClient->SendMessages(debug);
-          
+		float prevDist = Vector2D<int>::dist(prevPos,state->homePos[botID])<2*BOT_BALL_THRESH ;
+		
+		// if stuck then do this 
+	/*
+	if((prevDist<BOT_BALL_THRESH)&&((abs(state->homeVel[botID].x)>10)||(abs(state->homeVel[botID].y)>10)))
+			counter++;
+		if(((prevDist<BOT_BALL_THRESH)&&((abs(state->homeVel[botID].x)>10)||(abs(state->homeVel[botID].y)>10)))&&(counter>50))
+		{
+			sID = SkillSet::Velocity;
+			sParam.VelocityP.vl = -1*SGN(state->homeVel[botID].y)*100 ;
+			sParam.VelocityP.vr = -1*SGN(state->homeVel[botID].y)*100 ;
+			 sprintf(debug,"stuck \n");
+             Client::debugClient->SendMessages(debug);
+			 counter = 0 ; 
+			skillSet->executeSkill(sID, sParam);
+		    
+		}
+	   else
+	 */
       switch(iState)
-      {
-        
+      {  
+         counter = 0 ;
+         prevPos.x = state->homePos[botID].x ; prevPos.y = state->homePos[botID].y ;
          case APPROACHING:
          {
           /* Ball is not with bot so go to ball first */
@@ -417,16 +436,48 @@ bool isBallInDBox()
 
           if(ForwardX(state->ballPos.x) < ForwardX(state->homePos[botID].x)) 
             hasAchievedOffset = 0;
-            
-          sParam.GoToPointP.x = x3;
-          sParam.GoToPointP.y = y3;
+          
+		  if((abs(state->ballPos.y) > 0.8*HALF_FIELD_MAXY)&&(state->ballPos.x < state->homePos[botID].x)&&(ballBotDist<4*BOT_BALL_THRESH))
+		  {  
+			  /*
+			  float v_l , v_r ;
+			  sID = SkillSet::Velocity;  
+			  revolve(v_l,v_r,state,botID) ;
+			  sParam.VelocityP.vl = v_l ;
+			  sParam.VelocityP.vr = v_r ;
+			  sprintf(debug,"v_l = %d , v_r = %d",v_l,v_r);
+			  Client::debugClient->SendMessages(debug);
+			  skillSet->executeSkill(sID, sParam);
+			  break ;
+			  */
+			  
+			  sID = SkillSet::GoToPoint ;
+			  sParam.GoToPointP.x = state->ballPos.x - abs(state->ballVel.x)*((int)ballBotDist*40*factor);
+			  sParam.GoToPointP.y = state->ballPos.y - SGN(state->ballPos.y)*3*BOT_BALL_THRESH ;
+              sprintf(debug,"going into condition");
+			  Client::debugClient->SendMessages(debug);
+			  skillSet->executeSkill(sID,sParam) ;
+		      break ;
+		  
+		  }
+		    /*
+		    else
+			 if(state->ballPos.x > state->homePos[botID].x)
+			   {
+			    shoot(state,botID) ;
+			    break ;
+			   }
+			 */
+			 sParam.GoToPointP.x = x3;
+             sParam.GoToPointP.y = y3;
                   sprintf(debug,"x3 = %d y3 = %d\n",x3,y3);
                   ////Client::debugClient->SendMessages(debug);
           sprintf(debug,"i am here 6\n");
                   ////Client::debugClient->SendMessages(debug);
           sParam.GoToPointP.finalslope = Vector2D<int>::angle( decidedGoalPoint_new()/*Vector2D<int>(OPP_GOAL_X, 0)*/,state->ballPos);
           sParam.GoToPointP.increaseSpeed = 0;
-          if(hasAchievedOffset)
+		  
+		  if(hasAchievedOffset)
           {
                           //Client::debugClient->SendMessages("yee i have achived offset!!!!!!!!!!!!\n");
             sParam.GoToPointP.x = state->ballPos.x;

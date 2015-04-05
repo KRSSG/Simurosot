@@ -100,7 +100,65 @@ namespace MyStrategy
       }
       else  return false;
     }
-	
+	int opponentProbableGoalkeeper(){
+int distance=HALF_FIELD_MAXX/2;
+int id=-1;
+for(int i=0; i <5 ; i++){
+if(HALF_FIELD_MAXX-ForwardX(state->awayPos[i].x) < distance){
+if(state->awayPos[i].y < OPP_GOAL_MAXY + 2*BOT_RADIUS && state->awayPos[i].y > OPP_GOAL_MINY -2*BOT_RADIUS){ 
+     distance=HALF_FIELD_MAXX-ForwardX(state->awayPos[i].x);
+ id=i;
+}
+}
+} 
+return id;
+}
+
+Vector2D<int> decidedGoalPoint_new(){
+int id=opponentProbableGoalkeeper();
+Vector2D<int> pointToAttack;
+ if(id==-1){
+	  pointToAttack.x=HALF_FIELD_MAXX-GOAL_DEPTH;
+	  pointToAttack.y=0;
+	  return pointToAttack;
+ }
+ Vector2D<int> maxAttackP , minAttackP ;
+ Vector2D<int> minGoal(HALF_FIELD_MAXX - GOAL_DEPTH + 0.5*BOT_RADIUS,OPP_GOAL_MINY) ;
+ Vector2D<int> maxGoal(HALF_FIELD_MAXX - GOAL_DEPTH + 0.5*BOT_RADIUS,OPP_GOAL_MAXY) ;
+ float errAngle = PI*10/180 ;
+ 
+ if(state->ballPos.x < 0.6*HALF_FIELD_MAXX)
+ {
+      pointToAttack.x=HALF_FIELD_MAXX-GOAL_DEPTH;
+	  pointToAttack.y=0;
+	  return pointToAttack;
+ }
+ else
+ {
+    float maxshift = abs(abs(maxGoal.y-state->ballPos.y) - abs((maxGoal.x - state->ballPos.x)*tan(atan((maxGoal.y-state->ballPos.y)/(maxGoal.x - state->ballPos.x)) + errAngle))) ;
+	maxAttackP.x = HALF_FIELD_MAXX - GOAL_DEPTH + 0.5*BOT_RADIUS ;
+	maxAttackP.y = maxGoal.y - maxshift ;
+	float minshift = abs(abs(minGoal.y-state->ballPos.y) - abs((minGoal.x - state->ballPos.x)*tan(atan((state->ballPos.y - minGoal.x)/(minGoal.x - state->ballPos.x)) - errAngle))) ;
+    minAttackP.x = HALF_FIELD_MAXX - GOAL_DEPTH + 0.5*BOT_RADIUS ;
+	minAttackP.y = minGoal.y + minshift ;
+    
+	if(state->ballPos.x < 0.3*HALF_FIELD_MAXX)
+	{
+	  if(state->awayVel[id].y > 0 )
+	  {
+	   pointToAttack.x = minAttackP.x ;
+	   pointToAttack.y = minAttackP.y ;
+	  }
+	  else
+	  {
+	   pointToAttack.x = maxAttackP.x ;
+	   pointToAttack.y = maxAttackP.y ;  
+	  }
+	}
+	return pointToAttack ;
+ }
+
+}
 
 	
   void execute(const Param& tParam)
@@ -108,14 +166,22 @@ namespace MyStrategy
           float factor = 0.00005;
 		  		  int attID=state->ourBotNearestToBall;
 		  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
-		  float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(OPP_GOAL_X, 0));
-       int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
+		  float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(decidedGoalPoint_new().x,decidedGoalPoint_new().y));
+          int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
           int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x - BOT_RADIUS*cos(ang);//1
           int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y - BOT_RADIUS*sin(ang);  //1
 
-		  int x3 = (targetX * (ballgoaldist + offset) - offset * OPP_GOAL_X) / ballgoaldist - BOT_RADIUS*cos(ang);
-          int y3 = (targetY * (ballgoaldist + offset)) / ballgoaldist - BOT_RADIUS*sin(ang);
+		  int x3 = (targetX * (ballgoaldist + offset) - offset * decidedGoalPoint_new().x) / ballgoaldist - BOT_RADIUS*cos(ang);
+          int y3 = (targetY * (ballgoaldist + offset) - offset * decidedGoalPoint_new().y ) / ballgoaldist - BOT_RADIUS*sin(ang);
 
+		  if((abs(state->ballPos.y) > 0.8*HALF_FIELD_MAXY)&&(state->ballPos.x < state->homePos[botID].x)&&(ballBotDist<4*BOT_BALL_THRESH))
+		  {  
+			  sID = SkillSet::GoToPoint ;
+			  sParam.GoToPointP.x = state->ballPos.x - abs(state->ballVel.x)*((int)ballBotDist*40*factor);
+			  sParam.GoToPointP.y = state->ballPos.y - SGN(state->ballPos.y)*3*BOT_BALL_THRESH ;
+              skillSet->executeSkill(sID,sParam) ;
+		      return;
+		  }
 
 
 	
