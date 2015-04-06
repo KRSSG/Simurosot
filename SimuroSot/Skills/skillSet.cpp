@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <time.h>
 #include <fstream>
+#include "../winDebugger/Client.h"
 using namespace HAL;
 using namespace std;
 using namespace dlib;
@@ -36,6 +37,7 @@ namespace MyStrategy
   const int timeLCMs = 16;
   const double timeLC = timeLCMs*0.001;
   const int NUMTICKS = 300;
+  char debug[250];
 Comm*  SkillSet::comm = Comm::getInstance();
 
 string SkillSet::skillsCollection           = "Skills";
@@ -689,7 +691,8 @@ void SkillSet::_goToPointPolar (int botid, Vector2D<int> dpoint, float finalvel,
         vr = vr*speed/max;
     }
     // MiscData(k, v_curve, finalSpeed, rangeMin, rangeMax);
-
+	 sprintf(debug,"vl : %d , vr : %d \n",vl,vr);
+     Client::debugClient->SendMessages(debug);
 #if FIRA_COMM || FIRASSL_COMM
     comm->sendCommand(botID, vl, vr);
 #else
