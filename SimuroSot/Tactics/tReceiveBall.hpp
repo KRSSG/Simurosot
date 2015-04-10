@@ -6,7 +6,7 @@
 #include "../Skills/skillSet.h"
 #include "../Core/beliefState.h"
 #include "../common/include/config.h"
-
+#include "../winDebugger/Client.h"
 //**********************************new one************************
 namespace MyStrategy
 {
@@ -36,6 +36,7 @@ namespace MyStrategy
 
     int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
     {
+		/*
       float minv = *(freeBots.begin());
       float mindis = 1e12;
       const Vector2D<int> &ballpos = state->ballPos;
@@ -78,21 +79,22 @@ namespace MyStrategy
 
 	   else 
 		   return 3;
-      return 4;//minv;
+      */
+		return 2;//minv;
      } // chooseBestBot  :: will controlled by the tester function
 void execute(const Param& tParam)
 	 {
-	  char debug[50];
+	  char debug[250];
 	  Vector2D<int> dest;
 	//  if(state->ballPos.x>-HALF_FIELD_MAXX/2)
 	//	{
 			dest.x=state->ballPos.x-(2.5)*(state->ballPos.x-(HALF_FIELD_MAXX/2))/(HALF_FIELD_MAXX/2)*BOT_RADIUS; //0.5 as factor  dest.y =-SGN(state->ballPos.y)*HALF_FIELD_MAXY*0.4;//-SGN(state->ballPos.y)*1.5*BOT_RADIUS;
 			dest.y=SGN(state->ballPos.y)*0.35*HALF_FIELD_MAXY*(-1);
-			 
-			if(state->ballPos.x > (HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 2*BOT_RADIUS))
+			 int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos); 
+			if(state->ballPos.x > (HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 4*BOT_RADIUS))  // -2*BOT_RADIUS
                  { 
-					dest.x = state->ballPos.x; ; //HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 5*BOT_RADIUS ;  //
-			        dest.y = -1*state->ballPos.y;//-1*SGN(state->ballPos.y)*(OPP_GOAL_MAXY); // 
+					dest.x = HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 5*BOT_RADIUS ; //HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 5*BOT_RADIUS ;  //state->ballPos.x;
+			        dest.y =  -1*SGN(state->ballPos.y)*(0.5*OPP_GOAL_MAXY); // -1*SGN(state->ballPos.y)*(OPP_GOAL_MAXY); //  -1*state->ballPos.y;
                  }
 	    Vector2D<int> oppGoal(HALF_FIELD_MAXX,0);
 		if(dest.x < (-HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS))  //changed acc to rules ........................
@@ -107,12 +109,29 @@ void execute(const Param& tParam)
 			  dest.x =  HALF_FIELD_MAXX -GOAL_DEPTH - 2*BOT_RADIUS ;
 		  } 
 		*/
-	    sID = SkillSet::GoToPoint;
+		 if((ballBotDist<4*BOT_BALL_THRESH)&&(state->ballPos.x > state->homePos[botID].x)&&(state->homePos[botID].x > HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 7*BOT_RADIUS)&&(abs(state->homePos[botID].y)< OPP_GOAL_MAXY+ BOT_RADIUS))
+		 {
+		   		  sID = SkillSet::Velocity;
+				  sParam.VelocityP.vl = 120 ; //facto*ballBotDist ;
+				  sParam.VelocityP.vr = 120 ; //facto*ballBotDist ;
+			  
+			     // sprintf(debug,"dragging with v = %f \n",factor*ballBotDist);
+                 // Client::debugClient->SendMessages(debug);
+
+				  sprintf(debug,"attacklingo : %d",botID) ;
+				//	 Client::debugClient->SendMessages(debug);
+				  skillSet->executeSkill(sID,sParam) ;
+		     	  return ;
+		 }
+			 
+		sID = SkillSet::GoToPoint;
         sParam.GoToPointP.y = dest.y;
         sParam.GoToPointP.x = dest.x;
 		//sParam.GoToPointP.finalVelocity=0.4*MAX_BOT_SPEED;   //set acc to you
 		sParam.GoToPointP.align = true;
 		sParam.GoToPointP.finalslope=Vector2D<int>::angle(oppGoal,state->homePos[botID]);
+		sprintf(debug,"receiver : %d",botID) ;
+					 Client::debugClient->SendMessages(debug);
 		skillSet->executeSkill(sID,sParam);
     }
 

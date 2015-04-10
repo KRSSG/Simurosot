@@ -41,6 +41,7 @@ namespace MyStrategy
 
     int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
     {
+		/*
       int minv = *(freeBots.begin());
       int mindis = 1000000000;
       Point2D<int> goalPos(ForwardX(-(HALF_FIELD_MAXX)), 0);
@@ -59,7 +60,7 @@ namespace MyStrategy
           minv = *it;
         }
       }
-      
+      */
       return 0;//minv;
     } // chooseBestBot
 

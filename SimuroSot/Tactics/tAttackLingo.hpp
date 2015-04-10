@@ -57,6 +57,7 @@ namespace MyStrategy
 
     int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
     {
+		/*
       int minv = *(freeBots.begin());
       float angle_difference = firaNormalizeAngle(Vector2D<int>::angle(Vector2D<int>(OPP_GOAL_X, 0), state->ballPos)- state->homeAngle[*(freeBots.begin())]);
       int minwt = Vector2D<int>::dist(state->homePos[*(freeBots.begin())],state->ballPos) + angle_difference * ANGLE_TO_DIST;
@@ -85,7 +86,8 @@ namespace MyStrategy
       }
      // Util::// LoggertoStdOut("Selected bot %d\n", minv);
       return minv;
-
+	  */
+		return 3 ;
     } // chooseBestBot
 
     bool pointxInField(Vector2D<int> final)
@@ -114,6 +116,21 @@ if(state->awayPos[i].y < OPP_GOAL_MAXY + 2*BOT_RADIUS && state->awayPos[i].y > O
 return id;
 }
 
+int getAttacker()
+{
+	int id = 2 ;
+	int dist = 2*HALF_FIELD_MAXX ;
+ for(int i = 2 ; i < 4 ; i++)
+ {
+	 int botballDist = Vector2D<int>::dist(state->ballPos,state->homePos[botID]) ;
+	 if(botballDist<dist)
+	 {
+	  dist = botballDist ;
+	  id = i ;
+	 }
+ }
+ return id ;
+}
 Vector2D<int> decidedGoalPoint_new(){
 int id=opponentProbableGoalkeeper();
 Vector2D<int> pointToAttack;
@@ -164,7 +181,8 @@ Vector2D<int> pointToAttack;
   void execute(const Param& tParam)
     {  float offset = 600;
           float factor = 0.00005;
-		  		  int attID=state->ourBotNearestToBall;
+		  char debug[250] ;
+		  		  int attID=getAttacker();//state->ourBotNearestToBall;
 		  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
 		  float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(decidedGoalPoint_new().x,decidedGoalPoint_new().y));
           int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
@@ -174,6 +192,43 @@ Vector2D<int> pointToAttack;
 		  int x3 = (targetX * (ballgoaldist + offset) - offset * decidedGoalPoint_new().x) / ballgoaldist - BOT_RADIUS*cos(ang);
           int y3 = (targetY * (ballgoaldist + offset) - offset * decidedGoalPoint_new().y ) / ballgoaldist - BOT_RADIUS*sin(ang);
 
+		  if((state->ballPos.x > state->homePos[botID].x)&&(state->homePos[botID].x > HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 7*BOT_RADIUS)&&(abs(state->homePos[botID].y)< OPP_GOAL_MAXY+ BOT_RADIUS))
+		  {/*
+		       float shootFactor = (state->ballPos.x - state->homePos[botID].x)/(state->homePos[botID].y - state->ballPos.y) ;
+				 float ballSpeed = sqrt((int)(state->ballVel.x)^2 + (int)(state->ballVel.y)^2);
+				 float phi , theta ; 
+				 if(abs(state->ballPos.y) < 10)
+					 phi = 0 ;
+				 else
+					 phi = atan(state->ballPos.x/(-1*state->ballPos.y));
+
+				 theta = state->homeAngle[botID] ;
+				 float num = sin(phi) + shootFactor*cos(phi) ;
+				 float denum = cos(theta) - shootFactor*sin(theta) ;
+				 float v = (num/denum)*ballSpeed ;
+				 if(abs(v)>MAX_BOT_SPEED)
+					 v = SGN(v)*MAX_BOT_SPEED ;
+				  v  = -1*SGN(state->homePos[botID].y)*v ;
+				  sID = SkillSet::Velocity;
+				  sParam.VelocityP.vl = v ;
+				  sParam.VelocityP.vr = v ;
+			*/
+			  float facto = 5 ;
+			  if(ballBotDist<4*BOT_BALL_THRESH)
+			  {
+			      sID = SkillSet::Velocity;
+				  sParam.VelocityP.vl = 90 ; //facto*ballBotDist ;
+				  sParam.VelocityP.vr = 90 ; //facto*ballBotDist ;
+			  
+			     // sprintf(debug,"dragging with v = %f \n",factor*ballBotDist);
+                 // Client::debugClient->SendMessages(debug);
+
+				  sprintf(debug,"attacklingo : %d",botID) ;
+					 Client::debugClient->SendMessages(debug);
+				  skillSet->executeSkill(sID,sParam) ;
+		     	   return ;
+			  }
+		  }
 		  if((abs(state->ballPos.y) > 0.8*HALF_FIELD_MAXY)&&(state->ballPos.x < state->homePos[botID].x)&&(ballBotDist<4*BOT_BALL_THRESH))
 		  {  
 			  sID = SkillSet::GoToPoint ;

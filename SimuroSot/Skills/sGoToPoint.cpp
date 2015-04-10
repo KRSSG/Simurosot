@@ -23,9 +23,9 @@ namespace MyStrategy
     float dist = (state->homePos[botID] - Vector2D<int>(dpoint)).absSq();
     if(!param.GoToPointP.align )//|| dist < 9 * BOT_BALL_THRESH * BOT_BALL_THRESH)
       // For testting changing bellow calss to _goToPointPolar, originally _goToPoint
-		_goToPointPolar(botID, dpoint, finalvel, param.GoToPointP.finalslope, 0,param.GoToPointP.increaseSpeed,param.GoToPointP.trapezoidal);
+		_goToPoint(botID, dpoint, finalvel, param.GoToPointP.finalslope, 0,param.GoToPointP.increaseSpeed,param.GoToPointP.trapezoidal);
     else
-		_goToPointPolar(botID, dpoint, finalvel, param.GoToPointP.finalslope, CLEARANCE_PATH_PLANNER,param.GoToPointP.increaseSpeed,param.GoToPointP.trapezoidal);
+		_goToPoint(botID, dpoint, finalvel, param.GoToPointP.finalslope, CLEARANCE_PATH_PLANNER,param.GoToPointP.increaseSpeed,param.GoToPointP.trapezoidal);
   
   }
 }

@@ -637,7 +637,7 @@ void SkillSet::_goToPointPolar (int botid, Vector2D<int> dpoint, float finalvel,
     double rho = sqrt(initial.x*initial.x + initial.y*initial.y);
     double gamma = normalizeAngle(atan2(initial.y, initial.x) - theta + PI);
     double delta = normalizeAngle(gamma + theta);
-    double k1 = 0.05, k2 = 4, k3 = 20;
+    double k1 = 0.05, k2 = 4 , k3 = 20; //k1 = 0.05, k2 = 4, k3 = 20;
     double v = k1*rho*cos(gamma);
     double w;
     if(gamma == 0) {
@@ -691,8 +691,8 @@ void SkillSet::_goToPointPolar (int botid, Vector2D<int> dpoint, float finalvel,
         vr = vr*speed/max;
     }
     // MiscData(k, v_curve, finalSpeed, rangeMin, rangeMax);
-	 sprintf(debug,"vl : %d , vr : %d \n",vl,vr);
-     Client::debugClient->SendMessages(debug);
+	// sprintf(debug,"vl : %d , vr : %d \n",vl,vr);
+    // Client::debugClient->SendMessages(debug);
 #if FIRA_COMM || FIRASSL_COMM
     comm->sendCommand(botID, vl, vr);
 #else

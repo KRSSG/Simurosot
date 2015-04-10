@@ -27,7 +27,7 @@ namespace MyStrategy
     TAttack(const BeliefState* state, int botID) :
       Tactic(Tactic::Attack, state, botID)
     {
-      iState = APPROACHING;
+      iState = DRAG ; //APPROACHING;
       for(int i=0; i<10; i++)
         movementError[i] = 0;
       movementErrorSum  = 0;
@@ -46,6 +46,7 @@ namespace MyStrategy
       SPINNING_CW,
       ATTACKING,
       CLOSE_TO_BALL,
+	  DRAG ,
       STUCK
     } iState;
     int hasAchievedOffset;
@@ -56,7 +57,8 @@ namespace MyStrategy
 
     int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
     {
-      int minv = *(freeBots.begin());
+      /*
+	  int minv = *(freeBots.begin());
       float angle_difference = firaNormalizeAngle(Vector2D<int>::angle(Vector2D<int>(OPP_GOAL_X, 0), state->ballPos)- state->homeAngle[*(freeBots.begin())]);
       int minwt = Vector2D<int>::dist(state->homePos[*(freeBots.begin())],state->ballPos) + angle_difference * ANGLE_TO_DIST;
       
@@ -97,8 +99,8 @@ namespace MyStrategy
 	 
 	 }
      // Util::// LoggertoStdOut("Selected bot %d\n", minv);
-     
-
+     */
+		return 4 ;
     } // chooseBestBot
 
     bool pointxInField(Vector2D<int> final)
@@ -149,10 +151,10 @@ Vector2D<int> pointToAttack;
  }
  else
  {
-    float maxshift = abs(abs(maxGoal.y-state->ballPos.y) - abs((maxGoal.x - state->ballPos.x)*tan(atan((maxGoal.y-state->ballPos.y)/(maxGoal.x - state->ballPos.x)) + errAngle))) ;
+    float maxshift = abs(abs(maxGoal.y-state->ballPos.y) - abs((maxGoal.x -  0.7*HALF_FIELD_MAXX/* state->ballPos.x*/)*tan(atan((maxGoal.y-state->ballPos.y)/(maxGoal.x -  0.7*HALF_FIELD_MAXX/* state->ballPos.x*/)) + errAngle))) ;
 	maxAttackP.x = HALF_FIELD_MAXX - GOAL_DEPTH + 0.5*BOT_RADIUS ;
 	maxAttackP.y = maxGoal.y - maxshift ;
-	float minshift = abs(abs(minGoal.y-state->ballPos.y) - abs((minGoal.x - state->ballPos.x)*tan(atan((state->ballPos.y - minGoal.x)/(minGoal.x - state->ballPos.x)) - errAngle))) ;
+	float minshift = abs(abs(minGoal.y-state->ballPos.y) - abs((minGoal.x - 0.7*HALF_FIELD_MAXX/* state->ballPos.x*/)*tan(atan((state->ballPos.y - minGoal.x)/(minGoal.x - 0.7*HALF_FIELD_MAXX/* state->ballPos.x*/)) - errAngle))) ;
     minAttackP.x = HALF_FIELD_MAXX - GOAL_DEPTH + 0.5*BOT_RADIUS ;
 	minAttackP.y = minGoal.y + minshift ;
     
@@ -344,6 +346,7 @@ bool isBallInDBox()
       SPINNING_CW,
       ATTACKING,
       CLOSE_TO_BALL,
+	  DRAG ,
       STUCK);
 		////Client::debugClient->SendMessages(debug);
 		//iState = SPINNING_CCW;
@@ -372,7 +375,66 @@ bool isBallInDBox()
       {  
          counter = 0 ;
          prevPos.x = state->homePos[botID].x ; prevPos.y = state->homePos[botID].y ;
-         case APPROACHING:
+	     case DRAG:
+		 {
+		   if((state->homePos[botID].x <  HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 7*BOT_RADIUS)||(abs(state->homePos[botID].y)>OPP_GOAL_MAXY+ BOT_RADIUS)||(state->ballPos.x < state->homePos[botID].x))
+ 		   {
+               if(dist<BOT_BALL_THRESH)
+               {
+                  iState = CLOSE_TO_BALL ;
+                  break;
+               }
+			   else
+			   {
+			     iState = APPROACHING ;
+			     break ;
+			   }
+
+		   }
+			 else
+			 {
+				 if(dist < 2*BOT_BALL_THRESH)
+				 {
+				    iState = CLOSE_TO_BALL ;
+					break ;
+				 }
+
+				 float shootFactor = (state->ballPos.x - state->homePos[botID].x)/(state->homePos[botID].y - state->ballPos.y) ;
+				 float ballSpeed = pow((pow(abs(state->ballVel.x),2) + pow(abs(state->ballVel.y),2)),0.5);
+				 float phi , theta ; 
+				 if(abs(state->ballPos.y) < 10)
+					 phi = 0 ;
+				 else
+					 phi = atan(state->ballPos.x/(state->ballPos.y));
+
+				 theta = state->homeAngle[botID] ;
+				 float num = sin(phi) + shootFactor*cos(phi) ;
+				 float denum = cos(theta) - shootFactor*sin(theta) ;
+			     float v ;
+				 if(denum < .05)
+					v = MAX_BOT_SPEED ;
+				 else
+				    v = abs((num/denum)*ballSpeed) ;
+				 if(abs(v)>MAX_BOT_SPEED)
+					 v = SGN(v)*MAX_BOT_SPEED ;
+				  v  = -1*SGN(state->homePos[botID].y)*v ;
+				  sID = SkillSet::Velocity;
+				  sParam.VelocityP.vl = 90 ; //v ;
+				  sParam.VelocityP.vr = 90 ; //v ;
+
+				    sprintf(debug,"dragging with v = %f \n",v);
+            //        Client::debugClient->SendMessages(debug);
+					sprintf(debug,"num = %f , denum = %f , ballSpeed = %f , phi = %f , theta = %f \n",num,denum,ballSpeed,phi,theta);
+              //      Client::debugClient->SendMessages(debug);
+					sprintf(debug,"attacker : %d",botID) ;
+					 Client::debugClient->SendMessages(debug);
+				  skillSet->executeSkill(sID,sParam) ;
+				  break ;
+
+			 }
+
+		 }
+	     case APPROACHING:
          {
           /* Ball is not with bot so go to ball first */
                     sprintf(debug,"dist = %f\n",dist);
@@ -382,7 +444,12 @@ bool isBallInDBox()
             iState = CLOSE_TO_BALL ;
             break;
           }
-		 // shoot();
+		  if((dist>4*BOT_BALL_THRESH)&&(state->ballPos.x > state->homePos[botID].x)&&(state->homePos[botID].x > HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 7*BOT_RADIUS)&&(abs(state->homePos[botID].y)< OPP_GOAL_MAXY+ BOT_RADIUS))
+		  {
+		       iState = DRAG ;
+			   break ;
+		  }
+			  // shoot();
 		 //  break;
                    sprintf(debug,"i am here 1\n");
                         ////Client::debugClient->SendMessages(debug);
@@ -391,8 +458,8 @@ bool isBallInDBox()
 		  float ballgoaldist = Vector2D<int>::dist(state->ballPos, decidedGoalPoint_new());// Vector2D<int>(OPP_GOAL_X, 0));
                   sprintf(debug,"ballgoaldist = %f\n",ballgoaldist);
                   ////Client::debugClient->SendMessages(debug);
-          float offset = 600;
-          float factor = 0.00005;
+          float offset = 600;//600;
+          float factor = 0.00005 ;//0.00005;
           int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
           int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x;
           int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y;
@@ -454,8 +521,8 @@ bool isBallInDBox()
 			  sID = SkillSet::GoToPoint ;
 			  sParam.GoToPointP.x = state->ballPos.x - abs(state->ballVel.x)*((int)ballBotDist*40*factor);
 			  sParam.GoToPointP.y = state->ballPos.y - SGN(state->ballPos.y)*3*BOT_BALL_THRESH ;
-              sprintf(debug,"going into condition");
-			  Client::debugClient->SendMessages(debug);
+          //    sprintf(debug,"going into condition");
+		//	  Client::debugClient->SendMessages(debug);
 			  skillSet->executeSkill(sID,sParam) ;
 		      break ;
 		  
@@ -468,14 +535,14 @@ bool isBallInDBox()
 			    break ;
 			   }
 			 */
-			 sParam.GoToPointP.x = x3;
-             sParam.GoToPointP.y = y3;
+		  sParam.GoToPointP.x = x3;
+          sParam.GoToPointP.y = y3;
                   sprintf(debug,"x3 = %d y3 = %d\n",x3,y3);
                   ////Client::debugClient->SendMessages(debug);
           sprintf(debug,"i am here 6\n");
                   ////Client::debugClient->SendMessages(debug);
           sParam.GoToPointP.finalslope = Vector2D<int>::angle( decidedGoalPoint_new()/*Vector2D<int>(OPP_GOAL_X, 0)*/,state->ballPos);
-          sParam.GoToPointP.increaseSpeed = 0;
+          sParam.GoToPointP.increaseSpeed = 10; //0
 		  
 		  if(hasAchievedOffset)
           {
@@ -483,7 +550,7 @@ bool isBallInDBox()
             sParam.GoToPointP.x = state->ballPos.x;
             sParam.GoToPointP.y = state->ballPos.y;
             sParam.GoToPointP.finalslope = Vector2D<int>::angle( state->ballPos,state->homePos[botID]);
-            sParam.GoToPointP.increaseSpeed = 1;
+            sParam.GoToPointP.increaseSpeed = 10;  //1
 
           }
 		    else sParam.GoToPointP.trapezoidal = true;
@@ -491,7 +558,7 @@ bool isBallInDBox()
 			sprintf(debug,"Going to point %f %f\n",sParam.GoToPointP.x,sParam.GoToPointP.y);
 			//Client::debugClient->SendMessages(debug);
 			sParam.GoToPointP.align = false;
-      if(ForwardX(state->ballPos.x) < ForwardX(state->homePos[botID].x) && Vector2D<int>::dist(state->ballPos,state->homePos[botID]) < 1000) 
+         if(ForwardX(state->ballPos.x) < ForwardX(state->homePos[botID].x) && Vector2D<int>::dist(state->ballPos,state->homePos[botID]) < 1000) 
 		  sParam.GoToPointP.align = true;
    //resricting     
 	/*  if((sParam.GoToPointP.x < -HALF_FIELD_MAXX/2)&&(abs(state->ballPos.y)<0.6*HALF_FIELD_MAXY))
@@ -512,7 +579,8 @@ bool isBallInDBox()
 		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.5;
 		  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*3*BOT_RADIUS;
 	  }
-
+	   //sprintf(debug,"shift = %d , %d",(state->ballPos.x - x3),(state->ballPos.y - y3));
+       //Client::debugClient->SendMessages(debug);
 
 	  skillSet->executeSkill(sID, sParam);
           
