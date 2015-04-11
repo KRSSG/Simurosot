@@ -419,8 +419,8 @@ bool isBallInDBox()
 					 v = SGN(v)*MAX_BOT_SPEED ;
 				  v  = -1*SGN(state->homePos[botID].y)*v ;
 				  sID = SkillSet::Velocity;
-				  sParam.VelocityP.vl = 90 ; //v ;
-				  sParam.VelocityP.vr = 90 ; //v ;
+				  sParam.VelocityP.vl = 120 ; //v ;
+				  sParam.VelocityP.vr = 120 ; //v ;
 
 				    sprintf(debug,"dragging with v = %f \n",v);
             //        Client::debugClient->SendMessages(debug);
