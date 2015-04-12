@@ -641,7 +641,6 @@ bool isBallInDBox()
 			return;
 		  }
 		  */
-			sID = SkillSet::GoToPoint;
 		/*	int desty = 0;
 			//Client::debugClient->SendMessages("ATTACKING\n");
 			Vector2D<int> GoalMidPoint  (OPP_GOAL_X,0);
@@ -661,8 +660,18 @@ bool isBallInDBox()
 			float minGoalAngle  =  Vector2D<int>::angle(GoalLeftPoint,state->homePos[botID]);
 			float maxGoalAngle =  Vector2D<int>::angle(state->homePos[botID],GoalRightPoint);
             */
-			
-			
+		    if(state->ballPos.x >( HALF_FIELD_MAXX - GOAL_DEPTH - 0.7*BOT_RADIUS - 2*BOT_RADIUS))
+			{
+				if((abs(state->ballPos.y < state->homePos[botID].y))&&(abs(state->ballPos.y)>OPP_GOAL_MAXY-BOT_RADIUS)&&((abs(state->ballPos.y)<OPP_GOAL_MAXY+ 2*BOT_RADIUS)))
+				{
+					sID = SkillSet::Velocity ;
+					sParam.VelocityP.vl = 120 ;
+					sParam.VelocityP.vr = 120 ;
+					skillSet->executeSkill(sID,sParam);
+					break ;
+				}
+			}
+						sID = SkillSet::GoToPoint;
 			sParam.GoToPointP.align = false;
 			sParam.GoToPointP.x = decidedGoalPoint_new().x;
 			sParam.GoToPointP.y = decidedGoalPoint_new().y;
