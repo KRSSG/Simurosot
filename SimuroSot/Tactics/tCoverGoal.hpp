@@ -364,6 +364,7 @@ if(dist_from_goal + factor * perpend_dist < mindis)
     bool clearing_chance()
     {
 
+
 		//if((state->ballPos.x >= state->homePos[1].x)&&(state->ballPos.x < 0))// 0.1*HALF_FIELD_MAXX))
           if(state->ballPos.x < 0)
 			  return true;

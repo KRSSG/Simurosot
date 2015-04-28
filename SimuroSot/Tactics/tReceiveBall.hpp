@@ -131,7 +131,7 @@ void execute(const Param& tParam)
 		sParam.GoToPointP.align = true;
 		sParam.GoToPointP.finalslope=Vector2D<int>::angle(oppGoal,state->homePos[botID]);
 		sprintf(debug,"receiver : %d",botID) ;
-					 Client::debugClient->SendMessages(debug);
+			//		 Client::debugClient->SendMessages(debug);
 		skillSet->executeSkill(sID,sParam);
     }
 

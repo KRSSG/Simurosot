@@ -131,7 +131,7 @@ public:
       {
         sprintf(debug,"Ball Pos = %d, %d \n", state.pr_ballOurSide,state.pr_ballOppSide);
 		//  sprintf(debug,"Bot Pos = %d, %d    Distance %f\n", state.homePos[1].x, state.homePos[1].y,Vector2D<int>::dist(state.homePos[1],state.ballPos));
-		  Client::debugClient->SendMessages(debug);
+		//  Client::debugClient->SendMessages(debug);
 		 
 		  //********************************************************
 		  

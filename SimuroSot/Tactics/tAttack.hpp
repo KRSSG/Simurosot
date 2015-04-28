@@ -427,7 +427,7 @@ bool isBallInDBox()
 					sprintf(debug,"num = %f , denum = %f , ballSpeed = %f , phi = %f , theta = %f \n",num,denum,ballSpeed,phi,theta);
               //      Client::debugClient->SendMessages(debug);
 					sprintf(debug,"attacker : %d",botID) ;
-					 Client::debugClient->SendMessages(debug);
+					// Client::debugClient->SendMessages(debug);
 				  skillSet->executeSkill(sID,sParam) ;
 				  break ;
 

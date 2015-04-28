@@ -224,7 +224,7 @@ Vector2D<int> pointToAttack;
                  // Client::debugClient->SendMessages(debug);
 
 				  sprintf(debug,"attacklingo : %d",botID) ;
-					 Client::debugClient->SendMessages(debug);
+			//		 Client::debugClient->SendMessages(debug);
 				  skillSet->executeSkill(sID,sParam) ;
 		     	   return ;
 			  }

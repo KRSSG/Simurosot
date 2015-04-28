@@ -300,7 +300,7 @@ namespace MyStrategy
 	  else if(ballPos.x < -HALF_FIELD_MAXX+GOAL_DEPTH && ballPos.y < OUR_GOAL_MAXY && ballPos.y > OUR_GOAL_MINY){
 		  if(ballOurGoal==false){
 		       oppGoalCount++;
-			   print("ourGoal Scored is %d",ourGoalCount);
+			 //  print("ourGoal Scored is %d",ourGoalCount);
 		  }
 		  ballOurGoal=true;
 	  }

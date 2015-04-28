@@ -3,7 +3,7 @@
 #include <iostream>
 #define debugger
 
-Client* Client::debugClient=Client::getInstance();
+//Client* Client::debugClient=Client::getInstance();
 
  Client* Client::getInstance()
 {

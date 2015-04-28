@@ -33,9 +33,9 @@ namespace MyStrategy
     const int num_plays = PlayBook::None;
 	char deb[200];
 	sprintf(deb,"Selecting Next Play...\n");
-	Client::debugClient->SendMessages(deb);
+//	Client::debugClient->SendMessages(deb);
 	//sprintf(deb,"Ball Our: %d Opp: %d Loose: %d\n", state->pr_ourBall,state->pr_oppBall,state->pr_looseBall);
-	Client::debugClient->SendMessages(deb);
+	//Client::debugClient->SendMessages(deb);
     //debug(D_PS, "Selecting Next Play...");
     //debug(D_PS, "Game Running: ", state->pr_gameRunning);
     //debug(D_PS, "Ball Our:", state->pr_ourBall, " Opp:", state->pr_oppBall, " Loose:", state->pr_looseBall);
@@ -45,7 +45,7 @@ namespace MyStrategy
       //debug(D_PS, "Play:", playList[pID]->name, 
 //            "Applicability:", appl[pID], "Weight:", playList[pID]->weight);
 	  sprintf(deb,"Play ID: %d Applicability: %d Weight: %f\n", pID,appl[pID],playList[pID]->weight);
-	  Client::debugClient->SendMessages(deb);
+	//  Client::debugClient->SendMessages(deb);
     }
 
     float cumWeight = 0.0f;
@@ -89,7 +89,7 @@ namespace MyStrategy
     }
  */
     sprintf(deb,"selected play %d\n",playID);
-     Client::debugClient->SendMessages(deb);
+   //  Client::debugClient->SendMessages(deb);
     assert(playID != PlayBook::None); // No play selected
 
 	//playID = PlayBook::Offense2;
