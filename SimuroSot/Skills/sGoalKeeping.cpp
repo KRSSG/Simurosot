@@ -193,9 +193,9 @@ return flag ;
 			 if(float d = Vector2D<int>::dist(state->awayPos[state->oppBotNearestToBall],state->homePos[botID])<1*BOT_BALL_THRESH && state->ballPos.x<state->awayPos[state->oppBotNearestToBall].x && state->ballPos.x>state->homePos[botID].x && abs(state->awayPos[state->oppBotNearestToBall].y)<abs(state->homePos[botID].y+BOT_BALL_THRESH))
 			 {
 				 if(state->ballPos.y>state->homePos[botID].y)
-				comm->sendCommand(botID,MAX_BOT_SPEED/16,-MAX_BOT_SPEED/16);
+				comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED);
 				else
-				 comm->sendCommand(botID,-MAX_BOT_SPEED/16,MAX_BOT_SPEED/16);
+				 comm->sendCommand(botID,-MAX_BOT_SPEED,MAX_BOT_SPEED);
 			}
 			 else
 			 {

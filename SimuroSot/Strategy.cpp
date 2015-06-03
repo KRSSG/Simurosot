@@ -4,12 +4,11 @@
 #include "stdafx.h"
 #include "Strategy.h"
 #include "./Core/tester.hpp"
-#include "./Core/worker.hpp"
 #include "./HAL/comm.h"
 #include <math.h>
 #include "winDebugger/Client.h"
 static bool run = true;
-const bool test =true;
+const bool test =true;            // always true Dont TOUCH !! :p
 bool FIELD_IS_INVERTED =false;
 BOOL APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
@@ -36,8 +35,6 @@ MyStrategy::BeliefState state;
    Kalman      kFilter;
    Util::CS writer_mutex;
 Util::CS writer_preference;
-Worker w(run,state,&writer_mutex,&writer_preference,kFilter);
-
  int counter;
   
 
@@ -72,12 +69,8 @@ extern "C" STRATEGY_API void Strategy ( Environment *env )
 	kFilter.update(state);
   state.update();
   //}
-  if(test)	
 	  t.run();
-	else	
-	  w.run();
 	int testInt = 100;	
-	int k;
 
 	counter++;
 	/*char data[250];

@@ -11,7 +11,7 @@
 
 #define MINIMUM(a,b) ({typeof(a) _a = (a); typeof(b) _b = (b); (_a < _b) ? _a : _b;})
 #define MAXIMUM(a,b) ({typeof(a) _a = (a); typeof(b) _b = (b); (_a > _b) ? _a : _b;})
-#define ABSOLUTE(a)  ({typeof(a) _a = (a); (_a < 0) ? -_a : _a;})
+//#define ABSOLUTE(a)  ({typeof(a) _a = (a); (_a < 0) ? -_a : _a;})
 
 #include "../common/include/config.h"
 

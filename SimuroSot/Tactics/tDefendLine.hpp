@@ -56,7 +56,7 @@ namespace MyStrategy
 
     void execute(const Param& tParam)
     {
-      char message[250];
+      char debug[250];
 
       switch(iState)
       {

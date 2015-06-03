@@ -115,8 +115,6 @@ namespace MyStrategy
                             float curSlope, float finalSlope, float &t, float &r, CommType *comm, int clearance)
   {
     /// Adding debug circle/line for destination point/angle
-    comm->addCircle(final.x, final.y, 100);
-    comm->addLine(final.x, final.y, final.x + 200*cos(finalSlope), final.y+20*sin(finalSlope), 0xF0F00C);
     Vector2D<int> boundaryPoint, leftBiasI, rightBiasI, leftBiasB, rightBiasB;
     theta = normalizeAngle(Vector2D<int>::angle(final, initial));
     phiStar = finalSlope;
@@ -160,12 +158,11 @@ namespace MyStrategy
     }
     /// adding boundary code
     int boundaryRadius = BOT_RADIUS * 2; // radius to check for boundary
-    comm->addCircle(initial.x, initial.y, boundaryRadius);
     for(unsigned int i = 0; i < boundaries.size(); i++)
     {
       Point2D<int> &p1 = boundaries[i].first;
       Point2D<int> &p2 = boundaries[i].second;
-      comm->addLine(p1.x, p1.y, p2.x, p2.y);
+     
       if(Intersection::lineInCircle(p1.x, p1.y, p2.x, p2.y, initial.x, initial.y, boundaryRadius))
       {
         //Invalidating angle using close bouundaries
@@ -173,10 +170,7 @@ namespace MyStrategy
         Point2D<int> &p1_close = closeBoundaries[i].first;
         Point2D<int> &p2_close = closeBoundaries[i].second;
 //        printf("<<< Intersecting with boundary!!\n");
-        comm->addLine(p1.x, p1.y, p2.x, p2.y);
         std::pair<Point2D<int>, Point2D<int> > tempPair = Intersection::getLineCirclePoints(p1.x, p1.y, p2.x, p2.y, initial.x, initial.y, boundaryRadius);
-        comm->addLine(initial.x, initial.y, tempPair.first.x, tempPair.first.y);
-        comm->addLine(initial.x, initial.y, tempPair.second.x, tempPair.second.y);
         float tempAngle1 = Vector2D<int>::angle(tempPair.first, initial);
         float tempAngle2 = Vector2D<int>::angle(tempPair.second, initial);
         /// expanding angle as suggested by akshay, soumyadeep.
@@ -214,7 +208,6 @@ namespace MyStrategy
    
     boundaryPoint.x = initial.x + COLLISION_DIST * cos(thetaD);
     boundaryPoint.y = initial.y + COLLISION_DIST * sin(thetaD);
-    comm->addLine(initial.x, initial.y, boundaryPoint.x, boundaryPoint.y, 0xFF00FF);
     for(unsigned int i=0; i<boundaries.size(); i++)
     {
       Point2D<int> &p1 = boundaries[i].first;

@@ -151,6 +151,14 @@ namespace MyStrategy
                   ////Client::debugClient->SendMessages(debug);
           float offset = 600;
           float factor = 0.00005;
+		  if(state->ballVel.x<200 && state->ballVel.y<200 )
+			  factor=0.00002;
+		  else if(state->ballVel.x<1000 && state->ballVel.y<1000 )
+			  factor=0.00005;
+		  else
+			  factor=0.00006;
+
+
           int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
           int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x;
           int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y;
@@ -299,11 +307,20 @@ namespace MyStrategy
 			//skillSet->executeSkill(sID,sParam);
 			//return;
             //if( Vector2D<int>::dist(state->ballPos,state->homePos[botID]) < BOT_BALL_THRESH*1.1 )
-              //iState2 = CLOSE_TO_BALL;
+              iState2 = CLOSE_TO_BALL;
 			if(sParam.GoToPointP.x < -HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS)   //acc to rules .....................
 				sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS;
-         skillSet->executeSkill(sID, sParam);
+         
 
+		//	if(sParam.GoToPointP.x<-HALF_FIELD_MAXX +GOAL_DEPTH+ BOT_BALL_THRESH*1.5 && abs(sParam.GoToPointP.y)<OUR_GOAL_MAXY+2*BOT_RADIUS)
+		//{
+		//	sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH + 3*BOT_RADIUS;
+		//		//sParam.GoToPointP.y =-state->homePos[0].y;
+		//}
+	  //   if( state->homePos[botID].x <-HALF_FIELD_MAXX+2*GOAL_DEPTH+1.5*BOT_RADIUS && abs(sParam.GoToPointP.y)<OUR_GOAL_MAXY)
+			//sParam.GoToPointP.finalVelocity = MAX_BOT_SPEED/3;
+
+		 skillSet->executeSkill(sID, sParam);
 			break;
 		}
 

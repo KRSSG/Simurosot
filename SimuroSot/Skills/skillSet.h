@@ -2,7 +2,6 @@
 #pragma once
 #ifndef SKILLS_H
 #define SKILLS_H
-#include "..\Learning\evaluator.h"
 #include "..\common\dlib\dlib\svm.h"
 #include "../HAL/comm.h"
 #include <vector>
@@ -10,7 +9,6 @@
 // Forward Declarations
 namespace MyStrategy
 {
-  class ERRT;
   class MergeSCurve;
   class LocalAvoidance;
   class BeliefState;
@@ -61,7 +59,7 @@ namespace MyStrategy
         float x;
         float y;
         float finalslope;
-      } DribbleToPointP, TurnToPointP, DefendPointP;
+      } DribbleToPointP, TurnToPointP, DefendPointP,GoToPointDWP;
       struct type6
       {
         float finalslope;
@@ -90,20 +88,17 @@ namespace MyStrategy
     enum SkillID
     {
       Spin,
-      SpinToGoal,
       Stop,
       Velocity,
       GoToBall,
       GoToPoint,
+	  GoToPointDW,
       GoalKeeping,
-      DribbleToPoint,
       TurnToPoint,
       TurnToAngle,
       DefendPoint,
-//      DribbleToGoal,
       GoToPointStraight,
       GoToBallStraight,
-	  GoToPointGoalie,   //BOT_POINT_THESH reduced for Goalie
 	  ChargeBall,
       MAX_SKILLS
     };
@@ -119,13 +114,13 @@ namespace MyStrategy
 #else
     MergeSCurve*       pathPlanner;
 #endif
-    ERRT*              errt;
     
     /* TODO: Extra Shit, relevance needs to be verified
      */
     bool pointyInField(Vector2D<int> fianl);
     void _goToPoint(int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance,bool increaseSpeed=0,bool trapz = false);
-    void _goToPointPolar(int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance,bool increaseSpeed=0,bool trapz = false);
+    void _goToPointDW(int botid, Vector2D<int> dpoint, float finalvel, float finalslope);
+	void _goToPointPolar(int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance,bool increaseSpeed=0,bool trapz = false);
 	    void _goToPointLessThresh(int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance,bool increaseSpeed=0);
     void _dribbleToPoint(int botID, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance);
     void _turnToAngle(float angle, float *vl, float *vr);
@@ -148,16 +143,11 @@ namespace MyStrategy
     void velocity(const SParam& param);
     void goToBall(const SParam& param);
     void goToPoint(const SParam& param);
-	 void goToPointGoalie(const SParam& param);
-    void dribbleToPoint(const SParam& param);
-    void receiveBall(const SParam& param);
+	void goToPointDW(const SParam& param);
     void goalKeeping(const SParam& param);
-    void spinToGoal(const SParam& param);
-    //void kickToGoal(const SParam& param);
     void turnToPoint(const SParam& param);
     void turnToAngle(const SParam& param);
     void defendPoint(const SParam& param);
-    void dribbleToGoal(const SParam& param);
     void goToPointStraight(const SParam& param);
     void goToBallStraight(const SParam& param);
 	void chargeBall(const SParam& param);
@@ -190,22 +180,6 @@ namespace MyStrategy
     {
       (*this.*skillList[ID])(param);
     } // executeSkill
-    
-    //QtDebugger Compatibility Functions
-    static std::list<HAL::Debug_Circle> getCircles()
-    {
-      return comm->getCircles();
-    }
-    static std::list<HAL::Debug_Line> getLines()
-    {
-      return comm->getLines();
-    }
-    static void clearDebugData()
-    {
-#ifdef FIRASSL_COMM
-      comm->clearDebugData();
-#endif
-    }
   }; // class SkillSet
 } // namespace MyStrategy
 #endif // SKILLS_H

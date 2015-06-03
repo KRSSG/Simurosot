@@ -282,15 +282,11 @@ namespace MyStrategy {
     return get_perpendicular_base(state->ballPos, state->ballVel, state->homePos[botID], perpendicularBase, alpha);
   }
   void Tactic::moveToBlockBall() {
-    SkillSet::comm->addArrow(state->ballVel.x + state->ballPos.x, state->ballVel.y + state->ballPos.y,
-                            state->ballPos.x, state->ballPos.y, 0x0000FF);
     const float leadTime = 1; // check for position after 1 second
     Vector2D<int> lead(leadTime * state->ballVel.x, leadTime * state->ballVel.y);
     Vector2D<int> targetPos = state->ballPos + lead;
     float alpha; Vector2D<int> perpendicularBase;
     float perpendicular_go = get_perpendicular_base(state->ballPos, state->ballVel, state->homePos[botID], perpendicularBase, alpha);
-    SkillSet::comm->addArrow(perpendicularBase.x, perpendicularBase.y,
-                            state->homePos[botID].x, state->homePos[botID].y, 0xFF0000);
     if(perpendicular_go) {
       float finalSlope   = Vector2D<int>::angle(state->ballPos, state->homePos[botID]);
       ///Was goToPointQuick

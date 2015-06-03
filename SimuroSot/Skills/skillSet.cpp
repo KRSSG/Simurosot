@@ -9,7 +9,6 @@
 #include "../common/include/config.h"
 #include "../HAL/comm.h"
 #include "../common/include/geometry.hpp"
-#include "../Core/dataBox.h"
 #include "../winDebugger/Client.h"
 #include "../pose.h"
 #include <math.h>
@@ -67,19 +66,17 @@ SkillSet::SkillSet(const BeliefState* state, const int botID) :
   // Mapping the skill IDs to their corresponding function pointers
   skillList[Spin]           = &SkillSet::spin;
   skillList[Stop]           = &SkillSet::stop;
-  skillList[SpinToGoal]     = &SkillSet::spinToGoal;
   skillList[Velocity]       = &SkillSet::velocity;
   skillList[GoToBall]       = &SkillSet::goToBall;
   skillList[GoToPoint]      = &SkillSet::goToPoint;
-  skillList[DribbleToPoint] = &SkillSet::dribbleToPoint;
+  skillList[GoToPointDW]    = &SkillSet::goToPointDW;
   skillList[TurnToAngle] = &SkillSet::turnToAngle;
   skillList[TurnToPoint] = &SkillSet::turnToPoint;
   skillList[DefendPoint] = &SkillSet::defendPoint;
   skillList[GoalKeeping] = &SkillSet::goalKeeping;
   skillList[GoToPointStraight] = &SkillSet::goToPointStraight;
   skillList[GoToBallStraight] = &SkillSet::goToBallStraight;
-   skillList[GoToPointGoalie]      = &SkillSet::goToPointGoalie;
-   skillList[ChargeBall]		   = &SkillSet::chargeBall;
+  skillList[ChargeBall]		   = &SkillSet::chargeBall;
   // Initialization check
   for (int sID = 0; sID < MAX_SKILLS; ++sID)
   {
@@ -96,7 +93,6 @@ SkillSet::SkillSet(const BeliefState* state, const int botID) :
 } // SkillSet
 SkillSet::~SkillSet()
 {
-  delete errt;
   delete pathPlanner;
 #ifdef LOCAL_AVOID
   //delete pathPlannerSec;
@@ -133,11 +129,8 @@ void SkillSet::errorLog(int botid,float translation,float rotation)
 
 void SkillSet::_goToPoint(int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance = CLEARANCE_PATH_PLANNER,bool increaseSpeed,bool trapz)
   {
-    comm->addCircle(0, 0, 0);
-    comm->addLine(0, 0, 0, 0);
     std::vector<obstacle> obs;
     obstacle obsTemp;
-    comm->addLine(state->ballPos.x, state->ballPos.y, state->ballPos.x + state->ballVel.x, state->ballPos.y + state->ballVel.y);
     for (int i = 0; i < HomeTeam::SIZE ; ++i)
     {
       /// Adding Condition to REMOVE all obstacles that are sufficiently CLOSE to BALL
@@ -150,7 +143,6 @@ void SkillSet::_goToPoint(int botid, Vector2D<int> dpoint, float finalvel, float
           obsTemp.y = state->homePos[i].y;
           obsTemp.radius =  BOT_RADIUS;
           obs.push_back(obsTemp);
-          comm->addCircle(obs[obs.size() - 1].x, obs[obs.size() - 1].y, BOT_RADIUS * 2);
         }
       }
     }
@@ -166,7 +158,6 @@ void SkillSet::_goToPoint(int botid, Vector2D<int> dpoint, float finalvel, float
           obsTemp.y = state->awayPos[i].y;
           obsTemp.radius =  BOT_RADIUS;
           obs.push_back(obsTemp);
-          comm->addCircle(obs[obs.size() - 1].x, obs[obs.size() - 1].y, BOT_RADIUS * 2);
         }
       }
     }
@@ -319,11 +310,8 @@ void SkillSet::_goToPoint(int botid, Vector2D<int> dpoint, float finalvel, float
 }
 void SkillSet::_goToPointLessThresh(int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance = CLEARANCE_PATH_PLANNER,bool increaseSpeed)
 {
-  comm->addCircle(0, 0, 0);
-    comm->addLine(0, 0, 0, 0);
     std::vector<obstacle> obs;
     obstacle obsTemp;
-    comm->addLine(state->ballPos.x, state->ballPos.y, state->ballPos.x + state->ballVel.x, state->ballPos.y + state->ballVel.y);
     for (int i = 0; i < HomeTeam::SIZE ; ++i)
     {
       /// Adding Condition to REMOVE all obstacles that are sufficiently CLOSE to BALL
@@ -336,7 +324,6 @@ void SkillSet::_goToPointLessThresh(int botid, Vector2D<int> dpoint, float final
           obsTemp.y = state->homePos[i].y;
           obsTemp.radius =  BOT_RADIUS;
           obs.push_back(obsTemp);
-          comm->addCircle(obs[obs.size() - 1].x, obs[obs.size() - 1].y, BOT_RADIUS * 2);
         }
       }
     }
@@ -352,7 +339,6 @@ void SkillSet::_goToPointLessThresh(int botid, Vector2D<int> dpoint, float final
           obsTemp.y = state->awayPos[i].y;
           obsTemp.radius =  BOT_RADIUS;
           obs.push_back(obsTemp);
-          comm->addCircle(obs[obs.size() - 1].x, obs[obs.size() - 1].y, BOT_RADIUS * 2);
         }
       }
     }
@@ -538,13 +524,107 @@ void SkillSet::_turnToAngle(float angle, float *vl, float *vr)
     *vr = -(*vl);
   }
 }
+void SkillSet::_goToPointDW(int botid, Vector2D<int> dpoint, float finalvel, float finalslope)
+{
+static float vl =0 , vr =0 ;
+	Pose s , e ;
+	s = Pose(state->homePos[botid].x, state->homePos[botid].y, state->homeAngle[botid]);
+    e = Pose(dpoint.x, dpoint.y, finalslope);
+    const int del_v_max = 15; //ticks
+    const float step = 1; //ticks
+    const float max_vel = 1000; //120ticks
+    const float a_r_max = 780; //380cm/s^2
+//    const float PI= 3.14159;
+    const float t=0.016;
+    const float k=2;
+    int count=0;
+    double arr[10000][3];
+	// sprintf(debug,"entering ");
+    // Client::debugClient->SendMessages(debug);
+	//sprintf(debug," homeVel.x :: %f || homeVel.y :: %f \n ",state->homeVel[botid].x,state->homeVel[botid].y) ; 
+	float prevSpeed = (vl + vr)/2 ;//sqrt(pow(state->homeVel[botid].x, 2) + pow(state->homeVel[botid].y, 2));
+	float prevOmega = 0.0 ; // (vl - vr)/(2*Pose::d);//(vr - vl)/(Pose::d) ;//state->homeOmega[botid] ; 
+	//double prevSpeed = (state->homeVel[botid].x+state->homeVel[botid].y)/2;
+   // double prevOmega = (prevVr- prevVl)/(Constants::d);
+	//float prevSpeed, prevOmega,alpha,acc,theta,x,y,reqtheta,dtheta;
 
+    //int i,j;                                                           //i=vr,,j=vl
+	// sprintf(debug,"prevSpeed :: %f || prevomega :: %f \n ",prevSpeed,prevOmega) ;
+    // Client::debugClient->SendMessages(debug);
+    for(float del_vr=-del_v_max;del_vr<=del_v_max;del_vr+=step)
+        {
+            for(float del_vl=-del_v_max;del_vl<=del_v_max;del_vl+=step)
+            {
+
+                float newSpeed= prevSpeed + Pose::ticksToCmS*(del_vr+del_vl)/2; // cm/s
+                float newOmega= prevOmega + Pose::ticksToCmS*(del_vr-del_vl)/Pose::d;  // cm/s                //D Is the constant breadth of the bot
+//                qDebug()<<"Trying newSpeed = "<<newSpeed<<" newOmega = "<<newOmega;
+				//sprintf(debug,"newSpeed :: %f || newomega :: %f \n ",newSpeed,newOmega) ;
+				//Client::debugClient->SendMessages(debug);
+				if(abs(newSpeed/Pose::ticksToCmS) >max_vel || abs(newOmega/Pose::ticksToCmS) >(2*max_vel)/Pose::d)
+                    continue;
+                if(abs((newSpeed+(Pose::d*newOmega)/2)) > max_vel ||  abs((newSpeed-(Pose::d *newOmega)/2)) > max_vel)
+                    continue;
+                if((newSpeed*newOmega)>=a_r_max*sqrt(1-pow((del_vr + del_vl)/(2*del_v_max),2)))
+                    continue;                   // constraint from the equation of ellipse.
+                //if(count>400) break;                                 //we would take only a fixed number of points under consideration
+//                qDebug()<<"Trying newSpeed = "<<newSpeed<<" newOmega = "<<newOmega;
+                // float alpha=(newOmega-prevOmega)/t; // rad/cm^2
+                float theta= s.theta() + (newOmega*t); //rad
+                theta = normalizeAngle(theta);
+
+                 float x= s.x() + (newSpeed*cos(theta)*t);
+                 float y= s.y() + (newSpeed*sin(theta)*t);
+
+                float reqtheta=atan2((e.y()-y),(e.x()-x));
+
+                float dtheta=firaNormalizeAngle(theta-reqtheta);
+
+                arr[count][0]= sqrt(pow((x - e.x()),2) + pow((y - e.y()),2)) + k*pow((dtheta),2) ;         // our objective function
+                arr[count][1]= newSpeed;
+                arr[count][2]= newOmega;
+				//sprintf(debug," count :: %lf || function :: %lf || newspeed :: %lf || newomega :: %lf ",count,arr[count][0],arr[count][1],arr[count][2]);
+                //Client::debugClient->SendMessages(debug);
+				count++;
+            }
+        }
+    float min= arr[0][0];
+    float best_v=arr[0][1];
+    float best_w=arr[0][2];
+	//sprintf(debug," best_v :: %lf || best_w :: %lf ",arr[0][1],arr[0][2]);
+	for(int i=0;i<count;i++)
+    {
+        if(arr[i][0]<min)
+        {
+            min=arr[i][0];
+            best_v= arr[i][1];
+            best_w = arr[i][2];
+        }
+    }
+
+    float theta= s.theta() + (best_w*t); //rad
+    theta = normalizeAngle(theta);
+    float x= s.x() + (best_v*cos(theta)*t);
+    float y= s.y() + (best_v*sin(theta)*t);
+
+    //outStream<<best_v<< '\t'<< best_w <<'\t'<< x <<'\t'<< y<<endl;
+    vr=(best_v)+(Pose::d *best_w)/2 ;                    // update velocity
+
+    vl=(2*best_v) - vr;                       // update omega
+    vr/=Pose::ticksToCmS;
+    vl/=Pose::ticksToCmS;
+	//sprintf(debug," vl :: %d || vr :: %d ",vl,vr);
+ 
+#if FIRA_COMM || FIRASSL_COMM
+    comm->sendCommand(botID, vl, vr);
+#else
+    comm->sendCommand(botID, vl, vr);
+#endif
+    return; 
+}
 void SkillSet::_goToPointPolar (int botid, Vector2D<int> dpoint, float finalvel, float finalslope, float clearance = CLEARANCE_PATH_PLANNER,bool increaseSpeed,bool trapz) {
-    comm->addCircle(0, 0, 0);
-    comm->addLine(0, 0, 0, 0);
     std::vector<obstacle> obs;
     obstacle obsTemp;
-    comm->addLine(state->ballPos.x, state->ballPos.y, state->ballPos.x + state->ballVel.x, state->ballPos.y + state->ballVel.y);
     for (int i = 0; i < HomeTeam::SIZE ; ++i)
     {
       /// Adding Condition to REMOVE all obstacles that are sufficiently CLOSE to BALL
@@ -557,7 +637,6 @@ void SkillSet::_goToPointPolar (int botid, Vector2D<int> dpoint, float finalvel,
           obsTemp.y = state->homePos[i].y;
           obsTemp.radius =  BOT_RADIUS;
           obs.push_back(obsTemp);
-          comm->addCircle(obs[obs.size() - 1].x, obs[obs.size() - 1].y, BOT_RADIUS * 2);
         }
       }
     }
@@ -573,7 +652,6 @@ void SkillSet::_goToPointPolar (int botid, Vector2D<int> dpoint, float finalvel,
           obsTemp.y = state->awayPos[i].y;
           obsTemp.radius =  BOT_RADIUS;
           obs.push_back(obsTemp);
-          comm->addCircle(obs[obs.size() - 1].x, obs[obs.size() - 1].y, BOT_RADIUS * 2);
         }
       }
     }

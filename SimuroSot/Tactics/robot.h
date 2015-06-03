@@ -19,8 +19,6 @@ namespace MyStrategy
 {
   class Robot 
   {
-    friend class PExec;
-
   public:
     // Stores the current tactic and is controlled by the Play Layer
     Tactic::ID     tIDSh;

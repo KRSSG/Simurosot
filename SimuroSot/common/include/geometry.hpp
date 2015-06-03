@@ -206,8 +206,8 @@ inline bool intersects(const Point2D<T>& point1,
   Vector2D<int> d = point2 - point1;
   Vector2D<int> f = point1 - center;
 
-  float a = d.dot(d);
-  float b = 2 * f.dot(d);
+  float a = 1.0*d.dot(d);
+  float b = 2.0 * f.dot(d);
   float c = f.dot(f) - radius * radius;
   float dis = b * b - 4 * a * c;
 
@@ -227,7 +227,7 @@ inline bool intersects(const Point2D<T>& point1,
 inline float distance_line_point(const Vector2D<int>& start,
                                   const Vector2D<float>& slope,
                                   const Vector2D<int>& point) {
-  Vector2D<float> joinLine((point-start).x, (point-start).y);
+  Vector2D<float> joinLine((float)(point-start).x, (float)(point-start).y);
   float theta = Vector2D<float>::angle(slope, joinLine);
   return sin(theta) * Vector2D<int>::dist(point, start);
 }
@@ -238,7 +238,7 @@ inline bool get_perpendicular_base(const Vector2D<int>& start,
                                     Vector2D<int> &perpendicularBase,
                                     float &alpha) {
   alpha = (slope.x*(point.x - start.x) + slope.y*(point.y - start.y)) / slope.absSq();
-  perpendicularBase = Vector2D<int>(start.x + (alpha * slope.x), start.y + (alpha * slope.y));
+  perpendicularBase = Vector2D<int>(start.x + (int)(alpha * slope.x), start.y +(int)(alpha * slope.y));
   return alpha >= 0;
 }
 inline float firaNormalizeAngle(float angle)

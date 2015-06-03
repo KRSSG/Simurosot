@@ -15,7 +15,7 @@
 Client::Client(void)
 {
 #ifdef debugger
-  char buffer[1000];
+  //char buffer[1000];
 	// Initialise Winsock
 	WSADATA WsaDat;
 	if(WSAStartup(MAKEWORD(2,2),&WsaDat)!=0)

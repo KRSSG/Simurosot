@@ -154,8 +154,8 @@ namespace MyStrategy
       {
         int                id    = i;
         
-		int newx = env->home[i].pos.x*100 - CENTER_X;
-        int newy =  env->home[i].pos.y*100 - CENTER_Y;
+		int newx = (int)(env->home[i].pos.x*100) - CENTER_X;
+        int newy =  (int)(env->home[i].pos.y*100) - CENTER_Y;
 		float newangle = env->home[i].rotation*PI/180;       
         linearTransform_new(newx, newy, newangle, invert_field,0);
 		

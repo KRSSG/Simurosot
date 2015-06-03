@@ -40,30 +40,30 @@ namespace MyStrategy
 
     // List all Tactic ID -> Tactic object pairs here for each robot
     tacticList[Tactic::Block]               = new TBlock(state, botID);
-    tacticList[Tactic::ChargeBall]          = new TCharge(state, botID);
+   // tacticList[Tactic::ChargeBall]          = new TCharge(state, botID);
     tacticList[Tactic::CoverGoal]           = new TCoverGoal(state,botID);
-    tacticList[Tactic::DragToGoal]          = new TDragToGoal(state, botID);    
+   // tacticList[Tactic::DragToGoal]          = new TDragToGoal(state, botID);    
     tacticList[Tactic::DefendLine]          = new TDefendLine(state, botID);
     tacticList[Tactic::DefendPoint]         = new TDefendPoint(state, botID);
     tacticList[Tactic::GoalieOur]           = new TGoalKeepingOurSide(state, botID);
     tacticList[Tactic::GoalieOpp]           = new TGoalKeepingOppSide(state, botID);
-    tacticList[Tactic::MarkBot]             = new TMarkBot(state, botID);
+   // tacticList[Tactic::MarkBot]             = new TMarkBot(state, botID);
 	tacticList[Tactic::MidField]             = new TMidField(state, botID);
     //tacticList[Tactic::Pass]              = new TPass(state, botID);
-    tacticList[Tactic::Backup]              = new TBackup(state, botID);
+  //  tacticList[Tactic::Backup]              = new TBackup(state, botID);
     tacticList[Tactic::Position]            = new TPosition(state, botID);
-    tacticList[Tactic::PositionForPenalty]  = new TPositionForPenalty(state, botID);
-    tacticList[Tactic::PositionForStart]    = new TPositionForStart(state, botID);
-    tacticList[Tactic::Defend]              = new TDefend(state,botID);
+    //tacticList[Tactic::PositionForPenalty]  = new TPositionForPenalty(state, botID);
+    //tacticList[Tactic::PositionForStart]    = new TPositionForStart(state, botID);
+   // tacticList[Tactic::Defend]              = new TDefend(state,botID);
     tacticList[Tactic::Attack]              = new TAttack(state,botID);
     //tacticList[Tactic::Shoot]             = new TShoot(state, botID);
-    tacticList[Tactic::Steal]               = new TSteal(state, botID);
+   // tacticList[Tactic::Steal]               = new TSteal(state, botID);
     tacticList[Tactic::Stop]                = new TStop(state, botID);
     tacticList[Tactic::Velocity]            = new TVelocity(state, botID);
     //tacticList[Tactic::PositionForReceive]= new TPositionForReceive(state, botID);
     tacticList[Tactic::ReceiveBall]         = new TReceiveBall(state, botID);
     tacticList[Tactic::AttackLingo]         = new TAttackLingo(state,botID);
-	tacticList[Tactic::ChargeToGoal]		= new TChargeToGoal(state,botID);
+	//tacticList[Tactic::ChargeToGoal]		= new TChargeToGoal(state,botID);
     // Initialization check
     for (int tID = 0; tID < Tactic::MAX_TACTICS; ++tID)
     {
