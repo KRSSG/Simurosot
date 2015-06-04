@@ -57,29 +57,6 @@ public:
       return false;
     }
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      int minv = *(freeBots.begin());
-      int mindis = 1000000000;
-      Point2D<int> goalPos((-(HALF_FIELD_MAXX)), 0);
-      for (std::list<int>::iterator it = freeBots.begin(); it != freeBots.end(); ++it)
-      {
-const int factor = 0.2;
-        float perpend_dist =(state->homePos[*it].x - (-HALF_FIELD_MAXX));//state->home_goalpoints[2] is center of our goal
-Vector2D<int> goal;
-goal.x = OUR_GOAL_X;
-goal.y = 0;
-float dist_from_goal = Vector2D<int>::dist(state->homePos[*it], goal);
-if(dist_from_goal + factor * perpend_dist < mindis)
-        {
-          mindis = dist_from_goal + factor * perpend_dist;
-          minv = *it;
-        }
-      }
-
-      return 1;//minv;
-    } // chooseBestBot
-
     void execute(const Param& tParam)
     {
 		float ang1;

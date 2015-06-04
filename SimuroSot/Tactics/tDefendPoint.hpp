@@ -26,24 +26,6 @@ namespace MyStrategy
       return false;
     }
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      int minv = *(freeBots.begin());
-      int mindis = 10000;
-      for(std::list<int>::iterator it = freeBots.begin(); it != freeBots.end(); ++it)
-      {
-        // TODO make the bot choosing process more sophisticated, the logic below returns the 1st available bot
-        float dis_from_ball = (state->homePos[*it] - state->ballPos).absSq();
-        //cannot use below condition since tparam is not passed as paramater
-        //float dis_from_ball = (state->homePos[*it] - tParam.DefendPointP).absSq();
-        if(dis_from_ball < mindis)
-        {
-          mindis = dis_from_ball;
-          minv = *it;
-        }
-      }
-      return minv;
-    } // chooseBestBot
 
     void execute(const Param& tParam)
     {

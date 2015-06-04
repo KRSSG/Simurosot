@@ -26,12 +26,6 @@ namespace MyStrategy
       return false;
     }
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      int botid = *freeBots.begin();
-      //debug(1, botid , "assigned Stop");
-      return botid;
-    } // chooseBestBot
 
     void execute(const Param& tParam)
     {

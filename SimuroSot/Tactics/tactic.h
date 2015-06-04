@@ -196,7 +196,7 @@ namespace MyStrategy
      * assigned any role yet) depending on how suitable they are in being assigned
      * the tactic. It then chooses the bot with the highest score and assigns it the tactic.
      */
-    virtual int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const = 0;
+  //  virtual int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const = 0;
     /* This function takes in the current tactic parameter for a robot and
      * using the belief state info and the skill transition rules,
      * it either decides to transit to another skill or continues to run

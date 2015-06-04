@@ -142,6 +142,8 @@
     <ClCompile Include="pose.cpp" />
     <ClCompile Include="Skills\sChargeBall.cpp" />
     <ClCompile Include="Skills\sGoToPointDW.cpp" />
+    <ClCompile Include="Utils\intersection.cpp" />
+    <ClCompile Include="Utils\LocalAvoidance.cpp" />
     <ClCompile Include="winDebugger\Client.cpp" />
     <ClCompile Include="common\src\thread.cpp" />
     <ClCompile Include="Core\beliefState.cpp" />
@@ -168,9 +170,7 @@
     <ClCompile Include="Tactics\robot.cpp" />
     <ClCompile Include="Tactics\tactic.cpp" />
     <ClCompile Include="Utils\comdef.cpp" />
-    <ClCompile Include="Utils\intersection.cpp" />
     <ClCompile Include="Utils\kalman.cpp" />
-    <ClCompile Include="Utils\LocalAvoidance.cpp" />
     <ClCompile Include="Utils\mergeSCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +178,7 @@
     <ClInclude Include="Tactics\tAttackLingo.hpp" />
     <ClInclude Include="Tactics\tMidField.hpp" />
     <ClInclude Include="Tactics\tPosition.hpp" />
+    <ClInclude Include="Utils\intersection.hpp" />
     <ClInclude Include="winDebugger\Client.h" />
     <ClInclude Include="common\include\config.h" />
     <ClInclude Include="common\include\cs.hpp" />
@@ -208,7 +209,6 @@
     <ClInclude Include="Tactics\tStop.hpp" />
     <ClInclude Include="Tactics\tVelocity.hpp" />
     <ClInclude Include="Utils\comdef.h" />
-    <ClInclude Include="Utils\intersection.hpp" />
     <ClInclude Include="Utils\kalman.h" />
     <ClInclude Include="Utils\pathPlanners.h" />
   </ItemGroup>

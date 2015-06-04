@@ -29,22 +29,6 @@ namespace MyStrategy
       return false;
     }
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      int minv = *(freeBots.begin());
-      int mindis = 10000;
-      Point2D<int> goalPos(-(HALF_FIELD_MAXX), OUR_GOAL_MAXY);
-      for (std::list<int>::iterator it = freeBots.begin(); it != freeBots.end(); ++it)
-      {
-        float dis_from_ball = (state->homePos[*it] - goalPos).absSq();//state->home_goalpoints[2] is center of our goal
-        if(dis_from_ball < mindis)
-        {
-          mindis = dis_from_ball;
-          minv = *it;
-        }
-      }
-      return minv;
-    } // chooseBestBot
 
     void execute(const Param& tParam)
     {
