@@ -101,7 +101,27 @@ void execute(const Param& tParam)
 			//		dest.y=BOT_RADIUS;
 			//	else dest.y=-BOT_RADIUS;*/
 			//}
-			 if(state->ballPos.x>HALF_FIELD_MAXX-DBOX_WIDTH-GOAL_DEPTH-4*BOT_RADIUS /*&& abs(state->ballPos.y)<OPP_GOAL_MAXY +1*BOT_RADIUS && state->ballVel.x < 1000 && state->ballVel.y<1000*/ && state->ballPos.x > state->homePos[botID].x && (abs(state->ballPos.y)-abs(state->homePos[botID].y))<n*BOT_RADIUS )
+			  if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS /*&& abs(state->ballVel.x)<500*/ && abs(state->ballPos.y)>OPP_GOAL_MAXY && abs(state->ballPos.y)<4.5*BOT_RADIUS+OPP_GOAL_MAXY)
+			 {
+					int id=0;
+				for(int i=0;i<4;i++)
+				{
+					if(state->awayPos[i].x>HALF_FIELD_MAXX-GOAL_DEPTH-1.7*BOT_RADIUS && abs(state->awayPos[i].y)>OPP_GOAL_MAXY+BOT_BALL_THRESH*0.8)  
+					{
+						id=i;
+						break;
+					}
+				}
+				
+				dest.x=HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH;
+				if(state->awayPos[id].y>0)
+					dest.y=1*BOT_RADIUS;
+				else dest.y=-1*BOT_RADIUS; 
+				//dest.y=0;
+				 sID = SkillSet::GoToPoint;
+
+			 }
+            else if(state->ballPos.x>HALF_FIELD_MAXX-DBOX_WIDTH-GOAL_DEPTH-4*BOT_RADIUS /*&& abs(state->ballPos.y)<OPP_GOAL_MAXY +1*BOT_RADIUS && state->ballVel.x < 1000 && state->ballVel.y<1000*/ && state->ballPos.x > state->homePos[botID].x && (abs(state->ballPos.y)-abs(state->homePos[botID].y))<n*BOT_RADIUS )
 			{
 						 sID = SkillSet::GoToPointDW;
 					/////////////////////////////////	
@@ -128,6 +148,7 @@ void execute(const Param& tParam)
 						dist=Vector2D<int>::dist(state->ballPos,state->homePos[botID]);
 						dest.y=state->ballPos.y+ state->ballVel.y*dist*factory;
 						dest.x=state->ballPos.x+ state->ballVel.x*dist*factorx-BOT_RADIUS*0.02;
+
 					//	sParam.GoToPointP.align = false;
 						sParam.GoToPointDWP.x = dest.x;
 						sParam.GoToPointDWP.y = dest.y;
@@ -135,6 +156,7 @@ void execute(const Param& tParam)
 				   //	sParam.GoToPointP.increaseSpeed = 1;
 
 				  //	sParam.GoToPointP.finalVelocity=MAX_BOT_SPEED;
+
 						
 						
 			}
@@ -143,6 +165,7 @@ void execute(const Param& tParam)
 								
 				dest.x=HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH-2*BOT_RADIUS;
 				dest.y=0;
+
 			 }
 			 else if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS /*&& abs(state->ballVel.x)<500*/ && abs(state->ballPos.y)>OPP_GOAL_MAXY && abs(state->ballPos.y)<4.5*BOT_RADIUS+OPP_GOAL_MAXY)
 			 {
@@ -222,6 +245,7 @@ void execute(const Param& tParam)
 					{
 						
 						dest.x=HALF_FIELD_MAXX/2;
+						 
 					}
 
 
@@ -229,6 +253,7 @@ void execute(const Param& tParam)
 				
 					
 					//hit.x=dest.x+3*BOT_RADIUS;
+				  sID = SkillSet::GoToPoint;
 	
 			}
 			

@@ -87,6 +87,7 @@ public:
   static TCoverGoal tCover1(&state,1);
 	Tactic::Param pcover;
 	
+  static TAttack tattack1(&state,1);
   static TAttack tattack2(&state,2);
   static TAttack tattack3(&state,3);
   static TAttack tattack4(&state,4);
@@ -222,7 +223,7 @@ public:
  //  }
 	//******************************************* testing - gunjan ************************************
 
-	tattack2.execute(pattack);
+	//tattack2.execute(pattack);
 	//tattack4.execute(pattack);
 	//tmidfield4.execute(pmid);
 	//tattacklingo4.execute(pattacklingo);
@@ -235,6 +236,7 @@ public:
         if((abs(state.homePos[2].y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && abs(state.ballPos.y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && state.homePos[2].x>state.homePos[4].x)||((state.ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state.homePos[2].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state.ballPos.y>OPP_GOAL_MAXY && state.ballVel.y>0 && state.homePos[2].y>state.homePos[4].y)||(state.ballPos.y<OPP_GOAL_MINY && state.ballVel.y<0 && state.homePos[2].y<state.homePos[4].y))))
 		{		 
 		  tattack4.execute(pattacklingo);
+		  
 		}
 		else
 		{
@@ -242,7 +244,9 @@ public:
 			  tmidfield4.execute(pmid);
 		  else
 		  tattacklingo4.execute(pattacklingo);
-			tCover1.execute(pcover);
+		if(state.homePos[1].x>HALF_FIELD_MAXX*0.5 && abs(state.homePos[1].y) >HALF_FIELD_MAXY-2*BOT_RADIUS) tattack1.execute(pattack);
+		else	tCover1.execute(pcover);
+
 		}
 	}
 	 else if(dis[0]>dis[2])
@@ -258,10 +262,10 @@ public:
 				  tmidfield2.execute(pmid);
 			  else
 			  tattacklingo2.execute(pattacklingo);
-			  tCover1.execute(pcover);
+			  if(state.homePos[1].x>HALF_FIELD_MAXX*0.5 && abs(state.homePos[1].y) >HALF_FIELD_MAXY-2*BOT_RADIUS ) tattack1.execute(pattack);
+		      else	tCover1.execute(pcover);
 		}
-	}
-	
+	}	
 
 	//***********************************************************************
 	
