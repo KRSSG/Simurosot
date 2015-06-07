@@ -13,4 +13,5 @@
 #include "tCoverGoal.hpp"
 #include "tAttackLingo.hpp"
 #include "tPosition.hpp"
+#include "tAttackNew.hpp"
 //#include "tDragToGoal.hpp"

@@ -11,8 +11,6 @@
 #include "../Utils/intersection.hpp"
 #include "../winDebugger/Client.h"
 
-#define MIN(a,b) a<b?a:b
-
 namespace MyStrategy
 {
   class TAttackLingo : public Tactic
@@ -28,9 +26,8 @@ namespace MyStrategy
     TAttackLingo(const BeliefState* state, int botID) :
       Tactic(Tactic::AttackLingo, state, botID)
     {
-      iState = APPROACHING;
       for(int i=0; i<10; i++)
-        movementError[i] = 0;
+      movementError[i] = 0;
       movementErrorSum  = 0;
       movementErrorIndex = 0;
       prevBotPos = state->homePos[botID];
@@ -40,15 +37,6 @@ namespace MyStrategy
 
     ~TAttackLingo()
     { } // ~TAttack
-    enum InternalState
-    {
-      APPROACHING,
-      SPINNING_CCW ,
-      SPINNING_CW,
-      ATTACKING,
-      CLOSE_TO_BALL,
-      STUCK
-    } iState;
     int hasAchievedOffset;
     inline bool isActiveTactic(void) const
     {
@@ -91,7 +79,7 @@ return id;
 		  		  int attID=state->ourBotNearestToBall;
 		  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
 		  float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(OPP_GOAL_X, 0));
-       int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
+          int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
           int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x - BOT_RADIUS*cos(ang);//1
           int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y - BOT_RADIUS*sin(ang);  //1
 

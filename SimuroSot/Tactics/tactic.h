@@ -40,7 +40,8 @@ namespace MyStrategy
       ReceiveBall,          // Receive Pass
       Defend,               // Defend the ball from coming to our side
       Attack,               // Attck the ball towards the goal      
-      Steal,                // Manipulate the ball to remove possession of it from another robot*/
+      AttackNew,
+	  Steal,                // Manipulate the ball to remove possession of it from another robot*/
       Stop,                 // Stop the bot
       Velocity,             // Move at a fixed velocity     
       AttackLingo,
@@ -123,7 +124,7 @@ namespace MyStrategy
       struct type10
       {
         bool rotateOnError;
-      } AttackP,AttackLingoP;      
+      } AttackP,AttackLingoP,AttackNewP;      
       struct type11
       {
         int distFromGoal;

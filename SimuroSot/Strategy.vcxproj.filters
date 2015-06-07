@@ -90,16 +90,19 @@
     <ClCompile Include="Skills\sChargeBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pose.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Skills\sGoToPointDW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\intersection.cpp">
+    <ClCompile Include="Utils\LocalAvoidance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\LocalAvoidance.cpp">
+    <ClCompile Include="Skills\sTestSkill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skills\sKickBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -206,14 +209,17 @@
     <ClInclude Include="Tactics\tMidField.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pose.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tactics\tPosition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils\intersection.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tactics\tAttackNew.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pose.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ class Client
 public:
 	~Client(void);
 	static Client *getInstance();
-	//static Client *debugClient;
+	static Client *debugClient;
 	void SendMessages(char *data);
 	
 };

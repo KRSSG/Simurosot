@@ -60,7 +60,7 @@ public:
     pVelocity.VelocityP.vr = 20;
 
      static MyStrategy::SParam sp;
-	 static MyStrategy::SParam sp1 ;
+	 static MyStrategy::SParam sp1 , sp2;
      
 	 sp.GoToPointP.x =  0;//+ BOT_RADIUS);
 	 sp.GoToPointP.y = 0 ;//+ BOT_RADIUS;
@@ -147,7 +147,7 @@ public:
 		 // Client::debugClient->SendMessages(debug);
 		 
 		  //********************************************************
-		  
+		/*  
 		  tGoalOur0.execute(pgoalie);
 	//	 tCover1.execute(pcover);
 
@@ -156,6 +156,47 @@ public:
 	dis[1] = Vector2D<int>::dist(state.homePos[3],state.ballPos) ;
 	dis[2] = Vector2D<int>::dist(state.homePos[4],state.ballPos) ;
 
+	// **** changes made by GUNJAN
+	tCover1.execute(pcover);
+	tReceive3.execute(pReceive);
+	if(dis[0]<dis[2])
+	{
+		tattack2.execute(pattack);
+        if((abs(state.homePos[2].y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && abs(state.ballPos.y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && state.homePos[2].x>state.homePos[4].x)||((state.ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state.homePos[2].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state.ballPos.y>OPP_GOAL_MAXY && state.ballVel.y>0 && state.homePos[2].y>state.homePos[4].y)||(state.ballPos.y<OPP_GOAL_MINY && state.ballVel.y<0 && state.homePos[2].y<state.homePos[4].y))))
+		{		 
+		  tattack4.execute(pattacklingo);
+		  
+		}
+		else
+		{
+		if(state.ballPos.x < -0.5*HALF_FIELD_MAXX)
+			  tmidfield4.execute(pmid);
+		  else
+		  tattacklingo4.execute(pattacklingo);
+		if(state.homePos[1].x>HALF_FIELD_MAXX*0.5 && abs(state.homePos[1].y) >HALF_FIELD_MAXY-2*BOT_RADIUS) tattack1.execute(pattack);
+		else	tCover1.execute(pcover);
+
+		}
+	}
+	 else if(dis[0]>dis[2])
+	{
+		tattack4.execute(pattack);
+        if((abs(state.homePos[4].y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && abs(state.ballPos.y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && state.homePos[2].x>state.homePos[2].x)||((state.ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state.homePos[2].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state.ballPos.y>OPP_GOAL_MAXY && state.ballVel.y>0 && state.homePos[4].y>state.homePos[2].y)||(state.ballPos.y<OPP_GOAL_MINY && state.ballVel.y<0 && state.homePos[4].y<state.homePos[2].y))))
+		{		 
+		  tattack2.execute(pattacklingo);
+		}
+		else
+		{
+			if(state.ballPos.x < -0.5*HALF_FIELD_MAXX)
+				  tmidfield2.execute(pmid);
+			  else
+			  tattacklingo2.execute(pattacklingo);
+			  if(state.homePos[1].x>HALF_FIELD_MAXX*0.5 && abs(state.homePos[1].y) >HALF_FIELD_MAXY-2*BOT_RADIUS ) tattack1.execute(pattack);
+		      else	tCover1.execute(pcover);
+		}
+	}	
+	*/
+	// ***************************
 	//if((dis[0]<dis[1])&&(dis[0]<dis[2]))   //bot 2 is closet
 	//{
 	//   tattack2.execute(pattack);        //needs to be changed
@@ -228,44 +269,7 @@ public:
 	//tmidfield4.execute(pmid);
 	//tattacklingo4.execute(pattacklingo);
 	
-	tCover1.execute(pcover);
-	tReceive3.execute(pReceive);
-	if(dis[0]<dis[2])
-	{
-		tattack2.execute(pattack);
-        if((abs(state.homePos[2].y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && abs(state.ballPos.y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && state.homePos[2].x>state.homePos[4].x)||((state.ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state.homePos[2].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state.ballPos.y>OPP_GOAL_MAXY && state.ballVel.y>0 && state.homePos[2].y>state.homePos[4].y)||(state.ballPos.y<OPP_GOAL_MINY && state.ballVel.y<0 && state.homePos[2].y<state.homePos[4].y))))
-		{		 
-		  tattack4.execute(pattacklingo);
-		  
-		}
-		else
-		{
-		if(state.ballPos.x < -0.5*HALF_FIELD_MAXX)
-			  tmidfield4.execute(pmid);
-		  else
-		  tattacklingo4.execute(pattacklingo);
-		if(state.homePos[1].x>HALF_FIELD_MAXX*0.5 && abs(state.homePos[1].y) >HALF_FIELD_MAXY-2*BOT_RADIUS) tattack1.execute(pattack);
-		else	tCover1.execute(pcover);
-
-		}
-	}
-	 else if(dis[0]>dis[2])
-	{
-		tattack4.execute(pattack);
-        if((abs(state.homePos[4].y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && abs(state.ballPos.y)>HALF_FIELD_MAXY-1.5*BOT_RADIUS && state.homePos[2].x>state.homePos[2].x)||((state.ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state.homePos[2].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state.ballPos.y>OPP_GOAL_MAXY && state.ballVel.y>0 && state.homePos[4].y>state.homePos[2].y)||(state.ballPos.y<OPP_GOAL_MINY && state.ballVel.y<0 && state.homePos[4].y<state.homePos[2].y))))
-		{		 
-		  tattack2.execute(pattacklingo);
-		}
-		else
-		{
-			if(state.ballPos.x < -0.5*HALF_FIELD_MAXX)
-				  tmidfield2.execute(pmid);
-			  else
-			  tattacklingo2.execute(pattacklingo);
-			  if(state.homePos[1].x>HALF_FIELD_MAXX*0.5 && abs(state.homePos[1].y) >HALF_FIELD_MAXY-2*BOT_RADIUS ) tattack1.execute(pattack);
-		      else	tCover1.execute(pcover);
-		}
-	}	
+	
 
 	//***********************************************************************
 	
@@ -326,8 +330,9 @@ public:
 //		  p1.executeSkill(SkillSet::GoalKeeping,sp);
 		 // tbackup4.execute(pbackup);
 //      p1.executeSkill(SkillSet::GoToPoint,sp); 
-
-      // tAttack0.execute(pAttack);
+        p1.executeSkill(SkillSet::GoToPointDW,sp1);
+        //  p1.executeSkill(SkillSet::TestSkill,sp2) ;      
+// tAttack0.execute(pAttack);
 
 		//  if(state.ballPos.x<=19)
           //  tVelocity.execute(pVelocity);

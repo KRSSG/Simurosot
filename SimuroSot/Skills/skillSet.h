@@ -38,7 +38,7 @@ namespace MyStrategy
 
       // Parameters for the skill Stop
       struct type2
-      {} StopP, GoalKeepingP,ChargGoal;
+      {} StopP, GoalKeepingP,ChargGoal , TestSkill , KickBallP;
 
       // Parameters for the skill Kick
       struct type3
@@ -100,6 +100,8 @@ namespace MyStrategy
       GoToPointStraight,
       GoToBallStraight,
 	  ChargeBall,
+	  TestSkill,
+	  KickBall,
       MAX_SKILLS
     };
     static Comm*    comm;
@@ -151,6 +153,8 @@ namespace MyStrategy
     void goToPointStraight(const SParam& param);
     void goToBallStraight(const SParam& param);
 	void chargeBall(const SParam& param);
+	void testSkill(const SParam& param);
+	void kickBall(const SParam& param) ;
     
     // Parameter for skills to be trained
     static bool loadParamsFromFile;

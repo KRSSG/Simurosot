@@ -18,9 +18,12 @@ namespace MyStrategy
     float finalvel = 0 ;
     dpoint.x  = param.GoToPointDWP.x;
     dpoint.y  = param.GoToPointDWP.y;
-    //Util::// LoggertoStdOut("Going to point : (%d , %d) from (%d, %d)",dpoint.x,dpoint.y, state->homePos[botID].x, state->homePos[botID].y);
-    float dist = (state->homePos[botID] - Vector2D<int>(dpoint)).absSq();
-		_goToPointDW(botID, dpoint, finalvel, param.GoToPointP.finalslope);
+	float dist = Vector2D<int>::dist(state->homePos[botID],dpoint ) ;
+	if(dist < 1.5*BOT_BALL_THRESH)
+		comm->sendCommand(botID,0,0) ;
+	else
+	_goToPointDW(botID, dpoint, finalvel, param.GoToPointP.finalslope);
+
   
   }
 }

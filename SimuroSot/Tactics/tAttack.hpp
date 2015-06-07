@@ -58,6 +58,7 @@ namespace MyStrategy
 
     bool pointxInField(Vector2D<int> final)
     {
+      // checks if the point is in the field 
       if((final.x < HALF_FIELD_MAXX - (BALL_AT_CORNER_THRESH) && final.x > -HALF_FIELD_MAXX + (BALL_AT_CORNER_THRESH)))
       {
         if((final.y < HALF_FIELD_MAXY - BALL_AT_CORNER_THRESH && final.y > -HALF_FIELD_MAXY + BALL_AT_CORNER_THRESH))
@@ -70,6 +71,7 @@ namespace MyStrategy
     }
 //***********
 int opponentProbableGoalkeeper(){
+// returns the id of opponent goal keeper 
 int distance=HALF_FIELD_MAXX/2;
 int id=-1;
 for(int i=0; i <5 ; i++){
@@ -117,7 +119,8 @@ pointOfAttack.y=angleGoalMax_y*(pointOfAttack.x-ForwardX(state->ballPos.x))-stat
 }
 return pointOfAttack; 
 }
-   void shoot(){
+  
+void shoot(){
     Vector2D<int> targetGoalPoint=decidedGoalPoint();
 	Vector2D<int> ballPredictedPos;
 	Vector2D<float> ballTransformedVel;

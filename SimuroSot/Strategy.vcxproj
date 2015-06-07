@@ -142,7 +142,8 @@
     <ClCompile Include="pose.cpp" />
     <ClCompile Include="Skills\sChargeBall.cpp" />
     <ClCompile Include="Skills\sGoToPointDW.cpp" />
-    <ClCompile Include="Utils\intersection.cpp" />
+    <ClCompile Include="Skills\sKickBall.cpp" />
+    <ClCompile Include="Skills\sTestSkill.cpp" />
     <ClCompile Include="Utils\LocalAvoidance.cpp" />
     <ClCompile Include="winDebugger\Client.cpp" />
     <ClCompile Include="common\src\thread.cpp" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="pose.h" />
     <ClInclude Include="Tactics\tAttackLingo.hpp" />
+    <ClInclude Include="Tactics\tAttackNew.hpp" />
     <ClInclude Include="Tactics\tMidField.hpp" />
     <ClInclude Include="Tactics\tPosition.hpp" />
     <ClInclude Include="Utils\intersection.hpp" />
