@@ -81,6 +81,12 @@ namespace MyStrategy
         bool increaseSpeed;
 		bool trapezoidal;
       } GoToPointP;
+	  //struct type9
+	  //{
+		 // //*************** trying to use DYNAMIC WINDOW for kicking  ........ *****gunjan ***********
+		
+	  //}KickBallP;
+
     };
   class SkillSet
   {
@@ -100,6 +106,7 @@ namespace MyStrategy
       GoToPointStraight,
       GoToBallStraight,
 	  ChargeBall,
+	 // KickBall,
       MAX_SKILLS
     };
     static Comm*    comm;
@@ -151,7 +158,8 @@ namespace MyStrategy
     void goToPointStraight(const SParam& param);
     void goToBallStraight(const SParam& param);
 	void chargeBall(const SParam& param);
-    
+    void kickBall(const SParam& param);
+
     // Parameter for skills to be trained
     static bool loadParamsFromFile;
     static bool  skillParamsLoaded;

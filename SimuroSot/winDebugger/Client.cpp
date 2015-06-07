@@ -3,14 +3,14 @@
 #include <iostream>
 #define debugger
 
-//Client* Client::debugClient=Client::getInstance();
+Client* Client::debugClient=Client::getInstance();
 
  Client* Client::getInstance()
 {
-	//if(debugClient==0)
+	if(debugClient==0)
 		return new Client();
-	//else
-		//return debugClient;
+	else
+		return debugClient;
 }
 Client::Client(void)
 {
