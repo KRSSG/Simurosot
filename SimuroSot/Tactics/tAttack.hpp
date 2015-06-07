@@ -55,55 +55,10 @@ namespace MyStrategy
     {
       return true;
     }
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      int minv = *(freeBots.begin());
-      float angle_difference = firaNormalizeAngle(Vector2D<int>::angle(Vector2D<int>(OPP_GOAL_X, 0), state->ballPos)- state->homeAngle[*(freeBots.begin())]);
-      int minwt = Vector2D<int>::dist(state->homePos[*(freeBots.begin())],state->ballPos) + angle_difference * ANGLE_TO_DIST;
-      
-      for (std::list<int>::iterator it = freeBots.begin(); it != freeBots.end(); ++it)
-      {
-        // TODO make the bot choosing process more sophisticated, the logic below returns the 1st available bot
-        float dis_from_ball = Vector2D<int>::dist(state->homePos[*it],state->ballPos);
-        float botballangle = normalizeAngle(Vector2D<int>::angle(state->ballPos, state->homePos[*it]));
-        //TODO might require normalization
-        float botball_orientation_diff = MIN(fabs((float)botballangle-state->homeAngle[*it]),fabs((float)botballangle-(state->homeAngle[*it]+PI)));
-        float finalOrientationDiff = normalizeAngle(Vector2D<int>::angle(Vector2D<int>(OPP_GOAL_X, 0), state->ballPos)-botballangle);
-//        angle_difference =  fabs((float)firaNormalizeAngle(state->homeAngle[*it]-normalizeAngle(Vector2D<int>::angle(Vector2D<int>(OPP_GOAL_X, 0), state->ballPos))))+ fabs((float)firaNormalizeAngle((Vector2D<int>::angle(state->homePos[*it],Vector2D<int>(OPP_GOAL_X, 0)))));
-      angle_difference = botball_orientation_diff + finalOrientationDiff;
-  //float x_diff = ForwardX(state->ballPos.x)-ForwardX(state->homePos.x);
-        float weight;
-   // printf("%d >>>>>>>>>> %f , %f\n", *it,dis_from_ball,angle_difference);
-        weight = dis_from_ball + ANGLE_TO_DIST * angle_difference;
-        //if(*it == botID)
-      //    weight -= HYSTERESIS;
-        if(weight < minwt)
-        {
-          minwt = dis_from_ball ;
-          minv = *it;
-        }
-      }
-	 if((minv==3)||(minv==4))
-		 return minv;
-	 else
-	 {
-	   int dis3 , dis4;
-	   dis3 = Vector2D<int>::dist(state->homePos[3],state->ballPos);
-	   dis4 = Vector2D<int>::dist(state->homePos[4],state->ballPos);
-	   if(dis4<dis3)
-		   return 4;
-	   else 
-		   return 3;
-
-	 
-	 }
-     // Util::// LoggertoStdOut("Selected bot %d\n", minv);
-     
-
-    } // chooseBestBot
 
     bool pointxInField(Vector2D<int> final)
     {
+      // checks if the point is in the field 
       if((final.x < HALF_FIELD_MAXX - (BALL_AT_CORNER_THRESH) && final.x > -HALF_FIELD_MAXX + (BALL_AT_CORNER_THRESH)))
       {
         if((final.y < HALF_FIELD_MAXY - BALL_AT_CORNER_THRESH && final.y > -HALF_FIELD_MAXY + BALL_AT_CORNER_THRESH))
@@ -116,6 +71,7 @@ namespace MyStrategy
     }
 //***********
 int opponentProbableGoalkeeper(){
+// returns the id of opponent goal keeper 
 int distance=HALF_FIELD_MAXX/2;
 int id=-1;
 for(int i=0; i <5 ; i++){
@@ -163,7 +119,8 @@ pointOfAttack.y=angleGoalMax_y*(pointOfAttack.x-ForwardX(state->ballPos.x))-stat
 }
 return pointOfAttack; 
 }
-   void shoot(){
+  
+void shoot(){
     Vector2D<int> targetGoalPoint=decidedGoalPoint();
 	Vector2D<int> ballPredictedPos;
 	Vector2D<float> ballTransformedVel;

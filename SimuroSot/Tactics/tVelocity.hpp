@@ -26,16 +26,7 @@ namespace MyStrategy
       return false;
     }
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      for (std::list<int>::iterator it = freeBots.begin(); it != freeBots.end(); ++it)
-      {
-        // TODO make the bot choosing process more sophisticated, the logic below returns the 1st available bot
-        return *it;
-      }
-     // Util::// Loggerabort("No bot available for role assignment");
-      return -1;
-    } // chooseBestBot
+
 
     void execute(const Param& tParam)
     {

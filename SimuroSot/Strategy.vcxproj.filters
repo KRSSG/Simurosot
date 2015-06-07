@@ -24,13 +24,7 @@
     <ClCompile Include="Core\beliefState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\intersection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\kalman.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\LocalAvoidance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils\mergeSCurve.cpp">
@@ -96,10 +90,22 @@
     <ClCompile Include="Skills\sChargeBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skills\sGoToPointDW.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LocalAvoidance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skills\sTestSkill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skills\sKickBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="pose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Skills\sGoToPointDW.cpp">
+    <ClCompile Include="Utils\intersection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -114,9 +120,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\tester.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\intersection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils\kalman.h">
@@ -209,11 +212,17 @@
     <ClInclude Include="Tactics\tMidField.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pose.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tactics\tPosition.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\intersection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tactics\tAttackNew.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pose.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

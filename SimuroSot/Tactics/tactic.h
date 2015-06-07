@@ -40,7 +40,8 @@ namespace MyStrategy
       ReceiveBall,          // Receive Pass
       Defend,               // Defend the ball from coming to our side
       Attack,               // Attck the ball towards the goal      
-      Steal,                // Manipulate the ball to remove possession of it from another robot*/
+      AttackNew,
+	  Steal,                // Manipulate the ball to remove possession of it from another robot*/
       Stop,                 // Stop the bot
       Velocity,             // Move at a fixed velocity     
       AttackLingo,
@@ -124,7 +125,8 @@ namespace MyStrategy
       struct type10
       {
         bool rotateOnError;
-	  } AttackP,AttackLingoP,AttackSupportP;      
+
+      } AttackP,AttackLingoP,AttackNewP;      
       struct type11
       {
         int distFromGoal;
@@ -197,7 +199,7 @@ namespace MyStrategy
      * assigned any role yet) depending on how suitable they are in being assigned
      * the tactic. It then chooses the bot with the highest score and assigns it the tactic.
      */
-    virtual int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const = 0;
+  //  virtual int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const = 0;
     /* This function takes in the current tactic parameter for a robot and
      * using the belief state info and the skill transition rules,
      * it either decides to transit to another skill or continues to run

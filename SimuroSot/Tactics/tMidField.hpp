@@ -62,13 +62,6 @@ namespace MyStrategy
       return true;
     }
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      int minv = *(freeBots.begin());
-      
-      return minv;
-
-    } // chooseBestBot
 
 	void getbotdest(Param tParam,float *x,float *y,float *slope)
     {

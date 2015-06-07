@@ -32,28 +32,6 @@ namespace MyStrategy
     //CHOOSEbEST bOT AND the giving of parameters for going to the required point needs to be entered
     //Choose best bot also needs to get the params that the tactic has in order to choose the best bot....
 
-    int chooseBestBot(std::list<int>& freeBots, const Tactic::Param* tParam) const
-    {
-      assert(tParam != 0);
-      int minv   = *(freeBots.begin());
-      int mindis = 1000000000;
-      Vector2D<int> tGoToPoint(tParam->PositionP.x, tParam->PositionP.y);
-      
-      for (std::list<int>::iterator it = freeBots.begin(); it != freeBots.end(); ++it)
-      {
-        // TODO make the bot choosing process more sophisticated, the logic below returns the 1st available bot
-        float dis_from_point = (state->homePos[*it] - tGoToPoint).absSq();
-        if(*it == botID)
-          dis_from_point -= HYSTERESIS;
-        if(dis_from_point < mindis)
-        {
-          mindis = dis_from_point;
-          minv = *it;
-        }
-      }
-      printf("%d assigned Position\n", minv);
-      return minv;
-    } // chooseBestBot
 
     void execute(const Param& tParam)
     {

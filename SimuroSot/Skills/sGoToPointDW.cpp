@@ -8,10 +8,6 @@
 #include <stdio.h>
 namespace MyStrategy
 {
-
-
-
-
  void SkillSet::goToPointDW(const SParam &param)
  {
    Vector2D<int> dpoint;

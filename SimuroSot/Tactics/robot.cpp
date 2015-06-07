@@ -63,6 +63,7 @@ namespace MyStrategy
     //tacticList[Tactic::PositionForReceive]= new TPositionForReceive(state, botID);
     tacticList[Tactic::ReceiveBall]         = new TReceiveBall(state, botID);
     tacticList[Tactic::AttackLingo]         = new TAttackLingo(state,botID);
+	tacticList[Tactic::AttackNew]           = new TAttackNew(state,botID);
 	//tacticList[Tactic::ChargeToGoal]		= new TChargeToGoal(state,botID);
    // tacticList[Tactic::Attacksupport]         = new TAttacksupport(state,botID);
 	// Initialization check

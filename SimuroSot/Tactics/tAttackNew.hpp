@@ -1,5 +1,5 @@
-#ifndef TTATTACKLINGO_HPP
-#define TTATTACKLINGO_HPP
+#ifndef TTATTACKNEW_HPP
+#define TTATTACKNEW_HPP
 
 #include <list>
 #include "comdef.h"
@@ -13,7 +13,7 @@
 
 namespace MyStrategy
 {
-  class TAttackLingo : public Tactic
+  class TAttackNew: public Tactic
   {
     static const int offset = 400;
     // Corner Case: wall, ball, bot in line
@@ -23,8 +23,8 @@ namespace MyStrategy
     Point2D<int> prevBotPos;
     float prevBotAngle;
   public:
-    TAttackLingo(const BeliefState* state, int botID) :
-      Tactic(Tactic::AttackLingo, state, botID)
+    TAttackNew(const BeliefState* state, int botID) :
+      Tactic(Tactic::AttackNew, state, botID)
     {
       for(int i=0; i<10; i++)
       movementError[i] = 0;
@@ -35,7 +35,7 @@ namespace MyStrategy
       hasAchievedOffset = 0;
     } // TAttack
 
-    ~TAttackLingo()
+    ~TAttackNew()
     { } // ~TAttack
     int hasAchievedOffset;
     inline bool isActiveTactic(void) const
@@ -74,17 +74,7 @@ return id;
 
 	
   void execute(const Param& tParam)
-    { 
-
-		//****************testing kick*******************
-
-		/*sID = SkillSet::KickBall;
-		skillSet->executeSkill(sID, sParam);*/
-
-		//***********************************************
-
-		
-		float offset = 600;
+    {  float offset = 600;
           float factor = 0.00005;
 		  		  int attID=state->ourBotNearestToBall;
 		  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
@@ -108,7 +98,7 @@ return id;
 
 	
       sID = SkillSet::GoToPoint;
-   /*	if(isBallInDBox()==true)
+/*	if(isBallInDBox()==true)
 	  {
 		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.6;
 		  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;
