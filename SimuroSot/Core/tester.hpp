@@ -94,12 +94,8 @@ public:
   static TAttack tattack4(&state,4);
   Tactic::Param pattack;
 
-  //static TAttacksupport tattacksupport1(&state,1);
-  //static TAttacksupport tattacksupport2(&state,2);
-  //static TAttacksupport tattacksupport3(&state,3);
-  //static TAttacksupport tattacksupport4(&state,4);
-  //Tactic::Param pattacksupport;
-
+  
+   static TAttackLingo tattacklingo1(&state,1);
   static TAttackLingo tattacklingo4(&state,4);
   static TAttackLingo tattacklingo3(&state,3);
   static TAttackLingo tattacklingo2(&state,2);
@@ -155,7 +151,7 @@ public:
 		 
 		  //********************************************************
 		  
-		  tGoalOur0.execute(pgoalie);
+		 tGoalOur0.execute(pgoalie);
 	//	 tCover1.execute(pcover);
 
     int dis[3];
@@ -299,7 +295,7 @@ public:
 			  tmidfield4.execute(pmid);
 		  else
 		  tattacklingo4.execute(pattacklingo);
-		if((abs(state.ballPos.y)>HALF_FIELD_MAXY-2.5*BOT_RADIUS)/*||((state.ballPos.x>HALF_FIELD_MAXX-3*BOT_RADIUS-GOAL_DEPTH))||(state.ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH)*/) tattack1.execute(pattack);
+		if((abs(state.ballPos.y)>HALF_FIELD_MAXY-2.5*BOT_RADIUS)|| (state.ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS)) tattack1.execute(pattack);
 		else	tCover1.execute(pcover);
 
 		}
@@ -323,8 +319,9 @@ public:
 				  tmidfield2.execute(pmid);
 			  else
 			  tattacklingo2.execute(pattacklingo);
-			if((abs(state.ballPos.y)>HALF_FIELD_MAXY-2.5*BOT_RADIUS)/*||((state.ballPos.x>HALF_FIELD_MAXX-3*BOT_RADIUS-GOAL_DEPTH)) || (state.ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH)*/) tattack1.execute(pattack);
-			  else	tCover1.execute(pcover);
+			if((abs(state.ballPos.y)>HALF_FIELD_MAXY-2.5*BOT_RADIUS) || (state.ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS)) tattack1.execute(pattack);
+			else	tCover1.execute(pcover);
+			  
 		}
 	
 	}	
@@ -388,7 +385,7 @@ public:
 //		  p1.executeSkill(SkillSet::GoalKeeping,sp);
 		 // tbackup4.execute(pbackup);
 //      p1.executeSkill(SkillSet::GoToPoint,sp); 
-        p1.executeSkill(SkillSet::GoToPointDW,sp1);
+       // p1.executeSkill(SkillSet::GoToPointDW,sp1);
         //  p1.executeSkill(SkillSet::TestSkill,sp2) ;      
 // tAttack0.execute(pAttack);
 
