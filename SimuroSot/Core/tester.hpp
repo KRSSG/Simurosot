@@ -60,9 +60,10 @@ public:
     pVelocity.VelocityP.vl = 20;
     pVelocity.VelocityP.vr = 20;
 
-     static MyStrategy::SParam sp;
+     static MyStrategy::SParam sp , spline;
 	 static MyStrategy::SParam sp1 , sp2;
      
+	 static bool firstRun = true ;
 	 sp.GoToPointP.x =  0;//+ BOT_RADIUS);
 	 sp.GoToPointP.y = 0 ;//+ BOT_RADIUS;
      sp.GoToPointP.align = false;
@@ -71,13 +72,12 @@ public:
 	 sp1.GoToPointDWP.x = 0 ;
 	 sp1.GoToPointDWP.y = 0 ;
 	 sp1.GoToPointDWP.finalslope = PI/2 ;
-     
-  /*
-	 sp.TurnToPointP.x = 0;
-	 sp.TurnToPointP.y = 0;
-    */
 
-	// static SkillSet::goToBallStraight(&param1);
+	 spline.SplineGoToPointP.x = 0 ;
+	 spline.SplineGoToPointP.y = 0 ;
+	 spline.SplineGoToPointP.finalSlope = PI/2 ;
+	 spline.SplineGoToPointP.finalVelocity = 0;
+   static SkillSet spline0(&state,0);
     static SkillSet p1(&state,0);
    
     static TGoalKeepingOurSide tGoalOur0(&state,0);
@@ -151,7 +151,7 @@ public:
 		 
 		  //********************************************************
 		  
-		 tGoalOur0.execute(pgoalie);
+		// tGoalOur0.execute(pgoalie);
 	//	 tCover1.execute(pcover);
 
     int dis[3];
@@ -274,6 +274,7 @@ public:
 	//tmidfield4.execute(pmid);
 	//tattacklingo4.execute(pattacklingo);
 	//tCover1.execute(pcover);
+#ifdef gunjan
 	tReceive3.execute(pReceive);
 	if(dis[0]<dis[2])
 	{
@@ -325,7 +326,7 @@ public:
 		}
 	
 	}	
-
+#endif
 	//***********************************************************************
 	
 
@@ -381,6 +382,7 @@ public:
 	//  tReceive3.execute(pReceive);
       //tDefendLine1.execute(pDefendLine);
   		//  tbackup4.execute(pbackup);
+	 	spline0.executeSkill(SkillSet::SplineGoToPoint,spline);
     // p1.executeSkill(SkillSet::GoToPoint,sp); 
 //		  p1.executeSkill(SkillSet::GoalKeeping,sp);
 		 // tbackup4.execute(pbackup);
