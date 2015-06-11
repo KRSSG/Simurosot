@@ -8,9 +8,7 @@
 #include "../Skills/skillSet.h"
 #include "../Core/beliefState.h"
 #include "../common/include/config.h"
-
-
-
+#include "../HAL/comm.h"
 #include "../common/include/geometry.hpp"
 #include "../winDebugger/Client.h"
 
@@ -58,9 +56,9 @@ void execute(const Param& tParam)
 				Client::debugClient->SendMessages(debug);
 	  Vector2D<int> dest;
 	  bool isDW = false;
-			dest.x=state->ballPos.x-(2.5)*(state->ballPos.x-(HALF_FIELD_MAXX/2))/(HALF_FIELD_MAXX/2)*BOT_RADIUS; //0.5 as factor  dest.y =-SGN(state->ballPos.y)*HALF_FIELD_MAXY*0.4;//-SGN(state->ballPos.y)*1.5*BOT_RADIUS;
+			dest.x=state->ballPos.x-(3.5)*(state->ballPos.x-(HALF_FIELD_MAXX/2))/(HALF_FIELD_MAXX/2)*BOT_RADIUS; //0.5 as factor  dest.y =-SGN(state->ballPos.y)*HALF_FIELD_MAXY*0.4;//-SGN(state->ballPos.y)*1.5*BOT_RADIUS;
 			dest.y=SGN(state->ballPos.y)*0.4*HALF_FIELD_MAXY*(-1);
-			
+			//comm->sendCommand(botID,0,0);
 			
 			//**************************** gunjan ******************************************
 			Vector2D<int> hit;
@@ -125,13 +123,13 @@ void execute(const Param& tParam)
 					  if( state->ballVel.x<200 )
 						  factorx=0.000015;
 					  else if(state->ballVel.x<500 )
-						  factorx=0.000018;
+						  factorx=0.000017;
 					  else if(state->ballVel.x<800 )
-						  factorx=0.000022;
+						  factorx=0.000020;
 					  else if(state->ballVel.x<1200 )
-						  factorx=0.000038;
+						  factorx=0.000030;
 					  else if(state->ballVel.x<1400)
-						  factorx=0.000058;
+						  factorx=0.000056;
 					  else if(state->ballVel.x<1800 )
 						  factorx=0.000072;
 					  else if(state->ballVel.x<2200 )
@@ -141,22 +139,23 @@ void execute(const Param& tParam)
 					  else if(state->ballVel.x<3000 )
 						  factorx=0.000150;
 					  else if(state->ballVel.x<3400 )
-						  factorx=0.000180;
+						  factorx=0.000160;
 					  else if(state->ballVel.x<3800 )
-						  factorx=0.000200;
-					  else factorx=0.000300;
+						  factorx=0.000180;
+					  else factorx=0.0002;
+
 
 					   float factory = 0.00008;
 					  if( state->ballVel.y<200 )
 						  factory=0.000015;
 					  else if(state->ballVel.y<500 )
-						  factory=0.000018;
+						  factory=0.000017;
 					  else if(state->ballVel.y<800 )
-						  factory=0.000022;
+						  factory=0.000020;
 					  else if(state->ballVel.y<1200 )
-						  factory=0.000032;
+						  factory=0.000030;
 					  else if(state->ballVel.y<1400)
-						  factory=0.000058;
+						  factory=0.000056;
 					  else if(state->ballVel.y<1800 )
 						  factory=0.000072;
 					  else if(state->ballVel.y<2200 )
@@ -166,10 +165,10 @@ void execute(const Param& tParam)
 					  else if(state->ballVel.y<3000 )
 						  factory=0.000150;
 					  else if(state->ballVel.y<3400 )
-						  factory=0.000180;
+						  factory=0.000160;
 					  else if(state->ballVel.y<3800 )
-						  factory=0.000200;
-					  else factory=0.00030;
+						  factory=0.000180;
+					  else factory=0.00020;
 
 					  //////////////////////////
 						float dist;

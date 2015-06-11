@@ -10,6 +10,12 @@
 #include "../common/include/geometry.hpp"
 #include "../Utils/intersection.hpp"
 #include "../winDebugger/Client.h"
+#include "../Utils/comdef.h"
+#include "../common/include/config.h"
+
+
+#include "../HAL/comm.h"
+
 
 namespace MyStrategy
 {
@@ -26,6 +32,7 @@ namespace MyStrategy
     TAttackLingo(const BeliefState* state, int botID) :
       Tactic(Tactic::AttackLingo, state, botID)
     {
+		iState=ATTACK_LINGO;
       for(int i=0; i<10; i++)
       movementError[i] = 0;
       movementErrorSum  = 0;
@@ -42,7 +49,12 @@ namespace MyStrategy
     {
       return true;
     }
-
+	 enum InternalState
+    {
+      ATTACK_LINGO,
+      DEFEND,
+      FORM_SWARM
+    } iState;
 
     bool pointxInField(Vector2D<int> final)
     {
@@ -76,76 +88,82 @@ return id;
   void execute(const Param& tParam)
     { 
 
-		//****************testing kick*******************
+		switch(iState)
+		{
+			//*******************************************  gunjan ******************************************
+			case ATTACK_LINGO :
+			{
+				if(abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && (state->homePos[botID].x>state->homePos[state->ourBotNearestToBall].x  ))
+				{
+					iState=FORM_SWARM;
+					break;
+				}
+				    	  float offset = 600;
+						  float factor = 0.00005;
+		  						  int attID=state->ourBotNearestToBall;
+						  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
+						  float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(OPP_GOAL_X, 0));
+						  int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
+						  int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x - BOT_RADIUS*cos(ang);//1
+						  int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y - BOT_RADIUS*sin(ang);  //1
 
-		/*sID = SkillSet::KickBall;
-		skillSet->executeSkill(sID, sParam);*/
+						  int x3 = (targetX * (ballgoaldist + offset) - offset * OPP_GOAL_X) / ballgoaldist - BOT_RADIUS*cos(ang);
+						  int y3 = (targetY * (ballgoaldist + offset)) / ballgoaldist - BOT_RADIUS*sin(ang);
 
-		//***********************************************
-
-		
-		float offset = 600;
-          float factor = 0.00005;
-		  		  int attID=state->ourBotNearestToBall;
-		  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
-		  float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(OPP_GOAL_X, 0));
-          int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
-          int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x - BOT_RADIUS*cos(ang);//1
-          int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y - BOT_RADIUS*sin(ang);  //1
-
-		  int x3 = (targetX * (ballgoaldist + offset) - offset * OPP_GOAL_X) / ballgoaldist - BOT_RADIUS*cos(ang);
-          int y3 = (targetY * (ballgoaldist + offset)) / ballgoaldist - BOT_RADIUS*sin(ang);
-
-		 /* if(state->ballPos.x > HALF_FIELD_MAXX/2 && ((state->ballPos.y<-HALF_FIELD_MAXY+2*BOT_BALL_THRESH)||(state->ballPos.y>HALF_FIELD_MAXY-2*BOT_BALL_THRESH)) )
-		  {
-			  int id =opponentProbableGoalkeeper();
-			  targetX= HALF_FIELD_MAXX-GOAL_DEPTH- 3*BOT_RADIUS;
-			  if(state->awayPos[id].y<0) targetY= OPP_GOAL_MAXY-BOT_RADIUS;
-			  else targetY=OPP_GOAL_MINY+BOT_RADIUS;
-		  }*/
-
-
-
-	
-      sID = SkillSet::GoToPoint;
-   /*	if(isBallInDBox()==true)
-	  {
-		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.6;
-		  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;
-	   
+					  sID = SkillSet::GoToPoint;
+  
+					  if(targetX < (-HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS))   //changed acc to rules
+					  {
+						  targetX = -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS;
+					  }
 	  
-	  }
-	else
-	{*/
-	  if(targetX < (-HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS))   //changed acc to rules
-	  {
-		  targetX = -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS;
-	  }
-	  
-	  if((targetX >( HALF_FIELD_MAXX - GOAL_DEPTH - 2*BOT_RADIUS))&&(abs(targetY) < OUR_GOAL_MAXY + BOT_RADIUS))  //changed acc to rules.................
-		  {
-			  targetY = SGN(targetY)*(OUR_GOAL_MAXY + BOT_RADIUS) ;
-			  targetX =  HALF_FIELD_MAXX -GOAL_DEPTH - 3*BOT_RADIUS ;
-		  } 
+					  if((targetX >( HALF_FIELD_MAXX - GOAL_DEPTH - 2*BOT_RADIUS))&&(abs(targetY) < OUR_GOAL_MAXY + BOT_RADIUS))  //changed acc to rules.................
+						  {
+							  targetY = SGN(targetY)*(OUR_GOAL_MAXY + BOT_RADIUS) ;
+							  targetX =  HALF_FIELD_MAXX -GOAL_DEPTH - 3*BOT_RADIUS ;
+						  } 
 	    
+						sParam.GoToPointP.x = targetX;
+						sParam.GoToPointP.y = targetY;
+					  sParam.GoToPointP.align = true;
+					  sParam.GoToPointP.increaseSpeed = true;
+					   skillSet->executeSkill(sID, sParam);
+			}
+
+			case FORM_SWARM :
+				{
+					Vector2D<int> dest;
+					if(state->homePos[botID].x > state->homePos[state->ourBotNearestToBall].x && abs(state->ballPos.y) > HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS)
+					{
+						dest.x=state->homePos[state->ourBotNearestToBall].x-3*BOT_RADIUS;
+						dest.y=state->homePos[state->ourBotNearestToBall].y-SGN(state->homePos[state->ourBotNearestToBall].y)*2*BOT_RADIUS;
+					}
+					else if(state->homePos[botID].x > state->homePos[state->ourBotNearestToBall].x && abs(state->ballPos.y) > HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)>HALF_FIELD_MAXY-2*BOT_RADIUS)
+					{
+						dest.y=state->homePos[state->ourBotNearestToBall].y-SGN(state->homePos[state->ourBotNearestToBall].y)*2.5*BOT_RADIUS;
+						dest.x=state->homePos[botID].x;
+					}
+					
+					else
+					{
+						iState=ATTACK_LINGO;
+						break;
+					}
+					  sID = SkillSet::GoToPoint;
+					  sParam.GoToPointP.x = dest.x;
+				      sParam.GoToPointP.y = dest.y;
+					  sParam.GoToPointP.align = true;
+					  sParam.GoToPointP.increaseSpeed = true;
+					  sParam.GoToPointP.finalVelocity=MAX_BOT_SPEED;
+					   skillSet->executeSkill(sID, sParam);
 
 
-	 // if(targetX<-HALF_FIELD_MAXX+2*GOAL_DEPTH+0.5*BOT_RADIUS && abs(targetY)<OUR_GOAL_MAXY+5*BOT_RADIUS ) targetX=-HALF_FIELD_MAXX+2*GOAL_DEPTH;  
+				}
+			 
+				
+		}// switch 
 
-		sParam.GoToPointP.x = targetX;
-		sParam.GoToPointP.y = targetY;
-		//sParam.GoToPointP.x = state->homePos[index].x;//- BOT_RADIUS;
-	  //sParam.GoToPointP.y = state->homePos[index].y-SGN(state->homePos[index].y)*2*BOT_RADIUS;
-	  //sParam.GoToPointP.finalslope =  0.9*(state->homePos[index].angle) ; 
-	  sParam.GoToPointP.align = true;
-	  sParam.GoToPointP.increaseSpeed = true;
-	//}
-	 
-	  //sParam.GoToPointP.finalVelocity = 100*MAX_BOT_SPEED;
-	   skillSet->executeSkill(sID, sParam);
-
-
-    }//; // class TAttack*/
+    }// execute
   
 	bool isBallInDBox()
   {
@@ -156,6 +174,6 @@ return id;
 
   
   }
-    }; // namespace MyStrategy
-}
+    };//class TAttack
+} // namespace MyStrategy
 #endif // TTCharge_HPP

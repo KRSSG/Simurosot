@@ -48,6 +48,8 @@ namespace MyStrategy
       SPINNING_CW,
       ATTACKING,
       CLOSE_TO_BALL,
+	  FORM_SWARM,
+	  FORM_SWARM_DEFENDER,
       STUCK
     } iState;
     int hasAchievedOffset;
@@ -209,11 +211,27 @@ void shoot(){
           /* Ball is not with bot so go to ball first */
                     sprintf(debug,"dist = %f\n",dist);
                         ////Client::debugClient->SendMessages(debug);
-          if(dist<BOT_BALL_THRESH)
+          
+		if(botID!=1 && botID!=state->ourBotNearestToBall && (abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && state->homePos[state->ourBotNearestToBall].x-2*BOT_RADIUS<state->homePos[botID].x)||((state->ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state->homePos[state->ourBotNearestToBall].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state->ballPos.y>OPP_GOAL_MAXY && state->ballVel.y>0 && state->homePos[state->ourBotNearestToBall].y>state->homePos[botID].y)||(state->ballPos.y<OPP_GOAL_MINY && state->ballVel.y<0 && state->homePos[state->ourBotNearestToBall].y<state->homePos[botID].y))))
+		  {
+			  iState=FORM_SWARM;
+			  break;
+
+		  }		
+		if(botID==1 && botID!=state->ourBotNearestToBall && (abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && state->homePos[state->ourBotNearestToBall].x-2*BOT_RADIUS<state->homePos[botID].x)||((state->ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state->homePos[state->ourBotNearestToBall].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state->ballPos.y>OPP_GOAL_MAXY && state->ballVel.y>0 && state->homePos[state->ourBotNearestToBall].y>state->homePos[botID].y)||(state->ballPos.y<OPP_GOAL_MINY && state->ballVel.y<0 && state->homePos[state->ourBotNearestToBall].y<state->homePos[botID].y))))
+		  {
+			  iState=FORM_SWARM_DEFENDER;
+			  break;
+
+		  }		
+		if(dist<BOT_BALL_THRESH)
           {
             iState = CLOSE_TO_BALL ;
             break;
           }
+		  
+
+
 		 // shoot();
 		 //  break;
                    sprintf(debug,"i am here 1\n");
@@ -245,6 +263,7 @@ void shoot(){
 			  factory=0.00006;
 		  else factory=0.00008;
 		  //****************************************************
+		 //float factorx,factory;
 		  //factorx=factory=0.00005;
 
           int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
@@ -380,7 +399,7 @@ void shoot(){
 
         case CLOSE_TO_BALL:
         {
-          if(fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x))) < PI / 2 + PI / 20 && fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x)))  > PI / 2 - PI / 20)
+			if(fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x))) < PI / 2 + PI / 20 && fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x)))  > PI / 2 - PI / 20 )
           {
             if(state->ballPos.y > 0)
               iState = FIELD_IS_INVERTED? SPINNING_CCW : SPINNING_CW;        //opposite of false
@@ -428,6 +447,66 @@ void shoot(){
           break;
           
         }
+		case FORM_SWARM :
+			{
+				Vector2D<int> dest;
+				if(state->homePos[botID].x<state->homePos[state->ourBotNearestToBall].x && abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS)
+				{
+						
+						dest.x=state->homePos[state->ourBotNearestToBall].x-3*BOT_RADIUS;
+						dest.y=SGN(state->homePos[state->ourBotNearestToBall].y)*(HALF_FIELD_MAXY-2*BOT_RADIUS);
+
+				}
+				else if(dist<BOT_BALL_THRESH)
+				{
+					iState = CLOSE_TO_BALL ;
+					break;
+			    }
+				else
+				{	iState=APPROACHING;
+				    break;
+				}
+				while(dest.x<-HALF_FIELD_MAXX+BOT_RADIUS)
+				{
+					dest.x-=BOT_RADIUS;
+				}
+				sID = SkillSet::GoToPoint;
+				sParam.GoToPointP.x = dest.x;
+				sParam.GoToPointP.y = dest.y;
+				//sParam.GoToPointP.finalslope = Vector2D<int>::angle( Vector2D<int>(OPP_GOAL_X, 0),state->ballPos);
+				sParam.GoToPointP.increaseSpeed = 1;
+				sParam.GoToPointP.finalVelocity=MAX_BOT_SPEED;
+				skillSet->executeSkill(sID, sParam);
+
+			}
+		case FORM_SWARM_DEFENDER :
+			{
+				Vector2D<int> dest;
+				if(state->homePos[botID].x > state->homePos[state->ourBotNearestToBall].x && abs(state->ballPos.y) > HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS)
+					{
+						dest.x=state->homePos[state->ourBotNearestToBall].x-3*BOT_RADIUS;
+						dest.y=state->homePos[state->ourBotNearestToBall].y-SGN(state->homePos[state->ourBotNearestToBall].y)*2*BOT_RADIUS;
+					}
+				else if(state->homePos[botID].x > state->homePos[state->ourBotNearestToBall].x && abs(state->ballPos.y) > HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)>HALF_FIELD_MAXY-2*BOT_RADIUS)
+					{
+						dest.y=state->homePos[state->ourBotNearestToBall].y-SGN(state->homePos[state->ourBotNearestToBall].y)*2.5*BOT_RADIUS;
+						dest.x=state->homePos[botID].x;
+					}
+				else
+				{	iState=APPROACHING;
+				    break;
+				}
+					sID = SkillSet::GoToPoint;
+				sParam.GoToPointP.x = dest.x;
+				sParam.GoToPointP.y = dest.y;
+				//sParam.GoToPointP.finalslope = Vector2D<int>::angle( Vector2D<int>(OPP_GOAL_X, 0),state->ballPos);
+				sParam.GoToPointP.increaseSpeed = 1;
+				sParam.GoToPointP.finalVelocity=MAX_BOT_SPEED;
+				skillSet->executeSkill(sID, sParam);
+
+
+			}
+
       }       
 
  
