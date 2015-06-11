@@ -46,6 +46,7 @@ namespace MyStrategy
       Velocity,             // Move at a fixed velocity     
       AttackLingo,
 	  ChargeToGoal,
+	  //Attacksupport,
       MAX_TACTICS,          // Total number of tactics. All Implemented Tactics above this point
     };
     /* List the UnImplented Tactics below this line. When Implemented:
@@ -124,6 +125,7 @@ namespace MyStrategy
       struct type10
       {
         bool rotateOnError;
+
       } AttackP,AttackLingoP,AttackNewP;      
       struct type11
       {

@@ -221,8 +221,9 @@ void shoot(){
           sID = SkillSet::GoToPoint;
           sParam.GoToPointP.align = true;
           float ballgoaldist = Vector2D<int>::dist(state->ballPos, Vector2D<int>(OPP_GOAL_X, 0));
-                  sprintf(debug,"ballgoaldist = %f\n",ballgoaldist);
-                  ////Client::debugClient->SendMessages(debug);
+                 // sprintf(debug,"ballgoaldist = %f\n",ballgoaldist);
+		  //sprintf(debug,"%d\n",state->ballVel.y/*,time_error[minimum],dest.x,dest.y*/);  
+				//Client::debugClient->SendMessages(debug);
           float offset = 600;
          
 		  //******************** changed**********************

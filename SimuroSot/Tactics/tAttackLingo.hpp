@@ -74,7 +74,17 @@ return id;
 
 	
   void execute(const Param& tParam)
-    {  float offset = 600;
+    { 
+
+		//****************testing kick*******************
+
+		/*sID = SkillSet::KickBall;
+		skillSet->executeSkill(sID, sParam);*/
+
+		//***********************************************
+
+		
+		float offset = 600;
           float factor = 0.00005;
 		  		  int attID=state->ourBotNearestToBall;
 		  float ang=Vector2D<int>::angle(state->ballPos, state->homePos[botID]); //attID;  //changed ..............................
@@ -98,7 +108,7 @@ return id;
 
 	
       sID = SkillSet::GoToPoint;
-/*	if(isBallInDBox()==true)
+   /*	if(isBallInDBox()==true)
 	  {
 		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.6;
 		  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;

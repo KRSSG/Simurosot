@@ -65,7 +65,8 @@ namespace MyStrategy
     tacticList[Tactic::AttackLingo]         = new TAttackLingo(state,botID);
 	tacticList[Tactic::AttackNew]           = new TAttackNew(state,botID);
 	//tacticList[Tactic::ChargeToGoal]		= new TChargeToGoal(state,botID);
-    // Initialization check
+   // tacticList[Tactic::Attacksupport]         = new TAttacksupport(state,botID);
+	// Initialization check
     for (int tID = 0; tID < Tactic::MAX_TACTICS; ++tID)
     {
       assert(tacticList[tID] != NULL); // Tactic enum not mapped to the corresponding Tactic object
