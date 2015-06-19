@@ -226,7 +226,7 @@ namespace MyStrategy
                                 
         awayPosSigmaSqK[id].y    = awayPosSigmaSqK[id].y * ( 1 - awayPosK[id].y) + SIGMA_SQ_NOISE_POS * delTime;
         awayPosK[id].y           = awayPosSigmaSqK[id].y / (awayPosSigmaSqK[id].y + SIGMA_SQ_OBSVN_POS);
-        float  predictedPoseY    = /*newy;*/awayPose[id].y + awayVelocity[id].y * (delTime);
+        float  predictedPoseY    =  /*newy;*/awayPose[id].y + awayVelocity[id].y * (delTime);
         float  lastPoseY         = awayPose[id].y;
         awayPose[id].y           = predictedPoseY + awayPosK[id].y * (newy - predictedPoseY);
         float lastVelocityy      = awayVelocity[id].y;

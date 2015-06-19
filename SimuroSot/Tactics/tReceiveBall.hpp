@@ -63,28 +63,29 @@ void execute(const Param& tParam)
 			//**************************** gunjan ******************************************
 			Vector2D<int> hit;
 			Vector2D<int> oppGoal(HALF_FIELD_MAXX,0);
-			int n;
+			float n;
 			/*if(state->ballVel.y<600) n=1.2;
 			else if(state->ballVel.y<1000) n=1.3;
 			else if(state->ballVel.y<1200) n=1.7;
 			else if(state->ballVel.y<1400) n=2.3;
 			else n=4.2;*/
-			if(state->ballVel.y<200) n=1.25;
-			else if(state->ballVel.y<400) n=1.3;
-			else if(state->ballVel.y<800) n=1.4;
-			else if(state->ballVel.y<1000) n=1.5;
-			else if(state->ballVel.y<1200) n=1.7;
-			else if(state->ballVel.y<1600) n=2;
-			else if(state->ballVel.y<1800) n=2.25;
-			else if(state->ballVel.y<2000) n=2.5;
-			else if(state->ballVel.y<2200) n=2.8;
+			if(state->ballVel.y<200) n=1.05;
+			else if(state->ballVel.y<400) n=1.1;
+			else if(state->ballVel.y<800) n=1.2;
+			else if(state->ballVel.y<1000) n=1.3;
+			else if(state->ballVel.y<1200) n=1.4;
+			else if(state->ballVel.y<1600) n=2.1;
+			else if(state->ballVel.y<1800) n=2.2;
+			else if(state->ballVel.y<2000) n=2.4;
+			else if(state->ballVel.y<2200) n=2.6;
+			else if(state->ballVel.y<2500) n=3.0;
 			else if(state->ballVel.y<2800) n=3.2;
 			else if(state->ballVel.y<35000) n=4;
 			else n=6;
 			
 				if( abs(state->ballVel.y)>3000 && abs(state->ballVel.x)>1800 && state->ballPos.x>HALF_FIELD_MAXX/2+2*BOT_RADIUS)
 			{
-				dest.x=HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH-BOT_RADIUS*0.5;
+				dest.x=HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH-BOT_RADIUS;
 				dest.y=0;
 			}
 				 else if(((state->ballPos.y)>HALF_FIELD_MAXY - 1.6*BOT_RADIUS || (state->ballPos.y)< -HALF_FIELD_MAXY + 1.6*BOT_RADIUS) && state->ballVel.x>800) 
@@ -94,7 +95,7 @@ void execute(const Param& tParam)
 				dest.y=0;
 			 }
 			
-			else if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS /*&& abs(state->ballVel.x)<500*/ && abs(state->ballPos.y)>OPP_GOAL_MAXY-0.5*BOT_RADIUS && abs(state->ballPos.y)<4.5*BOT_RADIUS+OPP_GOAL_MAXY)
+			else if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS /*&& abs(state->ballVel.x)<500*/ && abs(state->ballPos.y)>OPP_GOAL_MAXY-0.5*BOT_RADIUS && abs(state->ballPos.y)<5*BOT_RADIUS+OPP_GOAL_MAXY)
 			 {
 					int id=0;
 				for(int i=0;i<4;i++)
@@ -121,21 +122,21 @@ void execute(const Param& tParam)
 
 						 float factorx = 0.00008;
 					  if( state->ballVel.x<200 )
-						  factorx=0.000015;
+						  factorx=0.000012;
 					  else if(state->ballVel.x<500 )
-						  factorx=0.000017;
+						  factorx=0.000015;
 					  else if(state->ballVel.x<800 )
-						  factorx=0.000020;
+						  factorx=0.000018;
 					  else if(state->ballVel.x<1200 )
-						  factorx=0.000030;
+						  factorx=0.000026;
 					  else if(state->ballVel.x<1400)
-						  factorx=0.000056;
+						  factorx=0.000045;
 					  else if(state->ballVel.x<1800 )
-						  factorx=0.000072;
+						  factorx=0.000065;
 					  else if(state->ballVel.x<2200 )
 						  factorx=0.000090;
 					  else if(state->ballVel.x<2600 )
-						  factorx=0.000120;
+						  factorx=0.000130;
 					  else if(state->ballVel.x<3000 )
 						  factorx=0.000150;
 					  else if(state->ballVel.x<3400 )
@@ -147,21 +148,21 @@ void execute(const Param& tParam)
 
 					   float factory = 0.00008;
 					  if( state->ballVel.y<200 )
-						  factory=0.000015;
+						  factory=0.000012;
 					  else if(state->ballVel.y<500 )
-						  factory=0.000017;
+						  factory=0.000015;
 					  else if(state->ballVel.y<800 )
-						  factory=0.000020;
+						  factory=0.000018;
 					  else if(state->ballVel.y<1200 )
-						  factory=0.000030;
+						  factory=0.000026;
 					  else if(state->ballVel.y<1400)
-						  factory=0.000056;
+						  factory=0.000045;
 					  else if(state->ballVel.y<1800 )
-						  factory=0.000072;
+						  factory=0.000065;
 					  else if(state->ballVel.y<2200 )
 						  factory=0.000090;
 					  else if(state->ballVel.y<2600 )
-						  factory=0.000120;
+						  factory=0.000130;
 					  else if(state->ballVel.y<3000 )
 						  factory=0.000150;
 					  else if(state->ballVel.y<3400 )

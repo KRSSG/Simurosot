@@ -212,13 +212,13 @@ void shoot(){
                     sprintf(debug,"dist = %f\n",dist);
                         ////Client::debugClient->SendMessages(debug);
           
-		if(botID!=1 && botID!=state->ourBotNearestToBall && (abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && state->homePos[state->ourBotNearestToBall].x-2*BOT_RADIUS<state->homePos[botID].x)||((state->ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state->homePos[state->ourBotNearestToBall].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state->ballPos.y>OPP_GOAL_MAXY && state->ballVel.y>0 && state->homePos[state->ourBotNearestToBall].y>state->homePos[botID].y)||(state->ballPos.y<OPP_GOAL_MINY && state->ballVel.y<0 && state->homePos[state->ourBotNearestToBall].y<state->homePos[botID].y))))
+					if( Vector2D<int>::dist(state->ballPos,state->homePos[state->oppBotNearestToBall])<2*BOT_BALL_THRESH   && state->ballPos.x < HALF_FIELD_MAXX-3*BOT_RADIUS && state->ballPos.x>-HALF_FIELD_MAXX+GOAL_DEPTH+4*BOT_RADIUS && botID!=1 && botID!=state->ourBotNearestToBall && (abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && state->homePos[state->ourBotNearestToBall].x-2*BOT_RADIUS<state->homePos[botID].x)||((state->ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state->homePos[state->ourBotNearestToBall].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state->ballPos.y>OPP_GOAL_MAXY && state->ballVel.y>0 && state->homePos[state->ourBotNearestToBall].y>state->homePos[botID].y)||(state->ballPos.y<OPP_GOAL_MINY && state->ballVel.y<0 && state->homePos[state->ourBotNearestToBall].y<state->homePos[botID].y))))
 		  {
 			  iState=FORM_SWARM;
 			  break;
 
 		  }		
-		if(botID==1 && botID!=state->ourBotNearestToBall && (abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && state->homePos[state->ourBotNearestToBall].x-2*BOT_RADIUS<state->homePos[botID].x)||((state->ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state->homePos[state->ourBotNearestToBall].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state->ballPos.y>OPP_GOAL_MAXY && state->ballVel.y>0 && state->homePos[state->ourBotNearestToBall].y>state->homePos[botID].y)||(state->ballPos.y<OPP_GOAL_MINY && state->ballVel.y<0 && state->homePos[state->ourBotNearestToBall].y<state->homePos[botID].y))))
+		    if(state->ballPos.x < HALF_FIELD_MAXX-3*BOT_RADIUS && state->ballPos.x>-HALF_FIELD_MAXX+GOAL_DEPTH+6*BOT_RADIUS && botID==1 && botID!=state->ourBotNearestToBall && (abs(state->homePos[state->ourBotNearestToBall].y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && state->homePos[state->ourBotNearestToBall].x-2*BOT_RADIUS<state->homePos[botID].x)||((state->ballPos.x)>HALF_FIELD_MAXX- 2*BOT_RADIUS && (state->homePos[state->ourBotNearestToBall].x)>HALF_FIELD_MAXX- 2*BOT_RADIUS &&((state->ballPos.y>OPP_GOAL_MAXY && state->ballVel.y>0 && state->homePos[state->ourBotNearestToBall].y>state->homePos[botID].y)||(state->ballPos.y<OPP_GOAL_MINY && state->ballVel.y<0 && state->homePos[state->ourBotNearestToBall].y<state->homePos[botID].y))))
 		  {
 			  iState=FORM_SWARM_DEFENDER;
 			  break;
@@ -252,7 +252,11 @@ void shoot(){
 			  factorx=0.00005;
 		  else if(state->ballVel.x<1400)
 			  factorx=0.00006;
-		  else factorx=0.00008;
+		  else if(state->ballVel.x<2000)
+			  factorx=0.00007;
+		  else if(state->ballVel.x<3000)
+			  factorx=0.00008;
+		  else factorx=0.00010;
 
 		   float factory = 0.00005;
 		  if( state->ballVel.y<200 )
@@ -261,10 +265,14 @@ void shoot(){
 			  factory=0.00004;
 		  else if(state->ballVel.y<1400)
 			  factory=0.00006;
-		  else factory=0.00008;
+		  else if(state->ballVel.y<2000)
+			  factory=0.00007;
+		  else if(state->ballVel.y<3000)
+			  factory=0.00008;
+		  else factory=0.0001;
 		  //****************************************************
-		 //float factorx,factory;
-		  //factorx=factory=0.00005;
+		 /*float factorx,factory;
+		  factorx=factory=0.00002;*/
 
           int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
           int targetX = state->ballPos.x + (int)ballBotDist * factorx * state->ballVel.x;
@@ -335,7 +343,7 @@ void shoot(){
       if(ForwardX(state->ballPos.x) < ForwardX(state->homePos[botID].x) && Vector2D<int>::dist(state->ballPos,state->homePos[botID]) < 1000) 
 		  sParam.GoToPointP.align = true;
    //resricting     
-	/*  if((sParam.GoToPointP.x < -HALF_FIELD_MAXX/2)&&(abs(state->ballPos.y)<0.6*HALF_FIELD_MAXY))
+	 /*  if((sParam.GoToPointP.x < -HALF_FIELD_MAXX/2)&&(abs(state->ballPos.y)<0.6*HALF_FIELD_MAXY))
 
 		{ 
 			sParam.GoToPointP.x  = ForwardX(-HALF_FIELD_MAXX/2);
@@ -353,6 +361,72 @@ void shoot(){
 		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.5;
 		  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;
 	  }
+
+	   /////////////////////////////////////////////////////////////
+
+
+			       if (state->homePos[0].x + BOT_RADIUS > state->homePos[botID].x)		// will not disturb GoalKeeper from the back: By KD
+						{
+							if (state->ballPos.y > 0)
+								{
+									sID = SkillSet::GoToPoint;
+									if (Vector2D<int>::dist(state->homePos[0], state->homePos[botID]) <= 3*BOT_RADIUS)
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = PI/2;
+										sParam.GoToPointP.x = state->homePos[botID].x;
+										sParam.GoToPointP.y = state->homePos[botID].y - 2*BOT_RADIUS;
+									}
+									else
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = 0;
+										sParam.GoToPointP.x = state->homePos[botID].x + 2*BOT_RADIUS;
+										sParam.GoToPointP.y = state->homePos[botID].y;
+									}
+								}
+								else
+								{
+									sID = SkillSet::GoToPoint;
+									if (Vector2D<int>::dist(state->homePos[0], state->homePos[botID]) <= 3.5*BOT_RADIUS)
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = PI/2;
+										sParam.GoToPointP.x = state->homePos[botID].x;
+										sParam.GoToPointP.y = state->homePos[botID].y + 2*BOT_RADIUS;
+									}
+									else
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = 0;
+										sParam.GoToPointP.x = state->homePos[botID].x + 2*BOT_RADIUS;
+										sParam.GoToPointP.y = state->homePos[botID].y;
+									}
+								}
+				
+						}					//Totally working: Approved. Now it works universally
+						
+
+	    //////////////////////////////////////////////////////////
+
+				   if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS && state->homePos[botID].x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS)
+				   {
+					   if(state->ballPos.y>OPP_GOAL_MAXY && state->homePos[botID].y<state->ballPos.y)
+					   {
+						  sParam.GoToPointP.x=HALF_FIELD_MAXX-GOAL_DEPTH-4*BOT_RADIUS;
+						   sParam.GoToPointP.y=state->homePos[botID].y;
+					   }
+					   if(state->ballPos.y<OPP_GOAL_MINY && state->homePos[botID].y>state->ballPos.y)
+					   {
+						  sParam.GoToPointP.x=HALF_FIELD_MAXX-GOAL_DEPTH-4*BOT_RADIUS;
+						   sParam.GoToPointP.y=state->homePos[botID].y;
+					   }
+				   }
+				   
+
+
+
+	   ////////////////////////////////////////////////////////////
 
 
 	  skillSet->executeSkill(sID, sParam);
@@ -399,7 +473,7 @@ void shoot(){
 
         case CLOSE_TO_BALL:
         {
-			if(fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x))) < PI / 2 + PI / 20 && fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x)))  > PI / 2 - PI / 20 )
+			if(abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS && fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x))) < PI / 2 + PI / 20 && fabs((float)normalizeAngle(state->homeAngle[botID] - atan2(state->homePos[botID].y - state->ballPos.y, state->homePos[botID].x - state->ballPos.x)))  > PI / 2 - PI / 20 )
           {
             if(state->ballPos.y > 0)
               iState = FIELD_IS_INVERTED? SPINNING_CCW : SPINNING_CW;        //opposite of false
@@ -433,7 +507,18 @@ void shoot(){
             */sParam.GoToPointP.align = false;
             sParam.GoToPointP.x = OPP_GOAL_X;
             sParam.GoToPointP.y = destY;
-            sParam.GoToPointP.finalslope = Vector2D<int>::angle( Vector2D<int>(OPP_GOAL_X, 0),state->ballPos);
+			if(abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)>HALF_FIELD_MAXY-1.7 && botID==state->ourBotNearestToBall)
+			{
+				sParam.GoToPointP.finalslope = Vector2D<int>::angle(state->ballPos,state->homePos[botID]);
+			}
+			else if(abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)>HALF_FIELD_MAXY-1.7*BOT_RADIUS && botID!=state->ourBotNearestToBall)
+			{
+				sParam.GoToPointP.finalslope = Vector2D<int>::angle(state->homePos[state->oppBotNearestToBall],state->homePos[botID]);
+			}
+			else
+			{
+				sParam.GoToPointP.finalslope = Vector2D<int>::angle( Vector2D<int>(OPP_GOAL_X, 0),state->ballPos);
+			}
             sParam.GoToPointP.increaseSpeed = 1;
             skillSet->executeSkill(sID, sParam);
             tState = RUNNING;
@@ -450,7 +535,7 @@ void shoot(){
 		case FORM_SWARM :
 			{
 				Vector2D<int> dest;
-				if(state->homePos[botID].x<state->homePos[state->ourBotNearestToBall].x && abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS)
+				if(Vector2D<int>::dist(state->ballPos,state->homePos[state->oppBotNearestToBall])<2*BOT_BALL_THRESH && state->homePos[botID].x<state->homePos[state->ourBotNearestToBall].x && abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS)
 				{
 						
 						dest.x=state->homePos[state->ourBotNearestToBall].x-3*BOT_RADIUS;
@@ -466,10 +551,7 @@ void shoot(){
 				{	iState=APPROACHING;
 				    break;
 				}
-				while(dest.x<-HALF_FIELD_MAXX+BOT_RADIUS)
-				{
-					dest.x-=BOT_RADIUS;
-				}
+				
 				sID = SkillSet::GoToPoint;
 				sParam.GoToPointP.x = dest.x;
 				sParam.GoToPointP.y = dest.y;

@@ -81,11 +81,11 @@ namespace MyStrategy
         bool increaseSpeed;
 		bool trapezoidal;
       } GoToPointP;
-	  //struct type9
-	  //{
-		 // //*************** trying to use DYNAMIC WINDOW for kicking  ........ *****gunjan ***********
-		
-	  //}KickBallP;
+	 /* struct type9
+	  {
+		  float center;
+		  float radius;
+	  }TestSkill;*/
 
     };
   class SkillSet
