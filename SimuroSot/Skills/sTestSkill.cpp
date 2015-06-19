@@ -34,18 +34,18 @@ namespace MyStrategy
 	 if(vel<200)
 		 radius=300;
 	 if(vel<300)
-		 radius=400;
+		 radius=500;
 	 if(vel<500)
-		 radius=800;
-	 if(vel<1000)
-		 radius=900;
-	 if(vel<1200)
 		 radius=1000;
-	 if(vel<1400)
+	 if(vel<1000)
+		 radius=1000;
+	 if(vel<1200)
 		 radius=1100;
-	 if(vel<1800)
+	 if(vel<1400)
 		 radius=1200;
-	 else radius=1400;
+	 if(vel<1800)
+		 radius=1300;
+	 else radius=1600;
 	 
 	 
 	 //*************** center calculation **************************
@@ -151,14 +151,13 @@ namespace MyStrategy
 	 
 	 //************************************************************
 	 
-			if(abs(state->ballPos.y)>HALF_FIELD_MAXY-2*BOT_BALL_THRESH && dest.x<state->ballPos.x && abs(state->homePos[botID].y)>abs(state->ballPos.y))
+		/*	if(abs(state->ballPos.y)>HALF_FIELD_MAXY-1.6*BOT_BALL_THRESH && dest.x<state->ballPos.x && abs(state->homePos[botID].y)>abs(state->ballPos.y))
 				{
 					dest.y=state->ballPos.y-SGN(state->ballPos.y)*2*BOT_RADIUS;
 					dest.x=state->homePos[botID].x;
-				}
+				}	
 			
-			
-			if(abs(state->ballPos.y)>HALF_FIELD_MAXY-1.6*BOT_BALL_THRESH && dest.x<state->ballPos.x && abs(dest.y)>HALF_FIELD_MAXY-2*BOT_BALL_THRESH )
+			else*/	 if(abs(state->ballPos.y)>HALF_FIELD_MAXY-1.6*BOT_RADIUS && dest.x<state->ballPos.x && abs(dest.y)>HALF_FIELD_MAXY-2*BOT_BALL_THRESH )
 			{
 				dest.x=state->ballPos.x+dx*(factorx+0.00001)*state->ballVel.x;
 			}
@@ -169,7 +168,11 @@ namespace MyStrategy
 			
 			
 			
-			
+			if(abs(dest.y)>HALF_FIELD_MAXY)
+			{
+				dest.y=dest.y-SGN(dest.y)*HALF_FIELD_MAXY;
+
+			}
 			
 			
 			
@@ -199,8 +202,8 @@ namespace MyStrategy
 	{
 	    if(state->ballPos.y<state->homePos[botID].y /*&& state->homePos[botID].x<state->ballPos.x*/)
 	       {
-			     vl=MAX_BOT_SPEED/radius*(radius-BOT_RADIUS);
-				 vr=MAX_BOT_SPEED/radius*(radius+BOT_RADIUS);
+			     vl=MAX_BOT_SPEED/radius*(radius-BOT_RADIUS)*0.8;
+				 vr=MAX_BOT_SPEED/radius*(radius+BOT_RADIUS)*0.8;
 				 comm->sendCommand(botID,vl,vr);
 		   }	
 		else
@@ -212,7 +215,7 @@ namespace MyStrategy
 
 		if(state->homePos[botID].x<state->ballPos.x+0.2*BOT_BALL_THRESH && Vector2D<int>::dist(state->homePos[botID],state->ballPos)<1.2*BOT_RADIUS)
 		{
-			if(state->ballPos.y<state->homePos[botID].y)
+			if(state->ballPos.y>state->homePos[botID].y)
 				comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED);
 				else
 				 comm->sendCommand(botID,-MAX_BOT_SPEED,MAX_BOT_SPEED);
