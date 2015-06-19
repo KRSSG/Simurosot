@@ -218,10 +218,10 @@
     <ClInclude Include="Utils\intersection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tactics\tAttackNew.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="pose.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tactics\tAttackNew.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

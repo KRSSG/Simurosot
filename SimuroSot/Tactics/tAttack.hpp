@@ -356,11 +356,7 @@ void shoot(){
 	    }
     */
 
-	   if(isBallInDBox()==true)
-	  {
-		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.5;
-		  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;
-	  }
+	 
 
 	   /////////////////////////////////////////////////////////////
 
@@ -409,6 +405,14 @@ void shoot(){
 
 	    //////////////////////////////////////////////////////////
 
+				    if(isBallInDBox()==true)
+				  {
+					  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.5;
+					  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;
+				  }
+				   
+				   
+				   
 				   if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS && state->homePos[botID].x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS)
 				   {
 					   if(state->ballPos.y>OPP_GOAL_MAXY && state->homePos[botID].y<state->ballPos.y)
@@ -427,6 +431,7 @@ void shoot(){
 
 
 	   ////////////////////////////////////////////////////////////
+		
 
 
 	  skillSet->executeSkill(sID, sParam);
