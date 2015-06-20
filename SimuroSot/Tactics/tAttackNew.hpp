@@ -1,8 +1,10 @@
+
+
 #ifndef TTATTACKNEW_HPP
 #define TTATTACKNEW_HPP
  
-//#define TEST
-#define GUNJAN
+#define GUNJAN 
+
 #include <list>
 #include "comdef.h"
 #include "../Tactics/tactic.h"
@@ -149,7 +151,64 @@ return id;
 }
   
   Vector2D<int> predictBall() {
-        
+        static int i=0;
+			static Vector2D<int> pos[3] = {Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y)};
+			static Vector2D<int> dest(state->ballPos.x , state->ballPos.y ) ;
+			float dx1,dx2,dy1,dy2,dx,dy;
+		float factorx ;
+		  if(state->ballVel.x<200  )
+			  factorx=0.00001;
+		  if(state->ballVel.x<500  )
+			  factorx=0.000015;
+		  else if(state->ballVel.x<1000  )
+			  factorx=0.00002;
+		  else if(state->ballVel.x<1500)
+			  factorx=0.000025;
+		  else if(state->ballVel.x<2000)
+			  factorx=0.000035;
+		  else if(state->ballVel.x<3000)
+			  factorx=0.00004;
+		  else factorx=0.0003;
+
+		   float factory;
+		  if( state->ballVel.y<200 )
+			  factory=0.00001;
+		  if( state->ballVel.y<500 )
+			  factory=0.000015;
+		  else if(state->ballVel.y<1000 )
+			  factory=0.00002;
+		  else if(state->ballVel.y<1500)
+			  factory=0.000025;
+		  else if(state->ballVel.y<2000)
+			  factory=0.000035;
+		  else if(state->ballVel.y<3000)
+			  factory=0.00004;
+		  else factory=0.000;
+			
+
+			if(i>2)
+			{
+				i--;
+				pos[0]=pos[1];
+				pos[1]=pos[2];
+			}
+
+			pos[i].x=state->ballPos.x;
+			pos[i].y=state->ballPos.y;
+
+			i++;
+
+			dx1=pos[1].x-pos[0].x;
+			dx2=pos[2].x-pos[1].x;
+			dx=(dx1+dx2)/2;
+
+			dy1=pos[1].y-pos[0].y;
+			dy2=pos[2].y-pos[1].y;
+			dy=(dy1+dy2)/2;
+
+			dest.x=state->ballPos.x+dx*factorx*state->ballVel.x;
+			dest.y=state->ballPos.y+dy*factory*state->ballVel.y;
+	  /* 
 	    static int i=0;
 		static Vector2D<int> pos[3] = {Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y)};
 		static Vector2D<int> dest(state->ballPos.x , state->ballPos.y ) ;
@@ -170,8 +229,9 @@ return id;
 			
 				dest.x=state->ballPos.x+dx;
 				dest.y=state->ballPos.y+dy;
-
-		return dest ;
+	   */
+		
+		   return dest ;
   
   }
   
@@ -225,8 +285,11 @@ return id;
 	  int safeDist = 2*BOT_BALL_THRESH ;
 	  Vector2D<int> approachPoint ;
 	  float destAngle = Vector2D<int>::angle(goalPoint,state->ballPos) ;
-	  approachPoint.x = state->ballPos.x - (safeDist*cos(destAngle));
-	  approachPoint.y = state->ballPos.y - (safeDist*sin(destAngle));
+	  approachPoint.x = predictBall().x - (safeDist*cos(destAngle));
+	  approachPoint.y = predictBall().y - (safeDist*sin(destAngle));
+
+	  // use loca avoidance for the approachpoint . imp
+	  
 	  int pointbotdist = Vector2D<int>::dist( approachPoint , state->homePos[botID] );
 	  switch(iState)
 	  {
@@ -240,19 +303,19 @@ return id;
 		   int thresh = 1.5*BOT_BALL_THRESH ;
 		   if(firstapproach)
 		   {
-			   if(ballbotdist > 3*BOT_BALL_THRESH)
-				   thresh = 1.5*safeDist ;
+			   if(pointbotdist > 5*BOT_BALL_THRESH)
+				   thresh = 2*safeDist ;
 			   else
 				   thresh = 0.5*safeDist ;
 			   firstapproach = FALSE ;
 		   }
-		   if((pointbotdist<thresh)&&(state->ballPos.x > state->homePos[botID].x)&&(abs(angletransform(abs(state->homeAngle[botID]-destAngle)))<toradian(10)))
+		   if((pointbotdist<thresh)&&(state->ballPos.x > state->homePos[botID].x)/*&&(abs(angletransform(abs(state->homeAngle[botID]-destAngle)))<toradian(10))*/)
            {
             iState = SHOOTING ;
 			firstapproach = TRUE ;
 			break;
            }
-		   if(/*(oppballdist < 2.5*BOT_RADIUS)&&(*/state->ballPos.x < state->homePos[botID].x /*- BOT_BALL_THRESH )*/)
+		   if((oppballdist < 2.5*BOT_RADIUS)&&(state->ballPos.x < state->homePos[botID].x - BOT_BALL_THRESH ))
 		   {
 		    // Go and steal the ball 
 			iState = STEAL ;
@@ -273,8 +336,7 @@ return id;
 		   */
 		   if(state->ballPos.x > state->homePos[botID].x + 0.5*BOT_BALL_THRESH)
 		   {
-                
-			sprintf(debug,"APPROACHING \n");
+
 		    sprintf(debug,"BallPos :: ( %d , %d ) \n ApproachPoint :: (%d , %d ) \n\n",state->ballPos.x,state->ballPos.y,approachPoint.x,approachPoint.y);
 		    Client::debugClient->SendMessages(debug);
 		    sID = SkillSet::GoToPoint ;
@@ -303,13 +365,13 @@ return id;
 	   }
 	   case SHOOTING :
 	   {   
-		   if(pointbotdist > 0.5*safeDist)
+		   if((ballbotdist > 1.5*safeDist)||(state->ballPos.x < state->homePos[botID].x))
 		   {
 			   iState = APPROACHING ;
 			   break ;
 		   }
 
-		   float destAngle = Vector2D<int>::angle(goalPoint,state->ballPos) ;
+		   float destAngle = Vector2D<int>::angle(state->homePos[botID],state->ballPos) ;
 		   sprintf(debug,"SHOOTING \n");
 		   Client::debugClient->SendMessages(debug);
 		   sID = SkillSet::GoToPoint ;
@@ -333,30 +395,31 @@ return id;
 			   firstrun = FALSE ;
 		   }
 
-		   if(/*(oppballdist < 2.5*BOT_BALL_THRESH)&&(*/state->ballPos.x > state->homePos[botID].x/*)*/)
+		   if((oppballdist < 2.5*BOT_BALL_THRESH)&&(state->ballPos.x > state->homePos[botID].x))
 		   {
 			   iState = APPROACHING ;
 			   break ;
 		   }
+		   sprintf(debug,"STEALING \n");
+		   Client::debugClient->SendMessages(debug);
 #ifdef TEST
-		    /*   sID = SkillSet::GoToPointPolar ;
+		       /* 
+		       sID = SkillSet::GoToPointPolar ;
 			   sprintf(debug,"STEALING , ball : (%d , %d) :: point : (%d , %d) \n",state->ballPos.x,state->ballPos.y,ballPredictPos.x,ballPredictPos.y);
 		       Client::debugClient->SendMessages(debug);
 			   sParam.GoToPointPolarP.x = approachPoint.x ;
 			   sParam.GoToPointPolarP.y = approachPoint.y ;
 			   sParam.GoToPointPolarP.finalslope = Vector2D<int>::angle(state->homePos[botID] , state->ballPos ) ;
 			   skillSet->executeSkill(sID,sParam);
-			   break ;*/
+			   break ;
+			   */
 #endif
 
-#ifdef GUNJAN
-
+#ifdef GUNJAN 
 			     sID = SkillSet::TestSkill;
-				  skillSet->executeSkill(sID,sParam);
-				break ;
+				 skillSet->executeSkill(sID,sParam);
+			     break ;
 			 
-
-
 #endif
 
 #ifdef SPIN_GO
@@ -388,4 +451,4 @@ return id;
   }; // class TAttackNew
     }; // namespace MyStrategy
 }
-#endif // TTCharge_HPP
+#endif //  TTCharge_HPP

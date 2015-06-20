@@ -171,22 +171,7 @@ return flag ;
   { if(FIELD_IS_INVERTED == false)
      { 
 		 //********** GUNJAN *************
-		// if(state->ballPos.x <(-HALF_FIELD_MAXX + DBOX_WIDTH + 2.5*BOT_RADIUS ) && (abs(state->ballPos.y)<(OUR_GOAL_MAXY+ 0.5*BOT_RADIUS)) &&(abs(state->ballVel.x)<20)&&(abs(state->ballVel.y)<20))
-		//{
-		// if(float distanc = Vector2D<int>::dist(state->awayPos[state->oppBotNearestToBall],state->homePos[botID])> 5*BOT_RADIUS)
-		// {
-		//	Vector2D<int> finalpoint;
-		//	Vector2D<int> initpoint=state->homePos[botID];
-		//	float phi=atan((state->ballPos.y-state->homePos[botID].y)/(state->ballPos.x-state->homePos[botID].x));
-		//	finalpoint.x=(state->ballPos.x)+5*BOT_RADIUS;
-		//	finalpoint.y=state->homePos[botID].y+finalpoint.x*tan(phi);
-		//	if(finalpoint.x>(-HALF_FIELD_MAXX+DBOX_WIDTH+0.5*BOT_RADIUS)) finalpoint.x=(-HALF_FIELD_MAXX+DBOX_WIDTH+0.5*BOT_RADIUS);
-		//	if(finalpoint.y>(OUR_GOAL_MAXY+2*BOT_RADIUS)) finalpoint.y=finalpoint.y>(OUR_GOAL_MAXY+2*BOT_RADIUS);
-		//	
-		//	_goToPointStraight(botID,finalpoint,0,0,0);
-		//	//_goToPointStraight(botID,initpoint,0,0,0);
-		// }
-		//}
+		
 
 		 if(float distance = Vector2D<int>::dist(state->ballPos,state->homePos[botID])< 1.2*BOT_BALL_THRESH)
 		 {
@@ -235,20 +220,8 @@ return flag ;
 	}
   else
   {
-	 //  //********** GUNJAN *************
-		//if(abs(state->ballPos.x) >(HALF_FIELD_MAXX-DBOX_WIDTH) && abs(state->ballPos.y) < (OUR_GOAL_MAXY+BOT_RADIUS) && state->ballVel.x < 20.0 && state->ballVel.y <20 )
-		//{
-		// if(float distanc = Vector2D<int>::dist(state->awayPos[state->oppBotNearestToBall],state->homePos[botID])> 3*BOT_RADIUS)
-		// {
-		//	Vector2D<int> finalpoint;
-		//	float phi=atan((state->ballPos.y-state->homePos[botID].y)/(state->ballPos.x-state->homePos[botID].x));
-		//	finalpoint.x=(state->ballPos.x)+5*BOT_RADIUS;
-		//	finalpoint.y=state->homePos[botID].y+finalpoint.x*tan(phi);
-
-		//	_goToPointStraight(botID,finalpoint,0,0,0);
-		// }
-		//}
-
+	   //********** GUNJAN *************
+	
 	 		if(state->ballPos.y>state->homePos[botID].y)
 			  comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED); //
 			else
@@ -257,27 +230,7 @@ return flag ;
 			
 	 
   
- }
-/*
-bool approaching_from_corner()
-{
-	if((state->ballPos.x > ForwardX(-HALF_FIELD_MAXX))&&(state->ballPos.x < ForwardX(-HALF_FIELD_MAXX + BOT_RADIUS)))
-	{
-	  if(abs(state->ballPos.y) > HALF_FIELD_MAXY)
-	  {
-	   if(fabs(state->ballVel.x) < 20)
-		   return true;
-	   else
-		   return false ;
-	  }
-	  else 
-		  return false;
-	
-	}
-	else
-		return false;
-}
-*/
+   }
  }
 
  

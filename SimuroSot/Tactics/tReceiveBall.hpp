@@ -69,17 +69,17 @@ void execute(const Param& tParam)
 			else if(state->ballVel.y<1200) n=1.7;
 			else if(state->ballVel.y<1400) n=2.3;
 			else n=4.2;*/
-			if(state->ballVel.y<200) n=1.05;
-			else if(state->ballVel.y<400) n=1.1;
-			else if(state->ballVel.y<800) n=1.2;
-			else if(state->ballVel.y<1000) n=1.3;
-			else if(state->ballVel.y<1200) n=1.4;
-			else if(state->ballVel.y<1600) n=2.1;
-			else if(state->ballVel.y<1800) n=2.2;
-			else if(state->ballVel.y<2000) n=2.4;
-			else if(state->ballVel.y<2200) n=2.6;
-			else if(state->ballVel.y<2500) n=3.0;
-			else if(state->ballVel.y<2800) n=3.2;
+			if(state->ballVel.y<200) n=1.1;
+			else if(state->ballVel.y<400) n=1.2;
+			else if(state->ballVel.y<800) n=1.3;
+			else if(state->ballVel.y<1000) n=1.4;
+			else if(state->ballVel.y<1200) n=1.5;
+			else if(state->ballVel.y<1600) n=2.2;
+			else if(state->ballVel.y<1800) n=2.3;
+			else if(state->ballVel.y<2000) n=2.5;
+			else if(state->ballVel.y<2200) n=2.7;
+			else if(state->ballVel.y<2500) n=3.1;
+			else if(state->ballVel.y<2800) n=3.3;
 			else if(state->ballVel.y<35000) n=4;
 			else n=6;
 			
@@ -107,10 +107,10 @@ void execute(const Param& tParam)
 					}
 				}
 				
-				dest.x=HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH+BOT_RADIUS*1.1;
+				dest.x=HALF_FIELD_MAXX-GOAL_DEPTH-DBOX_WIDTH+BOT_RADIUS*1;
 				if(state->awayPos[id].y>0)
-					dest.y=1*BOT_RADIUS;
-				else dest.y=-1*BOT_RADIUS; 
+					dest.y=1.1*BOT_RADIUS;
+				else dest.y=-1.1*BOT_RADIUS; 
 				//dest.y=0;
 
 			 }
@@ -210,22 +210,22 @@ void execute(const Param& tParam)
 				
 				if(m>0 && state->ballVel.x>0)
 				{
-					dest.x=state->ballPos.x+abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*3;
+					dest.x=state->ballPos.x+abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*2.4;
 				}
 				else if(m>0 && state->ballVel.x<0)
 				{
-					dest.x=state->ballPos.x-abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*2;
+					dest.x=state->ballPos.x-abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*1.4;
 
 				}
 				else if(m<0 && state->ballVel.x<0)
 				{
 					m=-m;
-					dest.x=state->ballPos.x-abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*2;
+					dest.x=state->ballPos.x-abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*1.6;
 				}
 				else if(m<0 && state->ballVel.x>0)
 				{
 					m=-m;
-					dest.x=state->ballPos.x+abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*3;
+					dest.x=state->ballPos.x+abs(state->ballPos.y+SGN(dest.y)*dest.y*-1)/m-BOT_RADIUS*2.4;
 				}
 				
 				if(dest.x<0) 
@@ -237,6 +237,7 @@ void execute(const Param& tParam)
 
 					
 			}
+			
 			
 
 

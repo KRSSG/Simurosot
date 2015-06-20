@@ -255,6 +255,70 @@ namespace MyStrategy
 			sParam.GoToPointP.finalVelocity=MAX_BOT_SPEED;*/
 			if(sParam.GoToPointP.x < -HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS)   //acc to rules.............................
 				sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS;
+
+
+			if(sParam.GoToPointP.x < -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS && abs(state->homePos[botID].y)<OUR_GOAL_MAXY+3.5*BOT_RADIUS)      // acc to rules....................
+				{
+					sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS;
+					
+				}	
+			if(state->ballPos.x<-HALF_FIELD_MAXX+GOAL_DEPTH+2*BOT_RADIUS && abs(state->ballPos.y)<OUR_GOAL_MAXY+4*BOT_RADIUS)      // acc to rules....................
+				{
+					sID=SkillSet::GoToPoint;
+					sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS;
+					if(state->ballPos.y >0)
+					  sParam.GoToPointP.y =(OUR_GOAL_MAXY+BOT_RADIUS);
+					else
+					  sParam.GoToPointP.y =-(OUR_GOAL_MAXY+BOT_RADIUS);
+					
+					
+				}	
+
+			////////////////////////////////////////////////////////////
+
+			if (state->homePos[0].x + 0.3*BOT_RADIUS > state->homePos[botID].x)		//Defender will not disturb GoalKeeper from the back: By KD
+						{
+							if (state->ballPos.y > 0)
+								{
+									sID = SkillSet::GoToPoint;
+									if (Vector2D<int>::dist(state->homePos[0], state->homePos[botID]) <= 3*BOT_RADIUS)
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = PI/2;
+										sParam.GoToPointP.x = state->homePos[botID].x;
+										sParam.GoToPointP.y = state->homePos[botID].y - 2*BOT_RADIUS;
+									}
+									else
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = 0;
+										sParam.GoToPointP.x = state->homePos[botID].x + 2*BOT_RADIUS;
+										sParam.GoToPointP.y = state->homePos[botID].y;
+									}
+								}
+								else
+								{
+									sID = SkillSet::GoToPoint;
+									if (Vector2D<int>::dist(state->homePos[0], state->homePos[botID]) <= 3.5*BOT_RADIUS)
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = PI/2;
+										sParam.GoToPointP.x = state->homePos[botID].x;
+										sParam.GoToPointP.y = state->homePos[botID].y + 2*BOT_RADIUS;
+									}
+									else
+									{
+										sParam.GoToPointP.align = false;
+										sParam.GoToPointP.finalslope = 0;
+										sParam.GoToPointP.x = state->homePos[botID].x + 2*BOT_RADIUS;
+										sParam.GoToPointP.y = state->homePos[botID].y;
+									}
+								}
+				
+						}					//Totally working: Approved. Now it works universally
+
+
+			/////////////////////////////////////////////////////////////
 			skillSet->executeSkill(sID,sParam);
 
           break;

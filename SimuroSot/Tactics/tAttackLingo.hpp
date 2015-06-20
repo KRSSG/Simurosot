@@ -152,16 +152,12 @@ return id;
 						  sParam.GoToPointP.finalslope =PI/2;
 					  }
   
-					  if(targetX < (-HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS)&& abs(state->ballPos.y) <HALF_FIELD_MAXY*0.6)   //changed acc to rules
-					  {
-						  targetX = -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS;
-					  }
-					  
+					 
 	  
 					  if((targetX >( HALF_FIELD_MAXX - GOAL_DEPTH - 2*BOT_RADIUS))&&(abs(targetY) < OUR_GOAL_MAXY + BOT_RADIUS))  //changed acc to rules.................
 						  {
 							  targetY = SGN(targetY)*(OUR_GOAL_MAXY + BOT_RADIUS) ;
-							  targetX =  HALF_FIELD_MAXX -GOAL_DEPTH - 1*BOT_RADIUS ;
+							  targetX =  HALF_FIELD_MAXX -GOAL_DEPTH - 2*BOT_RADIUS ;
 						  } 
 					  if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-BOT_RADIUS*2 &&state->homePos[botID].x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS && ((state->homePos[botID].y>state->ballPos.y && state->ballPos.y<0)||(state->homePos[botID].y<state->ballPos.y && state->ballPos.y>0)))
 					  {
@@ -176,13 +172,33 @@ return id;
 							  targetY=OPP_GOAL_MAXY+BOT_RADIUS;
 						  }
 					  }
+					
+						
+						
+						if(targetX < (-HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS)&& abs(state->ballPos.y) <HALF_FIELD_MAXY*0.6)   //changed acc to rules
+					  {
+						  targetX = -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_WIDTH + BOT_RADIUS;
+						  targetY=-1*SGN(state->ballPos.y)*state->ballPos.y;
+					  }
 						sParam.GoToPointP.x = targetX;
 						sParam.GoToPointP.y = targetY;
+
+					  if(state->ballPos.x<-HALF_FIELD_MAXX+GOAL_DEPTH+2*BOT_RADIUS && abs(state->ballPos.y)<OUR_GOAL_MAXY+4*BOT_RADIUS)      // acc to rules....................
+						{
+							sID=SkillSet::GoToPoint;
+							sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS;
+							if(state->ballPos.y >0)
+							  sParam.GoToPointP.y =-(OUR_GOAL_MAXY+2*BOT_RADIUS);
+							else
+							  sParam.GoToPointP.y =(OUR_GOAL_MAXY+2*BOT_RADIUS);
+					
+					
+						}	
 
 						//////////////////////////////////////////////////////
 
 
-						if (state->homePos[0].x + BOT_RADIUS > state->homePos[botID].x)		//Defender will not disturb GoalKeeper from the back: By KD
+						if (state->homePos[0].x + 0.3*BOT_RADIUS > state->homePos[botID].x)		//Defender will not disturb GoalKeeper from the back: By KD
 						{
 							if (state->ballPos.y > 0)
 								{
@@ -227,7 +243,9 @@ return id;
 
 
 						/////////////////////////////////////////////////////
-					  sParam.GoToPointP.align = true;
+					  	
+						
+						sParam.GoToPointP.align = true;
 					  sParam.GoToPointP.increaseSpeed = true;
 					   skillSet->executeSkill(sID, sParam);
 			}

@@ -11,12 +11,6 @@
 #include "comdef.h"
 #include "../Utils/pathPlanners.h"
 
-//#include <list>
-//#include "comdef.h"
-//#include "../Tactics/tactic.h"
-//#include "../Skills/skillSet.h"
-//#include "../Core/beliefState.h"
-//#include "../common/include/config.h"
 #include "../common/include/geometry.hpp"
 #include "../Utils/intersection.hpp"
 #include "../winDebugger/Client.h"
@@ -87,78 +81,118 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 		static int ishaan=0;
 		int hasAchievedOffset = 0; 
 		Vector2D<int> Point,point2;
+
 		Point.x=state->homePos[0].x;
 		Point.y=state->homePos[0].y;
 		//float veL=state->awayVel[state->oppBotNearestToBall];
 		float diS = Vector2D<int>::dist(state->awayPos[state->oppBotNearestToBall],state->ballPos);
 		float diS2=Vector2D<int>::dist(state->homePos[botID],state->ballPos);
 
+		//KD start;
+		float p_factor_x = 0.00005, p_factor_y = 0.00005;
+		float factorx = 0.00008;
+					  if( state->ballVel.x<200 )
+						  factorx=0.000012;
+					  else if(state->ballVel.x<500 )
+						  factorx=0.000015;
+					  else if(state->ballVel.x<800 )
+						  factorx=0.000018;
+					  else if(state->ballVel.x<1200 )
+						  factorx=0.000026;
+					  else if(state->ballVel.x<1400)
+						  factorx=0.000045;
+					  else if(state->ballVel.x<1800 )
+						  factorx=0.000065;
+					  else if(state->ballVel.x<2200 )
+						  factorx=0.000090;
+					  else if(state->ballVel.x<2600 )
+						  factorx=0.000130;
+					  else if(state->ballVel.x<3000 )
+						  factorx=0.000150;
+					  else if(state->ballVel.x<3400 )
+						  factorx=0.000160;
+					  else if(state->ballVel.x<3800 )
+						  factorx=0.000180;
+					  else factorx=0.0002;
+
+					  float factory = 0.00008;
+					  if( state->ballVel.y<200 )
+						  factory=0.000012;
+					  else if(state->ballVel.y<500 )
+						  factory=0.000015;
+					  else if(state->ballVel.y<800 )
+						  factory=0.000018;
+					  else if(state->ballVel.y<1200 )
+						  factory=0.000026;
+					  else if(state->ballVel.y<1400)
+						  factory=0.000045;
+					  else if(state->ballVel.y<1800 )
+						  factory=0.000065;
+					  else if(state->ballVel.y<2200 )
+						  factory=0.000090;
+					  else if(state->ballVel.y<2600 )
+						  factory=0.000130;
+					  else if(state->ballVel.y<3000 )
+						  factory=0.000150;
+					  else if(state->ballVel.y<3400 )
+						  factory=0.000160;
+					  else if(state->ballVel.y<3800 )
+						  factory=0.000180;
+					  else factory=0.00020;
+		
+		Vector2D<int> pPoint;
+		pPoint.x = state->ballPos.x + state->ballVel.x*factorx*diS2;
+		pPoint.y = state->ballPos.y + state->ballVel.y*factory*diS2;
+		//KD end;
+
 		printf("CoverGoal BotID: %d\n",botID);
 		///THE GIVEN STATEMENT IS TO AVOID BEING DRAGGED INTO THE OTHER HALF 
 		//IT WILL START SPINNING IF IT IS IN THE OTHER HALF 
-		/*
-		if(state->homePos[botID].x>0)
-		{
-			
-			
-			 if(ishaan<5 &&  ishaan>=0)
-			{
-			 sID = SkillSet::Velocity;
-			 sParam.VelocityP.vl = +120;
-             sParam.VelocityP.vr = -120;
-			 skillSet->executeSkill(sID, sParam);
-			 ishaan++;
-			// if(ishaan==5)ishaan=-200;
-			 return ; 
-			 }
-			 ishaan++;
-			 
-			 
-			//comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED);
-		   	
-		}
-		*/
 
 	  if(clearing_chance()==false)
 		  charge=false;
-
-	  if (charge==false  && clearing_chance()==false)
+	  if(state->homePos[botID].x>state->ballPos.x && state->homePos[botID].x<0)
+	  {
+		  sID = SkillSet::TestSkill;
+		  
+	  }
+	  else if (charge==false  && clearing_chance()==false)
       {
-        if(state->ballPos.x > HALF_FIELD_MAXX - DBOX_WIDTH -BOT_RADIUS )
+        if(/*state->ballPos.x*/pPoint.x > HALF_FIELD_MAXX - DBOX_WIDTH -BOT_RADIUS )
 
 		  {
         sParam.GoToPointP.align = false;
         sParam.GoToPointP.finalslope =0;
 		sParam.GoToPointP.x =-HALF_FIELD_MAXX/2+2*BOT_BALL_THRESH;
-        sParam.GoToPointP.y =state->ballPos.y ;
+        sParam.GoToPointP.y =/*state->ballPos.y*/pPoint.y ;
 		  }
-		else if(state->ballPos.x < HALF_FIELD_MAXX - DBOX_WIDTH -BOT_RADIUS )
+		else if(/*state->ballPos.x*/pPoint.x < HALF_FIELD_MAXX - DBOX_WIDTH -BOT_RADIUS )
 		{
 			 
 			sID = SkillSet::GoToPoint;
         sParam.GoToPointP.align = false;
         sParam.GoToPointP.finalslope =0;
         //0.45*(state->ballPos.x -(HALF_FIELD_MAXX - GOAL_DEPTH ));
-        sParam.GoToPointP.x =0.3*(state->ballPos.x +(HALF_FIELD_MAXX - GOAL_DEPTH ))-(HALF_FIELD_MAXX - GOAL_DEPTH );
+        sParam.GoToPointP.x =0.3*(/*state->ballPos.x*/pPoint.x +(HALF_FIELD_MAXX - GOAL_DEPTH ))-(HALF_FIELD_MAXX - GOAL_DEPTH );
 		if(state->ballVel.x< 0 && abs(state->ballVel.x)>50 )
 		{
 			
 			ang1 = atan(state->ballVel.y/state->ballVel.x);
-		    sParam.GoToPointP.y = state->ballPos.y - ((state->ballPos.x) - (-HALF_FIELD_MAXX + DBOX_WIDTH))*tan(ang1) ;
+		    sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y - ((/*state->ballPos.x*/pPoint.x) - (-HALF_FIELD_MAXX + DBOX_WIDTH))*tan(ang1) ;
 			
 			 if(sParam.GoToPointP.y >=  HALF_FIELD_MAXY)
-		     sParam.GoToPointP.y =  state->ballPos.y;
+		     sParam.GoToPointP.y =  /*state->ballPos.y*/pPoint.y;
 	         if(sParam.GoToPointP.y <= -HALF_FIELD_MAXY)
-		     sParam.GoToPointP.y =  state->ballPos.y;
+		     sParam.GoToPointP.y =  /*state->ballPos.y*/pPoint.y;
 
 		}
 		else
-        sParam.GoToPointP.y = state->ballPos.y;
+        sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y;
 
 
 		}
       }
-	  else if(diS2<2*BOT_BALL_THRESH && state->ballPos.x<0)// do not go in goalie region daalna hai abhi
+	  else if(diS2<2*BOT_BALL_THRESH && /*state->ballPos.x*/pPoint.x<0)// do not go in goalie region daalna hai abhi
 	  {
 		  //ishaan=0;
 
@@ -240,8 +274,8 @@ if(dist_from_goal + factor * perpend_dist < mindis)
           if(hasAchievedOffset)
           {
                           //Client::debugClient->SendMessages("yee i have achived offset!!!!!!!!!!!!\n");
-            sParam.GoToPointP.x = state->ballPos.x;
-            sParam.GoToPointP.y = state->ballPos.y;
+            sParam.GoToPointP.x = /*state->ballPos.x*/pPoint.x;
+            sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y;
             sParam.GoToPointP.finalslope = Vector2D<int>::angle( state->ballPos,state->homePos[botID]);
             sParam.GoToPointP.increaseSpeed = 1;
 
@@ -257,27 +291,27 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 
 		  }
 
-	  else if(state->ballPos.x<0)
+	  else if(/*state->ballPos.x*/pPoint.x<0)
 	    {
 	        //Vector2D<int> P2;
 			//ishaan=0;
              sID = SkillSet::GoToPoint;
-		  if(state->ballPos.x <= 0 && state->ballPos.x >= state ->homePos[botID].x && state->ballPos.x>=-(HALF_FIELD_MAXX-1.5*DBOX_WIDTH))
+		  if(/*state->ballPos.x*/pPoint.x <= 0 && /*state->ballPos.x*/pPoint.x >= state ->homePos[botID].x && /*state->ballPos.x*/pPoint.x>=-(HALF_FIELD_MAXX-1.5*DBOX_WIDTH))
 		  {
 
-				if( state->ballVel.x>1000)
+				if( state->ballVel.x>2000)
 				{
 					sParam.GoToPointP.align = false;
 					sParam.GoToPointP.finalslope = 0;
 
 					sParam.GoToPointP.x = -HALF_FIELD_MAXX + 1.2*DBOX_WIDTH	; // ..................changed
 					ang1 = atan(state->ballVel.y/state->ballVel.x);
-				    sParam.GoToPointP.y = state->ballPos.y - ((state->ballPos.x) - (-HALF_FIELD_MAXX + DBOX_WIDTH))*tan(ang1) ;
+				    sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y - ((/*state->ballPos.x*/pPoint.x) - (-HALF_FIELD_MAXX + DBOX_WIDTH))*tan(ang1) ;
 			
 					if(sParam.GoToPointP.y >=  HALF_FIELD_MAXY)
-					sParam.GoToPointP.y =  state->ballPos.y;
+					sParam.GoToPointP.y =  /*state->ballPos.y*/pPoint.y;
 					if(sParam.GoToPointP.y <= -HALF_FIELD_MAXY)
-					sParam.GoToPointP.y =  state->ballPos.y;
+					sParam.GoToPointP.y =  /*state->ballPos.y*/pPoint.y;
 
 					
 					///YAHA PAR DAAL ATTACK KA FEATURE EK FINAL VELOCITY SE BHEJ DE AUR UPAR EK ELSE IF CONDITION HAI else if(diS2<2*BOT_BALL_THRESH) USMAIN ABHI CHANGE KARKE MUJHE FATAFUT BHEJ 
@@ -287,8 +321,8 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 				{
 					sParam.GoToPointP.align = false;
 					sParam.GoToPointP.finalslope = 0;
-					sParam.GoToPointP.x =  state->ballPos.x;
-					sParam.GoToPointP.y =  state->ballPos.y;
+					sParam.GoToPointP.x =  /*state->ballPos.x*/pPoint.x;
+					sParam.GoToPointP.y =  /*state->ballPos.y*/pPoint.y;
 					sParam.GoToPointP.finalVelocity=100;
 
 				}
@@ -296,8 +330,8 @@ if(dist_from_goal + factor * perpend_dist < mindis)
                 {
                     sParam.GoToPointP.align = false;
 					sParam.GoToPointP.finalslope = 0;
-					sParam.GoToPointP.x =  state->ballPos.x;
-					sParam.GoToPointP.y =  state->ballPos.y;
+					sParam.GoToPointP.x =  /*state->ballPos.x*/pPoint.x;
+					sParam.GoToPointP.y =  /*state->ballPos.y*/pPoint.y;
 					sParam.GoToPointP.finalVelocity=100;
 					////YAHA PAR BHI GOTO POINT WITH VELOCITY DAAL 
 
@@ -319,8 +353,8 @@ if(dist_from_goal + factor * perpend_dist < mindis)
           float offset = 600;
           float factor = 0.00005;
           int ballBotDist = (int)Vector2D<int>::dist(state->homePos[botID],state->ballPos);
-          int targetX = state->ballPos.x + (int)ballBotDist * factor * state->ballVel.x;
-          int targetY = state->ballPos.y + (int)ballBotDist * factor * state->ballVel.y;
+          int targetX = /*state->ballPos.x*/pPoint.x + (int)ballBotDist * factor * state->ballVel.x;
+          int targetY = /*state->ballPos.y*/pPoint.y + (int)ballBotDist * factor * state->ballVel.y;
           int x3 = (targetX * (ballgoaldist + offset) - offset * OPP_GOAL_X) / ballgoaldist;
           int y3 = (targetY * (ballgoaldist + offset)) / ballgoaldist;
                   
@@ -373,8 +407,8 @@ if(dist_from_goal + factor * perpend_dist < mindis)
           if(hasAchievedOffset)
           {
                           //Client::debugClient->SendMessages("yee i have achived offset!!!!!!!!!!!!\n");
-            sParam.GoToPointP.x = state->ballPos.x;
-            sParam.GoToPointP.y = state->ballPos.y;
+			  sParam.GoToPointP.x = /*state->ballPos.x*/pPoint.x;
+            sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y;
             sParam.GoToPointP.finalslope = Vector2D<int>::angle( state->ballPos,state->homePos[botID]);
             sParam.GoToPointP.increaseSpeed = 1;
 
@@ -387,13 +421,15 @@ if(dist_from_goal + factor * perpend_dist < mindis)
       if(ForwardX(state->ballPos.x) < ForwardX(state->homePos[botID].x) && Vector2D<int>::dist(state->ballPos,state->homePos[botID]) < 1000) 
 		  sParam.GoToPointP.align = true;
 
-					//
+					
                 }
             
  //return;
+
+
             //skillSet->executeSkill(sID, sParam);
           }
-		  else if (state->ballPos.x <= 0 && state->ballPos.x <= state ->homePos[botID].x && state->ballPos.x>=-(HALF_FIELD_MAXX-1.2*DBOX_WIDTH))
+		  else if (/*state->ballPos.x*/pPoint.x <= 0 && /*state->ballPos.x*/pPoint.x <= state ->homePos[botID].x && /*state->ballPos.x*/pPoint.x>=-(HALF_FIELD_MAXX-1.2*DBOX_WIDTH))
 		  {
            //
 			   sID = SkillSet::GoToPoint;
@@ -458,8 +494,8 @@ if(dist_from_goal + factor * perpend_dist < mindis)
           if(hasAchievedOffset)
           {
                           //Client::debugClient->SendMessages("yee i have achived offset!!!!!!!!!!!!\n");
-            sParam.GoToPointP.x = state->ballPos.x;
-            sParam.GoToPointP.y = state->ballPos.y;
+            sParam.GoToPointP.x = /*state->ballPos.x*/pPoint.x;
+            sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y;
             sParam.GoToPointP.finalslope = Vector2D<int>::angle( state->ballPos,state->homePos[botID]);
             sParam.GoToPointP.increaseSpeed = 1;
 
@@ -476,41 +512,33 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 		  }
             else 
             {
-                	if(state->ballPos.x<=-HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS)
+                	if(/*state->ballPos.x*/pPoint.x<=-HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS)
 			{
-				if(state->ballPos.y>=OUR_GOAL_MAXY + 1.8*BOT_RADIUS)
+				if(/*state->ballPos.y*/pPoint.y>=OUR_GOAL_MAXY + 1.8*BOT_RADIUS)
 				{
 					sParam.GoToPointP.align = false;
 					sParam.GoToPointP.finalslope = 0;
 			
-					sParam.GoToPointP.x =state->ballPos.x	; // ..................changed
-					sParam.GoToPointP.y = state->ballPos.y; //................changed
-					if(state->ballPos.x>state->homePos[botID].x) 
+					sParam.GoToPointP.x =/*state->ballPos.x*/pPoint.x	; // ..................changed
+					sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y; //................changed
+					if(/*state->ballPos.x*/pPoint.x>state->homePos[botID].x) 
 					{
 						sParam.GoToPointP.finalVelocity=25;
-						/* if(state->ballPos.y>state->homePos[botID].y)
-								comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED);
-							else
-								comm->sendCommand(botID,-MAX_BOT_SPEED,MAX_BOT_SPEED);*/
 					}
 					////YAHA PAR BHI GOTO POINT WITH VELOCITY DAAL 
 	
 				}
-				else if(state->ballPos.y<=OUR_GOAL_MINY - 1.8*BOT_RADIUS)
+				else if(/*state->ballPos.y*/pPoint.y<=OUR_GOAL_MINY - 1.8*BOT_RADIUS)
 				{
 					
 					sParam.GoToPointP.align = false;
 					sParam.GoToPointP.finalslope = 0;
 			
-					sParam.GoToPointP.x =state->ballPos.x	; // ..................changed
-					sParam.GoToPointP.y = state->ballPos.y; //................changed
-					if(state->ballPos.x>state->homePos[botID].x) 
+					sParam.GoToPointP.x =/*state->ballPos.x*/pPoint.x	; // ..................changed
+					sParam.GoToPointP.y = /*state->ballPos.y*/pPoint.y; //................changed
+					if(/*state->ballPos.x*/pPoint.x>state->homePos[botID].x) 
 					{
 						sParam.GoToPointP.finalVelocity=25;
-						/* if(state->ballPos.y>state->homePos[botID].y)
-								comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED);
-							else
-								comm->sendCommand(botID,-MAX_BOT_SPEED,MAX_BOT_SPEED);*/
 					}
 					////YAHA PAR BHI GOTO POINT WITH VELOCITY DAAL 
 
@@ -528,13 +556,13 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 		 charge=true;
 
          float diS2 = Vector2D<int>::dist(state->ballPos,state->homePos[botID]);
-        if((state->ballPos.x)<=((state->homePos[botID].x)+100) && diS2<3*BOT_BALL_THRESH)
+        if((/*state->ballPos.x*/pPoint.x)<=((state->homePos[botID].x)+100) && diS2<3*BOT_BALL_THRESH)
         {
           int delta = BOT_RADIUS;
           if(state->homePos[botID].y>(OUR_GOAL_MINY-delta) && state->homePos[botID].y<(OUR_GOAL_MAXY+delta))
           {
             sID = SkillSet::Velocity;
-            if(state->ballPos.y>state->homePos[botID].y)
+            if(/*state->ballPos.y*/pPoint.y>state->homePos[botID].y)
             {
               if(state->homeAngle[botID]>0) // angle is +90
               {
@@ -565,8 +593,12 @@ if(dist_from_goal + factor * perpend_dist < mindis)
            wsprintf(data,"Velocity l,r = %f , %f \n",sParam.VelocityP.vl,sParam.VelocityP.vr);
            //Client::debugClient->SendMessages(data);
 
+		   if(!(state->homePos[0].x + BOT_RADIUS > state->homePos[botID].x && state->homePos[botID].x < -HALF_FIELD_MAXX + GOAL_DEPTH))
+//		   if (!(state->homePos[botID].x < -HALF_FIELD_MAXX + DBOX_WIDTH + 3*BOT_RADIUS && abs(state->homePos[botID].y) <= OUR_GOAL_MAXY + 2*BOT_RADIUS && Vector2D<int>::dist(state->ballPos, state->homePos[0]) <= 3*BOT_RADIUS))
+		   {							//Condition By KD
            skillSet->executeSkill(sID, sParam);
            return;
+		   }
          }
        }
                   //will not reach here if above code is executed
@@ -583,7 +615,7 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 			
 			if (state->homePos[0].x + BOT_RADIUS > state->homePos[botID].x)		//Defender will not disturb GoalKeeper from the back: By KD
 						{
-							if (state->ballPos.y > 0)
+							if (/*state->ballPos.y*/pPoint.y > 0)
 								{
 									sID = SkillSet::GoToPoint;
 									if (Vector2D<int>::dist(state->homePos[0], state->homePos[botID]) <= 3*BOT_RADIUS)
@@ -621,12 +653,68 @@ if(dist_from_goal + factor * perpend_dist < mindis)
 								}
 				
 						}
+/*			else if (state->ballPos.x < 0)		//coverGoal will not show any suicideGoal: By KD
+		{
+			if (state->ballPos.x < -HALF_FIELD_MAXX + DBOX_WIDTH + 3*BOT_RADIUS && abs(state->ballPos.y) <= OUR_GOAL_MAXY && state->ballPos.x > state->homePos[0].x)
+			{
+				if (state->homePos[botID].x < -HALF_FIELD_MAXX + DBOX_WIDTH + 3*BOT_RADIUS && abs(state->homePos[botID].y) <= OUR_GOAL_MAXY + 2*BOT_RADIUS && Vector2D<int>::dist(state->ballPos, state->homePos[0]) <= 3*BOT_RADIUS)
+				{
+					sID = SkillSet::GoToPoint;
+					sParam.GoToPointP.align = false;
+					sParam.GoToPointP.finalslope = PI/2;
+					sParam.GoToPointP.x = -HALF_FIELD_MAXX + DBOX_WIDTH + BOT_RADIUS ;
+					if (state->ballPos.y > state->homePos[botID].y)
+					{
+						sParam.GoToPointP.y = -OUR_GOAL_MAXY - 4*BOT_RADIUS;
+					}
+					else
+					{
+						sParam.GoToPointP.y = OUR_GOAL_MAXY + 4*BOT_RADIUS;
+					}
+				}			//Totally Working: Approved
+			}
+			}*/
+
+		//		else if (/*state->ballPos.x*/pPoint.x < 0)		//coverGoal will not show any suicideGoal in Dbox: By KD
+		//{
+		//	if (/*state->ballPos.x*/pPoint.x < -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_HEIGHT && abs(/*state->ballPos.y*/pPoint.y) <= OUR_GOAL_MAXY)
+		//	{
+		//		if (state->homePos[botID].x < -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_HEIGHT && Vector2D<int>::dist(state->ballPos, state->homePos[botID]) <= 1.5*BOT_BALL_THRESH && Vector2D<int>::dist(state->ballPos, state->homePos[0]) <= BOT_BALL_THRESH)
+		//		{
+		//			sID = SkillSet::GoToPoint;
+		//			sParam.GoToPointP.align = false;
+		//			sParam.GoToPointP.finalslope = PI/2;
+		//			sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH + DBOX_HEIGHT/2 ;
+		//			if (/*state->ballPos.y*/pPoint.y > state->homePos[botID].y)
+		//			{
+		//				sParam.GoToPointP.y = -OUR_GOAL_MAXY - 2*BOT_RADIUS;
+		//			}
+		//			else
+		//			{
+		//				sParam.GoToPointP.y = OUR_GOAL_MAXY + 2*BOT_RADIUS;
+		//			}
+		//		}			//
+		//	}
+		//	}
 
 
 			//////////////////////////////////////////////////////
- if(sParam.GoToPointP.x < -HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS && abs(state->homePos[botID].y)<OUR_GOAL_MAXY+4*BOT_RADIUS)      // acc to rules....................
-				sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH + 2*BOT_RADIUS;
-		
+			if(sParam.GoToPointP.x < -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS && abs(state->homePos[botID].y)<OUR_GOAL_MAXY+3.5*BOT_RADIUS)      // acc to rules....................
+				{
+					sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS;
+					
+				}	
+			if(state->ballPos.x<-HALF_FIELD_MAXX+GOAL_DEPTH+2*BOT_RADIUS && abs(state->ballPos.y)<OUR_GOAL_MAXY+4*BOT_RADIUS)      // acc to rules....................
+				{
+					sID=SkillSet::GoToPoint;
+					sParam.GoToPointP.x = -HALF_FIELD_MAXX + GOAL_DEPTH +DBOX_WIDTH+BOT_RADIUS;
+					if(state->ballPos.y >0)
+					  sParam.GoToPointP.y =(OUR_GOAL_MAXY+BOT_RADIUS);
+					else
+					  sParam.GoToPointP.y =-(OUR_GOAL_MAXY+BOT_RADIUS);
+					
+					
+				}	
 
 			skillSet->executeSkill(sID, sParam);
     }

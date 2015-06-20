@@ -173,14 +173,29 @@ namespace MyStrategy
 				dest.y=dest.y-SGN(dest.y)*HALF_FIELD_MAXY;
 
 			}
+			if(Vector2D<int>::dist(state->ballPos,state->homePos[state->oppBotNearestToBall])<2*BOT_BALL_THRESH && state->homePos[botID].x > state->homePos[state->ourBotNearestToBall].x && abs(state->ballPos.y) > HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)<HALF_FIELD_MAXY-2*BOT_RADIUS)
+					{
+						dest.x=state->homePos[state->ourBotNearestToBall].x-3*BOT_RADIUS;
+						dest.y=state->homePos[state->ourBotNearestToBall].y-SGN(state->homePos[state->ourBotNearestToBall].y)*2*BOT_RADIUS;
+					}
+					else if(state->homePos[botID].x > state->homePos[state->ourBotNearestToBall].x && abs(state->ballPos.y) > HALF_FIELD_MAXY-2*BOT_RADIUS && abs(state->homePos[botID].y)>HALF_FIELD_MAXY-2*BOT_RADIUS)
+					{
+						dest.y=state->homePos[state->ourBotNearestToBall].y-SGN(state->homePos[state->ourBotNearestToBall].y)*2.5*BOT_RADIUS;
+						dest.x=state->homePos[botID].x;
+					}
+			if(dest.x<-HALF_FIELD_MAXX+GOAL_DEPTH+DBOX_WIDTH && abs(dest.y)<OUR_GOAL_MAXY+4*BOT_BALL_THRESH)
+			{
+				dest.x=-HALF_FIELD_MAXX+GOAL_DEPTH+DBOX_WIDTH;
+				dest.y=-1*SGN(state->ballPos.y)*state->ballPos.y;
+			}
 			
 			
 			
 			float dif=Vector2D<int>::dist(state->ballPos,state->homePos[botID]);
 
 		  
-	    sprintf(debug,"%d %d %d %d %f %f %f %f \n",dest.x,dest.y,state->ballPos.x,state->ballPos.y,vel,state->ballVel.x,state->ballVel.y,dx);  
-		Client::debugClient->SendMessages(debug);
+	    //sprintf(debug,"%d %d %d %d %f %f %f %f \n",dest.x,dest.y,state->ballPos.x,state->ballPos.y,vel,state->ballVel.x,state->ballVel.y,dx);  
+		//Client::debugClient->SendMessages(debug);
 
 
 

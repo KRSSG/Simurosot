@@ -154,9 +154,19 @@ void shoot(){
  skillSet->executeSkill(sID,sParam);
  return;
 }
+int chooseOppReceiver()
+{
+	int id=-1;
+	for(int i=0;i<5;i++)
+	{
+		if(state->awayPos[i].x<-HALF_FIELD_MAXX+GOAL_DEPTH+DBOX_WIDTH+5*BOT_RADIUS && abs(state->awayPos[i].y)<OUR_GOAL_MAXY) return i;
+	}
+	return id;
+}
+
    bool isBallInDBox()
   {
-      if((abs(state->ballPos.y)<0.8*HALF_FIELD_MAXY)&&(state->ballPos.x < -HALF_FIELD_MAXX*0.7)) 
+	  if((abs(state->ballPos.y)<OUR_GOAL_MAXY+3*BOT_RADIUS)&&(state->ballPos.x < -HALF_FIELD_MAXX+GOAL_DEPTH+DBOX_WIDTH)) 
           return true;
 
 		  return false;
@@ -356,9 +366,26 @@ void shoot(){
 	    }
     */
 
-	 
+	   
 
 	   /////////////////////////////////////////////////////////////
+	  		   if(isBallInDBox()==true)
+	  {
+		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX+GOAL_DEPTH+DBOX_WIDTH+BOT_RADIUS ;
+		  sParam.GoToPointP.y =   SGN(state->ballPos.y)*(OUR_GOAL_MAXY+BOT_RADIUS);
+		  if(Vector2D<int>::dist(state->homePos[botID],state->homePos[0])>2*BOT_BALL_THRESH)
+		  { int id=chooseOppReceiver();
+		  if(state->ballPos.x<-HALF_FIELD_MAXX+GOAL_DEPTH+2*BOT_RADIUS && state->awayPos[id].x>-HALF_FIELD_MAXX+GOAL_DEPTH+BOT_RADIUS)
+		  {
+			  if(id!=-1) 
+			  {
+				  sParam.GoToPointP.x = state->awayPos[id].x-1.2*BOT_RADIUS ;
+				  sParam.GoToPointP.y= state->awayPos[id].y;
+			  }
+		  }
+		 }
+
+	  }
 
 
 			       if (state->homePos[0].x + BOT_RADIUS > state->homePos[botID].x)		// will not disturb GoalKeeper from the back: By KD
@@ -405,14 +432,7 @@ void shoot(){
 
 	    //////////////////////////////////////////////////////////
 
-				    if(isBallInDBox()==true)
-				  {
-					  sParam.GoToPointP.x =  -HALF_FIELD_MAXX*0.5;
-					  sParam.GoToPointP.y =  state->ballPos.y  - SGN(state->ballPos.y)*2*BOT_RADIUS;
-				  }
-				   
-				   
-				   
+
 				   if(state->ballPos.x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS && state->homePos[botID].x>HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_RADIUS)
 				   {
 					   if(state->ballPos.y>OPP_GOAL_MAXY && state->homePos[botID].y<state->ballPos.y)
