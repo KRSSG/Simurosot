@@ -102,10 +102,10 @@
     <ClCompile Include="Skills\sKickBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pose.cpp">
+    <ClCompile Include="Utils\intersection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\intersection.cpp">
+    <ClCompile Include="pose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -219,7 +219,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pose.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tactics\tAttackNew.hpp">
       <Filter>Header Files</Filter>
