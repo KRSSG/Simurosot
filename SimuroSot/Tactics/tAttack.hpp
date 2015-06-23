@@ -373,7 +373,7 @@ int chooseOppReceiver()
 	  {
 		  sParam.GoToPointP.x =  -HALF_FIELD_MAXX+GOAL_DEPTH+DBOX_WIDTH+BOT_RADIUS ;
 		  sParam.GoToPointP.y =   SGN(state->ballPos.y)*(OUR_GOAL_MAXY+BOT_RADIUS);
-		  if(Vector2D<int>::dist(state->homePos[botID],state->homePos[0])>2*BOT_BALL_THRESH)
+		  if(Vector2D<int>::dist(state->homePos[botID],state->homePos[0])>1.4*BOT_BALL_THRESH)
 		  { int id=chooseOppReceiver();
 		  if(state->ballPos.x<-HALF_FIELD_MAXX+GOAL_DEPTH+2*BOT_RADIUS && state->awayPos[id].x>-HALF_FIELD_MAXX+GOAL_DEPTH+BOT_RADIUS)
 		  {

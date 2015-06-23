@@ -273,11 +273,11 @@ public:
  */
 	//******************************************* testing - gunjan ************************************
 	/*if(state.homePos[2].x>state.ballPos.x && state.homePos[2].x>-HALF_FIELD_MAXX+GOAL_DEPTH+3*BOT_BALL_THRESH && state.homePos[2].x<HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_BALL_THRESH)
-		  p1.executeSkill(SkillSet::TestSkill,sp2);
-	else*/
+		*/  //p1.executeSkill(SkillSet::TestSkill,sp2);
+	//else
 		//tattack2.execute(pattack);
 	 //tattacknew2.execute(pattacknew);
-     //tattacknew4.execute(pattacknew);
+    // tattacknew4.execute(pattacknew);
 	//tattack4.execute(pattack);
 	//tmidfield4.execute(pmid);
 	//tReceive3.execute(pReceive);
@@ -333,7 +333,7 @@ public:
 			{
 				//tattack4.execute(pattack);
 				
-				if(state.homePos[2].x>state.ballPos.x && state.homePos[2].x>-HALF_FIELD_MAXX+GOAL_DEPTH+3*BOT_BALL_THRESH && state.homePos[2].x<HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_BALL_THRESH)
+				if(state.homePos[4].x>state.ballPos.x && state.homePos[4].x>-HALF_FIELD_MAXX+GOAL_DEPTH+3*BOT_BALL_THRESH && state.homePos[4].x<HALF_FIELD_MAXX-GOAL_DEPTH-2*BOT_BALL_THRESH)
 					  p2.executeSkill(SkillSet::TestSkill,sp2);
 				else
 					tattack4.execute(pattack);

@@ -49,46 +49,7 @@ namespace MyStrategy
 	 
 	 
 	 //*************** center calculation **************************
-	   /* float dx1,dx2,dy1,dy2,dx,dy;
-		std::deque<int> posx,posy;
-	    int *p1,*p2;
-		std::deque<int>::iterator itx=posx.begin();
-		std::deque<int>::iterator ity=posx.begin();
-
-		posx.push_back(state->ballPos.x);
-		posy.push_back(state->ballPos.y);
-		
-		dx1=-*itx+(++(*itx));
-		dx2=-*itx+(++(*itx));
-
-		dy1=-*ity+(++(*ity));
-		dy2=-*ity+(++(*ity));
-
-		dx=(dx1+dx2)/2;
-		dy=(dy1+dy2)/2;
-
-		
-		
-		if(posx.size()==3 && posy.size()==3)
-		{
-			posx.pop_front();
-			posy.pop_front();
-			
-			 dest.x=state->ballPos.x+dx*0.00002*state->ballVel.x;
-			 dest.y=state->ballPos.y+dy*0.00002*state->ballVel.y;
-
-			 sprintf(debug,"etering if \n");  
-			 Client::debugClient->SendMessages(debug);
-		}
-		else
-		{
-			dest.x=state->ballPos.x;
-			dest.y=state->ballPos.y;
-
-			sprintf(debug,"etering else  \n");  
-			Client::debugClient->SendMessages(debug);
-		}*/
-		
+	   
 		    static int i=0;
 			static Vector2D<int> pos[3] = {Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y)};
 			static Vector2D<int> dest(state->ballPos.x , state->ballPos.y ) ;
@@ -151,13 +112,7 @@ namespace MyStrategy
 	 
 	 //************************************************************
 	 
-		/*	if(abs(state->ballPos.y)>HALF_FIELD_MAXY-1.6*BOT_BALL_THRESH && dest.x<state->ballPos.x && abs(state->homePos[botID].y)>abs(state->ballPos.y))
-				{
-					dest.y=state->ballPos.y-SGN(state->ballPos.y)*2*BOT_RADIUS;
-					dest.x=state->homePos[botID].x;
-				}	
-			
-			else*/	 if(abs(state->ballPos.y)>HALF_FIELD_MAXY-1.6*BOT_RADIUS && dest.x<state->ballPos.x && abs(dest.y)>HALF_FIELD_MAXY-2*BOT_BALL_THRESH )
+			 if(abs(state->ballPos.y)>HALF_FIELD_MAXY-1.6*BOT_RADIUS && dest.x<state->ballPos.x && abs(dest.y)>HALF_FIELD_MAXY-2*BOT_BALL_THRESH )
 			{
 				dest.x=state->ballPos.x+dx*(factorx+0.00001)*state->ballVel.x;
 			}
@@ -194,7 +149,7 @@ namespace MyStrategy
 			float dif=Vector2D<int>::dist(state->ballPos,state->homePos[botID]);
 
 		  
-	    //sprintf(debug,"%d %d %d %d %f %f %f %f \n",dest.x,dest.y,state->ballPos.x,state->ballPos.y,vel,state->ballVel.x,state->ballVel.y,dx);  
+	     //sprintf(debug,"%d %d %d %d %f %f %f %f \n",dest.x,dest.y,state->ballPos.x,state->ballPos.y,vel,state->ballVel.x,state->ballVel.y,dx);  
 		//Client::debugClient->SendMessages(debug);
 
 
@@ -238,5 +193,28 @@ namespace MyStrategy
 		}
 	 }
 	
+	
+
+//****************************************************************************
+		
+//float m=(state->ballPos.y-state->homePos[botID].y)/(state->ballPos.x-state->homePos[botID].x);
+//Vector2D<int> target; 
+//
+//target.x=state->ballPos.x/*+0.2*BOT_RADIUS*cos(atan(m))*/;
+//target.y=state->ballPos.y/*+0.2*BOT_RADIUS*sin(atan(m))*/;
+//if(target.x>HALF_FIELD_MAXX-GOAL_DEPTH || target.x <-HALF_FIELD_MAXX+GOAL_DEPTH) target.x=state->ballPos.x;
+//if(target.y>HALF_FIELD_MAXY || target.y <-HALF_FIELD_MAXY) target.y=state->ballPos.y;
+//if(Vector2D<int>::dist(state->homePos[botID],state->ballPos)<0.9*BOT_RADIUS)
+//	   {
+//			if(state->ballPos.y>state->homePos[botID].y)
+//				comm->sendCommand(botID,MAX_BOT_SPEED,-MAX_BOT_SPEED);
+//				else
+//				 comm->sendCommand(botID,-MAX_BOT_SPEED,MAX_BOT_SPEED);
+//			return;
+//		}
+//_goToPointDW(botID, target, MAX_BOT_SPEED, Vector2D<int>::angle(state->ballPos,state->homePos[botID]));
+
+
+
   }
 }

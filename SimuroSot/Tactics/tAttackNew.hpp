@@ -15,6 +15,10 @@
 #include "../common/include/geometry.hpp"
 #include "../Utils/intersection.hpp"
 #include "../winDebugger/Client.h"
+#include "comdef.h"
+#include "../winDebugger/Client.h"
+#include "../HAL/comm.h"
+
 
 #define ANGLE_TO_DIST 0
 #define MIN(a,b) (a) < (b) ? (a) : (b)
@@ -183,7 +187,7 @@ return id;
 			  factory=0.000035;
 		  else if(state->ballVel.y<3000)
 			  factory=0.00004;
-		  else factory=0.000;
+		  else factory=0.0003;
 			
 
 			if(i>2)
@@ -208,8 +212,8 @@ return id;
 
 			dest.x=state->ballPos.x+dx*factorx*state->ballVel.x;
 			dest.y=state->ballPos.y+dy*factory*state->ballVel.y;
-	  /* 
-	    static int i=0;
+	   
+	   /* static int i=0;
 		static Vector2D<int> pos[3] = {Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y),Vector2D<int>(state->ballPos.x , state->ballPos.y)};
 		static Vector2D<int> dest(state->ballPos.x , state->ballPos.y ) ;
 		float dx1,dx2,dy1,dy2,dx,dy;
@@ -228,8 +232,8 @@ return id;
 				dy=(dy1+dy2)/2;
 			
 				dest.x=state->ballPos.x+dx;
-				dest.y=state->ballPos.y+dy;
-	   */
+				dest.y=state->ballPos.y+dy;*/
+	   
 		
 		   return dest ;
   
@@ -268,6 +272,33 @@ return id;
    sParam.GoToPointP.y=targetGoalPoint.y;
 }*/
  //sParam.GoToPointDWP.finalslope=ballGoalPointAngle;
+  /* if(Vector2D<int>::dist(state->ballPos,state->awayPos[opponentProbableGoalkeeper()])<1.5*BOT_BALL_THRESH)
+   {
+		if(state->ballPos.y>state->homePos[botID].y)
+				{
+							sID = SkillSet::Spin;
+							if(FIELD_IS_INVERTED == false)
+							sParam.SpinP.radPerSec = (MAX_BOT_OMEGA);
+						    else
+							sParam.SpinP.radPerSec = -(MAX_BOT_OMEGA);
+							skillSet->executeSkill(sID, sParam);
+							return;
+				}
+				else
+				 {
+							sID = SkillSet::Spin;
+							if(FIELD_IS_INVERTED == false)
+							sParam.SpinP.radPerSec = -(MAX_BOT_OMEGA);
+							else
+							sParam.SpinP.radPerSec = (MAX_BOT_OMEGA);
+             
+							skillSet->executeSkill(sID, sParam);
+							return;
+
+				 }
+
+   }*/
+
  skillSet->executeSkill(sID,sParam);
  return;
 }
@@ -300,7 +331,7 @@ return id;
 		   //change condition for shooting
 		   //search for different shooting techniques
 		   static bool firstapproach = true ;
-		   int thresh = 1.5*BOT_BALL_THRESH ;
+		   int thresh = 4.5*BOT_BALL_THRESH ;
 		   if(firstapproach)
 		   {
 			   if(pointbotdist > 5*BOT_BALL_THRESH)
@@ -370,15 +401,45 @@ return id;
 			   iState = APPROACHING ;
 			   break ;
 		   }
+		     
+		   //shoot();
+		    /*if(Vector2D<int>::dist(state->ballPos,state->awayPos[opponentProbableGoalkeeper()])<1.5*BOT_BALL_THRESH && Vector2D<int>::dist(state->homePos[botID],state->ballPos)<=1*BOT_BALL_THRESH )
+			   {
+					if(state->ballPos.y>state->homePos[botID].y)
+							{
+										sID = SkillSet::Spin;
+										if(FIELD_IS_INVERTED == false)
+										sParam.SpinP.radPerSec = (MAX_BOT_OMEGA);
+										else
+										sParam.SpinP.radPerSec = -(MAX_BOT_OMEGA);
+										skillSet->executeSkill(sID, sParam);
+										return;
+							}
+							else
+							 {
+										sID = SkillSet::Spin;
+										if(FIELD_IS_INVERTED == false)
+										sParam.SpinP.radPerSec = -(MAX_BOT_OMEGA);
+										else
+										sParam.SpinP.radPerSec = (MAX_BOT_OMEGA);
+             
+										skillSet->executeSkill(sID, sParam);
+										return;
+
+							 }
+
+				}*/
 
 		   float destAngle = Vector2D<int>::angle(state->homePos[botID],state->ballPos) ;
 		   sprintf(debug,"SHOOTING \n");
 		   Client::debugClient->SendMessages(debug);
-		   sID = SkillSet::GoToPoint ;
-		   sParam.GoToPointP.x = state->ballPos.x ;
-		   sParam.GoToPointP.y = state->ballPos.y ;
-		   sParam.GoToPointP.finalslope = destAngle ;
-     //	   sParam.GoToPointP.finalVelocity = 0 ;
+		   sID = SkillSet::GoToPoint;
+		   float m=atan2(state->homePos[botID].y-state->ballPos.y,state->homePos[botID].x-state->ballPos.x);
+		   sParam.GoToPointP.x = state->ballPos.x+10*BOT_BALL_THRESH*cos(m) ;
+		   sParam.GoToPointP.y = state->ballPos.y+10*BOT_BALL_THRESH*sin(m) ;
+
+		   //sParam.GoToPointDWP.finalslope = destAngle ;
+           //sParam.GoToPointP.finalVelocity = 0 ;
 		   skillSet->executeSkill(sID, sParam);
 	       break;
 	   }
