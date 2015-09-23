@@ -14,7 +14,7 @@ User Manual :
 
 3. In cloned repository , open "Run.bat" in text editor 
   i.  Edit line 4 : 
-       COPY C:\"YOUR FOLDER"\Simurosot\Release\Strategy.dll C:\Strategy\blue
+       COPY C:\"YOUR FOLDER PATH"\Simurosot\Release\Strategy.dll C:\Strategy\blue
   ii. Make sure all paths corresponds to their correct file 
   
 4. In cloned repository , open Simurosot and then open Strategy.sln file (Visual Studios sln)
